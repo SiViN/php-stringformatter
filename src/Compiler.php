@@ -93,9 +93,9 @@ class Compiler {
 
     /**
      * Compiler constructor.
-     * @param $format string
-     * @param $params array
-     * @param $mode Compiler::MODE_*
+     * @param string $format
+     * @param array $params
+     * @param string $mode Compiler::MODE_*
      */
     public function __construct($format, $params, $mode)
     {
@@ -107,7 +107,7 @@ class Compiler {
     /**
      * Helper function - test for existence of key in given parameters
      *
-     * @param string|int key
+     * @param string|int $key
      * @return bool
      */
     protected function has_key($key) {

@@ -1,0 +1,41 @@
+[versionner]
+file = ./VERSION
+;up_part= patch
+;default_init_version = 1.0.0
+;default_increase_value = 1
+
+[vcs]
+engine = git
+tag = yes
+tag_params =
+commit_message = '%(version)s'
+
+[file:src/Compiler.php]
+enabled = true
+match = line
+search = ^(\s*\*\s*@version\s+).*$
+replace = \g<1>%(version)s
+
+[file:src/FormatterIndex.php]
+enabled = true
+match = line
+search = ^(\s*\*\s*@version\s+).*$
+replace = \g<1>%(version)s
+
+[file:src/FormatterNamed.php]
+enabled = true
+match = line
+search = ^(\s*\*\s*@version\s+).*$
+replace = \g<1>%(version)s
+
+[file:src/IFormatter.php]
+enabled = true
+match = line
+search = ^(\s*\*\s*@version\s+).*$
+replace = \g<1>%(version)s
+
+[file:src/Transformer.php]
+enabled = true
+match = line
+search = ^(\s*\*\s*@version\s+).*$
+replace = \g<1>%(version)s

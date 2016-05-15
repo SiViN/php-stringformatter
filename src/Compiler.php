@@ -201,13 +201,13 @@ class Compiler {
                 return call_user_func(array($param, $match[2]));
             }
             else if (property_exists($param, $match[2])) {
-                return $param->$match[2];
+                return $param->{$match[2]};
             }
             else if (in_array('__call', get_class_methods($param))) {
                 return call_user_func(array($param, $match[2]));
             }
             else if (in_array('__get', get_class_methods($param))) {
-                return $param->$match[2];
+                return $param->{$match[2]};
             }
             else {
                 return $data[0];

@@ -16,14 +16,14 @@ namespace MSZ\String;
 class FormatterNamed implements IFormatter
 {
     /**
-     * Store provided by user format string
+     * Store provided by user format string.
      *
      * @var string
      */
     protected $format = null;
 
     /**
-     * Params for placeholders from format
+     * Params for placeholders from format.
      *
      * @var array
      */
@@ -31,9 +31,10 @@ class FormatterNamed implements IFormatter
 
     /**
      * @param string $format format to parse
-     * @param array $params parameters used to format given string
+     * @param array  $params parameters used to format given string
      */
-    public function __construct($format, $params=array()) {
+    public function __construct($format, $params = array())
+    {
         $this->format = $format;
         $this->params = $params;
     }
@@ -42,19 +43,22 @@ class FormatterNamed implements IFormatter
      * Parse given format and fill it's placeholders with params.
      *
      * @param array $params parameters used to format given string
-     * @param bool $merge if true, params passed in constructor are merged with this given to FormatterNamed::parse
+     * @param bool  $merge  if true, params passed in constructor are merged with this given to FormatterNamed::parse
+     *
      * @return Transformer
      */
-    public function parse(array $params = null, $merge=true) {
+    public function parse(array $params = null, $merge = true)
+    {
         if (is_null($params)) {
             $params = $this->params;
         }
-        else if ($merge) {
+        elseif ($merge) {
             $params = array_merge($this->params, $params);
         }
 
         $compiler = new Compiler($this->format, $params, Compiler::MODE_NAMED);
         $string = $compiler->run();
+
         return new Transformer($string);
     }
 }

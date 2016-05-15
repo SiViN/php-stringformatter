@@ -13,25 +13,26 @@
 
 namespace MSZ\String;
 
-class Compiler {
+class Compiler
+{
     const MODE_INDEX = 'index';
     const MODE_NAMED = 'named';
 
     /**
-     * Matrix for mapping string suffixes to values provided for base_convert function
+     * Matrix for mapping string suffixes to values provided for base_convert function.
      *
      * @var array
      */
     protected static $matrix__base_convert = array(
-        'b' =>  2,
-        'o' =>  8,
+        'b' => 2,
+        'o' => 8,
         'd' => 10,
         'x' => 16,
-        'X' => 16
+        'X' => 16,
     );
 
     /**
-     * Matrix for mapping string suffixes to values provided for str_pad function
+     * Matrix for mapping string suffixes to values provided for str_pad function.
      *
      * @var array
      */
@@ -54,7 +55,7 @@ class Compiler {
     );
 
     /**
-     * Regular expression for finding tokens in format
+     * Regular expression for finding tokens in format.
      *
      * @var string
      */
@@ -68,14 +69,14 @@ class Compiler {
     /x';
 
     /**
-     * Mode we are run
+     * Mode we are run.
      *
      * @var int one of: Compiler::MODE_NORMAL, Compiler::MODE_NAMED
      */
     protected $mode;
 
     /**
-     * Pointer for accessing given elements when no placeholder in format is given
+     * Pointer for accessing given elements when no placeholder in format is given.
      *
      * @var int
      */
@@ -93,9 +94,10 @@ class Compiler {
 
     /**
      * Compiler constructor.
+     *
      * @param string $format
-     * @param array $params
-     * @param string $mode Compiler::MODE_*
+     * @param array  $params
+     * @param string $mode   Compiler::MODE_*
      */
     public function __construct($format, $params, $mode)
     {
@@ -105,22 +107,26 @@ class Compiler {
     }
 
     /**
-     * Helper function - test for existence of key in given parameters
+     * Helper function - test for existence of key in given parameters.
      *
      * @param string|int $key
+     *
      * @return bool
      */
-    protected function has_key($key) {
+    protected function has_key($key)
+    {
         return ($this->mode == self::MODE_INDEX && $key == '') || array_key_exists($key, $this->params);
     }
 
     /**
-     * Helper function for find current param
+     * Helper function for find current param.
      *
      * @param int $key parameter index (optional)
+     *
      * @return mixed
      */
-    protected function get_param($key = '') {
+    protected function get_param($key = '')
+    {
         if ($key === '') {
             $key = $this->pointer++;
         }
@@ -130,12 +136,14 @@ class Compiler {
 
     /**
      * Callback for preg_replace_callback - here is doing all magic with replacing format token with
-     * proper values from given params
+     * proper values from given params.
      *
      * @param array $data matched token data
+     *
      * @return string
      */
-    protected function format_callback($data) {
+    protected function format_callback($data)
+    {
         if (count($data) < 2) {
             return $data[0];
         }
@@ -146,15 +154,15 @@ class Compiler {
         }
 
         ## simple named, explicit placeholder
-        else if ($this->mode == self::MODE_NAMED && strlen($data[1]) > 0 && $this->has_key($data[1])) {
+        elseif ($this->mode == self::MODE_NAMED && strlen($data[1]) > 0 && $this->has_key($data[1])) {
             return $this->get_param($data[1]);
         }
 
         ## text alignment
-        else if (preg_match('
+        elseif (preg_match('
             /
             ^
-                ('. self::$rxp_keys[$this->mode] .')    # placeholder
+                ('.self::$rxp_keys[$this->mode].')      # placeholder
                 :                                       # explicit colon
                 (.)?                                    # pad character
                 ([<>^])                                 # alignment
@@ -172,10 +180,10 @@ class Compiler {
         }
 
         ## sprintf pattern
-        else if (preg_match('
+        elseif (preg_match('
             /
             ^
-                ('. self::$rxp_keys[$this->mode] .')    # placeholder
+                ('.self::$rxp_keys[$this->mode].')      # placeholder
                 %                                       # explicit percent
                 (.*)                                    # sprintf pattern
             $
@@ -186,10 +194,10 @@ class Compiler {
         }
 
         ## call object method or get object property
-        else if (preg_match('
+        elseif (preg_match('
             /
             ^
-                ('. self::$rxp_keys[$this->mode] .')    # placeholder
+                ('.self::$rxp_keys[$this->mode].')      # placeholder
                 ->                                      # explicit arrow
                 (\w+)                                   # keyword (field or method name)
             $
@@ -200,13 +208,13 @@ class Compiler {
             if (method_exists($param, $match[2])) {
                 return call_user_func(array($param, $match[2]));
             }
-            else if (property_exists($param, $match[2])) {
+            elseif (property_exists($param, $match[2])) {
                 return $param->{$match[2]};
             }
-            else if (in_array('__call', get_class_methods($param))) {
+            elseif (in_array('__call', get_class_methods($param))) {
                 return call_user_func(array($param, $match[2]));
             }
-            else if (in_array('__get', get_class_methods($param))) {
+            elseif (in_array('__get', get_class_methods($param))) {
                 return $param->{$match[2]};
             }
             else {
@@ -215,10 +223,10 @@ class Compiler {
         }
 
         ## converting int to other base
-        else if (preg_match('
+        elseif (preg_match('
             /
             ^
-            ('. self::$rxp_keys[$this->mode] .')    # placeholder
+            ('.self::$rxp_keys[$this->mode].')      # placeholder
             [#]                                     # explicit hash
             (?:
                 (\d+)                               # source base
@@ -241,14 +249,15 @@ class Compiler {
             if ($match[3] == 'X') {
                 $ret = strtoupper($ret);
             }
+
             return $ret;
         }
 
         ## array index
-        else if (preg_match('
+        elseif (preg_match('
             /
             ^
-                ('. self::$rxp_keys[$this->mode] .')    # placeholder
+                ('.self::$rxp_keys[$this->mode].')      # placeholder
                 \[                                      # opening square bracket
                     (\w+)                               # key
                 \]                                      # closing square bracket
@@ -256,7 +265,7 @@ class Compiler {
             /x', $data[1], $match) &&
             $this->has_key($match[1]) &&
             is_array($ret = $this->get_param($match[1])) &&
-            isset ($ret[$match[2]])
+            isset($ret[$match[2]])
         ) {
             return $ret[$match[2]];
         }
@@ -268,12 +277,14 @@ class Compiler {
     }
 
     /**
-     * Compile $this->format and fill it's placeholders with data from $this->params
+     * Compile $this->format and fill it's placeholders with data from $this->params.
+     *
      * @return string
      */
     public function run()
     {
         $parsed = preg_replace_callback(self::$rxp_token, array($this, 'format_callback'), $this->format);
+
         return $parsed;
     }
 }

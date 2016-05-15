@@ -22,6 +22,7 @@ class Transformer
 
     /**
      * Transformer constructor.
+     *
      * @param $string string to transform
      */
     public function __construct($string)
@@ -33,8 +34,9 @@ class Transformer
      * Calls given callable from $fn. As a first argument is passed transformed string
      * from Transformer, then pass there other args from Transformer::transform method.
      *
-     * @param mixed $fn callable in any format recognized by call_user_func_array
+     * @param mixed    $fn     callable in any format recognized by call_user_func_array
      * @param ...mixed $params params for $fn
+     *
      * @return Transformer
      */
     public function transform()
@@ -42,14 +44,16 @@ class Transformer
         $args = func_get_args();
         $fn = array_shift($args);
         array_unshift($args, $this->string);
+
         return new static(call_user_func_array($fn, $args));
     }
 
     /**
-     * Wrapper for str_replace
+     * Wrapper for str_replace.
      *
      * @param string $from
      * @param string $to
+     *
      * @return Transformer
      */
     public function replace($from, $to)
@@ -58,10 +62,11 @@ class Transformer
     }
 
     /**
-     * Wrapper for str_ireplace
+     * Wrapper for str_ireplace.
      *
      * @param string $from
      * @param string $to
+     *
      * @return Transformer
      */
     public function ireplace($from, $to)
@@ -70,40 +75,43 @@ class Transformer
     }
 
     /**
-     * Wrapper for trim
+     * Wrapper for trim.
      *
      * @param string $charmask
+     *
      * @return Transformer
      */
-    public function strip($charmask=" \t\n\r\0\x0B")
+    public function strip($charmask = " \t\n\r\0\x0B")
     {
         return $this->transform('trim', $charmask);
     }
 
     /**
-     * Wrapper for ltrim
+     * Wrapper for ltrim.
      *
      * @param string $charmask
+     *
      * @return Transformer
      */
-    public function lstrip($charmask=" \t\n\r\0\x0B")
+    public function lstrip($charmask = " \t\n\r\0\x0B")
     {
         return $this->transform('ltrim', $charmask);
     }
 
     /**
-     * Wrapper for rtrim
+     * Wrapper for rtrim.
      *
      * @param string $charmask
+     *
      * @return Transformer
      */
-    public function rstrip($charmask=" \t\n\r\0\x0B")
+    public function rstrip($charmask = " \t\n\r\0\x0B")
     {
         return $this->transform('rtrim', $charmask);
     }
 
     /**
-     * Wrapper for strtoupper
+     * Wrapper for strtoupper.
      *
      * @return Transformer
      */
@@ -113,7 +121,7 @@ class Transformer
     }
 
     /**
-     * Wrapper for strtolower
+     * Wrapper for strtolower.
      *
      * @return Transformer
      */
@@ -123,7 +131,7 @@ class Transformer
     }
 
     /**
-     * Wrapper for ucfirst
+     * Wrapper for ucfirst.
      *
      * @return Transformer
      */
@@ -133,7 +141,7 @@ class Transformer
     }
 
     /**
-     * Wrapper for lcfirst
+     * Wrapper for lcfirst.
      *
      * @return Transformer
      */
@@ -143,73 +151,76 @@ class Transformer
     }
 
     /**
-     * Wrapper for ucwords
+     * Wrapper for ucwords.
      *
      * @param string $delimiters
+     *
      * @return Transformer
      */
-    public function upperWords($delimiters=" \t\r\n\f\v")
+    public function upperWords($delimiters = " \t\r\n\f\v")
     {
         return $this->transform('ucwords', $delimiters);
     }
 
     /**
-     * Wrapper for wordwrap
+     * Wrapper for wordwrap.
      *
-     * @param int $width
+     * @param int    $width
      * @param string $break
-     * @param bool $cut
+     * @param bool   $cut
+     *
      * @return Transformer
      */
-    public function wordWrap($width=75, $break="\n", $cut=false)
+    public function wordWrap($width = 75, $break = "\n", $cut = false)
     {
         return $this->transform('wordwrap', $width, $break, $cut);
     }
 
     /**
-     * Wrapper for substr
+     * Wrapper for substr.
      *
      * @param $start
      * @param int|null $length
+     *
      * @return Transformer
      */
-    public function substr($start, $length=null)
+    public function substr($start, $length = null)
     {
         return $this->transform('substr', $start, $length);
     }
 
     /**
-     * Adds PHP_EOL to the end of string
+     * Adds PHP_EOL to the end of string.
      *
      * @return Transformer
      */
     public function eol()
     {
-        return new static($this->string . PHP_EOL);
+        return new static($this->string.PHP_EOL);
     }
 
     /**
-     * Adds \r\n to the end of string
+     * Adds \r\n to the end of string.
      *
      * @return Transformer
      */
     public function eolrn()
     {
-        return new static($this->string . "\r\n");
+        return new static($this->string."\r\n");
     }
 
     /**
-     * Adds \n to the end of string
+     * Adds \n to the end of string.
      *
      * @return Transformer
      */
     public function eoln()
     {
-        return new static($this->string . "\n");
+        return new static($this->string."\n");
     }
 
     public function __toString()
     {
-        return (string)$this->string;
+        return (string) $this->string;
     }
 }

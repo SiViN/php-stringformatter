@@ -13,9 +13,11 @@
 
 namespace MSZ\String;
 
-interface IFormatter {
+interface IFormatter
+{
     /**
-     * Parse given format
+     * Parse given format.
+     *
      * @return Transformer
      */
     public function parse();

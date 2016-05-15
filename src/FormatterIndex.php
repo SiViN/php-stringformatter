@@ -16,24 +16,25 @@ namespace MSZ\String;
 class FormatterIndex implements IFormatter
 {
     /**
-     * Store provided by user format string
+     * Store provided by user format string.
      *
      * @var string
      */
     protected $format = null;
 
     /**
-     * Params for placeholders from format
+     * Params for placeholders from format.
      *
      * @var array
      */
     protected $params = array();
 
     /**
-     * @param string $format format to parse
+     * @param string   $format format to parse
      * @param ...mixed $params parameters used to format given string
      */
-    public function __construct($format) {
+    public function __construct($format)
+    {
         $this->format = $format;
 
         if (func_num_args() > 1) {
@@ -44,16 +45,19 @@ class FormatterIndex implements IFormatter
     }
 
     /**
-     * Parse given format and fill it's placeholders with params
+     * Parse given format and fill it's placeholders with params.
      *
      * @param ...mixed $params parameters used to format given string
+     *
      * @return Transformer
      */
-    public function parse() {
+    public function parse()
+    {
         $params = (func_num_args() > 0 ? func_get_args() : $this->params);
 
         $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEX);
         $string = $compiler->run();
+
         return new Transformer($string);
     }
 

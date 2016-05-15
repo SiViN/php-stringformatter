@@ -95,7 +95,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test: {->property}';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse(new TestStringFormatter());
+        $res = $fmt->parse(new TestIndexStringFormatter());
         $this->assertEquals('Test: test property', (string)$res);
     }
 
@@ -106,7 +106,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test: {->method}';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse(new TestStringFormatter());
+        $res = $fmt->parse(new TestIndexStringFormatter());
         $this->assertEquals('Test: test method', (string)$res);
     }
 
@@ -154,7 +154,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TestStringFormatter {
+class TestIndexStringFormatter {
     public $property = 'test property';
     public function method() {
         return 'test method';

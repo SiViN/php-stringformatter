@@ -39,3 +39,15 @@ enabled = true
 match = line
 search = ^(\s*\*\s*@version\s+).*$
 replace = \g<1>%(version)s
+
+[file:README.md]
+enabled = true
+match = file
+search = \nCurrent stable version
+    ----------------------
+    \s+[\w.-]+\n
+replace = \nCurrent stable version
+    ----------------------
+
+    %(version)s\n
+encoding = utf-8

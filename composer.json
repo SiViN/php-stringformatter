@@ -1,0 +1,38 @@
+{
+  "name": "msztolcman/stringformatter",
+  "description": "Simple and powerfull string formatting",
+  "keywords": ["string", "formatting", "string formatting", "sprintf", "vsprintf"],
+  "homepage": "https://github.com/msztolcman/php-stringformatter",
+  "version": "0.5.0",
+  "type": "library",
+  "license": ["MIT"],
+  "authors": [
+    {
+      "name": "Marcin Sztolcman",
+      "email": "marcin@urzenia.net",
+      "homepage": "http://urzenia.net"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/msztolcman/php-stringformatter/issues"
+  },
+  "autoload": {
+    "psr-4": {
+      "MSZ\\String\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+        "MSZ\\String\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
+  "require": {
+    "php": ">=5.3.0 || >7.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.3"
+  }
+}

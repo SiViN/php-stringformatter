@@ -148,17 +148,17 @@ class Compiler
             return $data[0];
         }
 
-        ## simple auto or explicit placeholder
+        // simple auto or explicit placeholder
         if ($this->mode == self::MODE_INDEX && $this->has_key($data[1])) {
             return $this->get_param($data[1]);
         }
 
-        ## simple named, explicit placeholder
+        // simple named, explicit placeholder
         elseif ($this->mode == self::MODE_NAMED && strlen($data[1]) > 0 && $this->has_key($data[1])) {
             return $this->get_param($data[1]);
         }
 
-        ## text alignment
+        // text alignment
         elseif (preg_match('
             /
             ^
@@ -179,7 +179,7 @@ class Compiler
             );
         }
 
-        ## sprintf pattern
+        // sprintf pattern
         elseif (preg_match('
             /
             ^
@@ -193,7 +193,7 @@ class Compiler
             return vsprintf($match[2], $this->get_param($match[1]));
         }
 
-        ## call object method or get object property
+        // call object method or get object property
         elseif (preg_match('
             /
             ^
@@ -222,7 +222,7 @@ class Compiler
             }
         }
 
-        ## converting int to other base
+        // converting int to other base
         elseif (preg_match('
             /
             ^
@@ -238,12 +238,12 @@ class Compiler
             $this->has_key($match[1])
         ) {
             $ret = base_convert(
-                $this->get_param($match[1]),                        # value to convert
-                ($match[2] ? $match[2] : 10),                       # source base (defaults to 10)
+                $this->get_param($match[1]),                        // value to convert
+                ($match[2] ? $match[2] : 10),                       // source base (defaults to 10)
                 (
-                    is_numeric($match[3])                           # destination base is:
-                        ? $match[3]                                 # - numeric
-                        : self::$matrix__base_convert[$match[3]]    # - or named
+                    is_numeric($match[3])                           // destination base is:
+                        ? $match[3]                                 // - numeric
+                        : self::$matrix__base_convert[$match[3]]    // - or named
                 )
             );
             if ($match[3] == 'X') {
@@ -253,7 +253,7 @@ class Compiler
             return $ret;
         }
 
-        ## array index
+        // array index
         elseif (preg_match('
             /
             ^
@@ -270,7 +270,7 @@ class Compiler
             return $ret[$match[2]];
         }
 
-        ## unknown token type
+        // unknown token type
         else {
             return $data[0];
         }

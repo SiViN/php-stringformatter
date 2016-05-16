@@ -162,6 +162,7 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
 class TestNamedStringFormatter
 {
     public $property = 'test property';
+
     public function method()
     {
         return 'test method';

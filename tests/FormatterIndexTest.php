@@ -168,6 +168,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
 class TestIndexStringFormatter
 {
     public $property = 'test property';
+
     public function method()
     {
         return 'test method';

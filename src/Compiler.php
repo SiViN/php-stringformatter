@@ -207,17 +207,13 @@ class Compiler
             $param = $this->get_param($match[1]);
             if (method_exists($param, $match[2])) {
                 return call_user_func(array($param, $match[2]));
-            }
-            elseif (property_exists($param, $match[2])) {
+            } elseif (property_exists($param, $match[2])) {
                 return $param->{$match[2]};
-            }
-            elseif (in_array('__call', get_class_methods($param))) {
+            } elseif (in_array('__call', get_class_methods($param))) {
                 return call_user_func(array($param, $match[2]));
-            }
-            elseif (in_array('__get', get_class_methods($param))) {
+            } elseif (in_array('__get', get_class_methods($param))) {
                 return $param->{$match[2]};
-            }
-            else {
+            } else {
                 return $data[0];
             }
         }

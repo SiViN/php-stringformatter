@@ -51,8 +51,7 @@ class FormatterNamed implements IFormatter
     {
         if (is_null($params)) {
             $params = $this->params;
-        }
-        elseif ($merge) {
+        } elseif ($merge) {
             $params = array_merge($this->params, $params);
         }
 

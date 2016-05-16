@@ -30,7 +30,7 @@ class FormatterIndex implements IFormatter
     protected $params = array();
 
     /**
-     * @param string   $format format to parse
+     * @param string   $format format to compile
      * @param ...mixed $params parameters used to format given string
      */
     public function __construct($format)
@@ -51,7 +51,7 @@ class FormatterIndex implements IFormatter
      *
      * @return Transformer
      */
-    public function parse()
+    public function compile()
     {
         $params = (func_num_args() > 0 ? func_get_args() : $this->params);
 

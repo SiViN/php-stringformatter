@@ -25,43 +25,43 @@ surrounded by braces, and contain index (`FormatterIndex` class) or name
 Simplest usage can be like:
 
     $f = new FormatterIndex('{0} {1}!');
-    echo $f->parse('Hello', 'world')->eol(); # Hello world!
+    echo $f->compile('Hello', 'world')->eol(); # Hello world!
     
 There we are using `FormatterIndex` class, so we will use indexed placeholders.
 There are defined two placeholders: `0` and `1`. In some cases, we can omit
 indexes:
 
     $f = new FormatterIndex('{} {}!');
-    echo $f->parse('Hello', 'world')->eol(); # Hello world!
+    echo $f->compile('Hello', 'world')->eol(); # Hello world!
     
 Result of this two pieces of code is exactly the same.
 
 Of course, we can change order of used arguments:
 
     $f = new FormatterIndex('{1} {0}!');
-    echo $f->parse('Hello', 'world')->eol(); # world Hello!
+    echo $f->compile('Hello', 'world')->eol(); # world Hello!
     
 Parameters for placeholders we can also pass in constructor:
 
     $f = new FormatterIndex('{} {}!', 'Hello', 'world');
-    echo $f->parse()->eol(); # Hello world!
+    echo $f->compile()->eol(); # Hello world!
 
 There is also `FormatterNamed` class, when we don't want to use indexes for
 selecting objects for placeholders:
 
     $f = new FormatterNamed('{hello} {name}!');
-    echo $f->parse(['name' => 'world', 'hello' => 'Hello']); # Hello world!
+    echo $f->compile(['name' => 'world', 'hello' => 'Hello']); # Hello world!
     
 Here, similar to `FormatterIndex` class, we can also pass arguments in
 constructor. Also by default both arrays are merged into one, and used for
 placeholders:
  
     $f = new FormatterNamed('{hello}, {name}!', ['hello' => 'Hi']);
-    echo $f->parse(['name' => 'Thomas'])->eol(); # Hi, Thomas!
-    echo $f->parse(['name' => 'Martha'])->eol(); # Hi, Martha!
-    echo $f->parse(['hello' => 'Welcome', 'name' => 'Bruce'])->eol(); # Welcome, Bruce!
+    echo $f->compile(['name' => 'Thomas'])->eol(); # Hi, Thomas!
+    echo $f->compile(['name' => 'Martha'])->eol(); # Hi, Martha!
+    echo $f->compile(['hello' => 'Welcome', 'name' => 'Bruce'])->eol(); # Welcome, Bruce!
 
-As a result of `IFormatter::parse` method we got an instance of `Transformer`
+As a result of `IFormatter::compile` method we got an instance of `Transformer`
 class, that have some additional possibilities (described below). 
 
 Formatters
@@ -70,29 +70,29 @@ Formatters
 Text alignment - left:
  
     $f = new FormatterIndex('{} "{1:<20}"');
-    echo $f->parse('Hello', 'world')->eol(); # Hello "world               "
+    echo $f->compile('Hello', 'world')->eol(); # Hello "world               "
     
 Text alignment - right:
  
     $f = new FormatterIndex('{} "{1:>20}"');
-    echo $f->parse('Hello', 'world')->eol(); # Hello "               world"
+    echo $f->compile('Hello', 'world')->eol(); # Hello "               world"
     
 Text alignment - center:
 
     $f = new FormatterIndex('{} "{1:^20}"');
-    echo $f->parse('Hello', 'world')->eol(); # Hello "       world        "
+    echo $f->compile('Hello', 'world')->eol(); # Hello "       world        "
     
 Text alignment with specified character:
  
     $f = new FormatterIndex('{} "{1:*^20}"');
-    echo $f->parse('Hello', 'world')->eol(); # Hello "*******world********"
+    echo $f->compile('Hello', 'world')->eol(); # Hello "*******world********"
     
 Sprintf-like formatting (handle all specifiers `sprintf()` do):
  
     $f = new FormatterIndex('Test: {%%.3f}');
-    echo $f->parse(2.1234567)->eol(); # Test: 2.123
+    echo $f->compile(2.1234567)->eol(); # Test: 2.123
     $f = new FormatterIndex('Test 2: {%%c}');
-    echo $f->parse(97)->eol(); # Test2: a
+    echo $f->compile(97)->eol(); # Test2: a
     
 Call object method or get object property:
  
@@ -103,14 +103,14 @@ Call object method or get object property:
             return 'test method';
         }
     }
-    echo $f->parse(new TestStringFormatter(), new TestStringFormatter())->eol(); # Test: test method test property
+    echo $f->compile(new TestStringFormatter(), new TestStringFormatter())->eol(); # Test: test method test property
     
 Convert int to other base:
  
     $f = new FormatterIndex('Test: 10: {#d}, 16: {0#x}, 2: {0#b}');
-    echo $f->parse(11)->eol(); # Test: 10: 11, 16: b, 2: 1011
+    echo $f->compile(11)->eol(); # Test: 10: 11, 16: b, 2: 1011
     $f = new FormatterIndex('Test: 10: {#10}, 16: {0#16}, 2: {0#2}, 7: {0#7}');
-    echo $f->parse(11)->eol(); # Test: 10: 11, 16: b, 2: 1011, 7: 14
+    echo $f->compile(11)->eol(); # Test: 10: 11, 16: b, 2: 1011, 7: 14
     
 Available bases:
   * `b` - binary
@@ -122,7 +122,7 @@ Available bases:
 Array indexes:
  
     $f = new FormatterIndex('Test: test1: {[test1]}, test2: {0[test2]}');
-    echo $f->parse(array('test1' => 'Hello', 'test2' => 'world'))->eol(); # Test: test1: Hello, test2: world
+    echo $f->compile(array('test1' => 'Hello', 'test2' => 'world'))->eol(); # Test: test1: Hello, test2: world
 
 Keywords
 --------
@@ -134,16 +134,16 @@ Keywords
   * `@methodLong` - replaced by current class name (with namespace) and method
     name
   * `@function` - replaced by current function/method name (without namespace and class name)
-  * `@file` - file name where `IFormatter::parse` is called (without parents)
-  * `@fileLong` - full path to file where `IFormatter::parse` is called (with parents)
-  * `@dir` - directory name of file where `IFormatter::parse` is called (without parents)
-  * `@dirLong` - directory name of file where `IFormatter::parse` is called (with parents)
-  * `@line` - line number in file where `IFormatter::parse` is called (without parents)
+  * `@file` - file name where `IFormatter::compile` is called (without parents)
+  * `@fileLong` - full path to file where `IFormatter::compile` is called (with parents)
+  * `@dir` - directory name of file where `IFormatter::compile` is called (without parents)
+  * `@dirLong` - directory name of file where `IFormatter::compile` is called (with parents)
+  * `@line` - line number in file where `IFormatter::compile` is called (without parents)
 
 Transformers
 ------------
 
-As a return of `IFormatter::parse` we got and instance of `Transformer` class.
+As a return of `IFormatter::compile` we got and instance of `Transformer` class.
 There are defined some simple and useful transformers for parsed string:
  
   * `replace` - wrapper for `str_replace` 
@@ -168,7 +168,7 @@ always new instance of itself.
 Some examples:
 
     $f = new FormatterNamed('{hello}, {name}!', ['hello' => 'Hi']);
-    $data = $f->parse(['name' => 'Thomas']);
+    $data = $f->compile(['name' => 'Thomas']);
     echo $data->eol(); # Hi, Thomas!
     echo $data->upper()->eol(); HI, THOMAS! 
     echo $data->lower()->eol(); hi, thomas! 

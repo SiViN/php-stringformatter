@@ -30,7 +30,7 @@ class FormatterNamed implements IFormatter
     protected $params = array();
 
     /**
-     * @param string $format format to parse
+     * @param string $format format to compile
      * @param array  $params parameters used to format given string
      */
     public function __construct($format, $params = array())
@@ -43,11 +43,11 @@ class FormatterNamed implements IFormatter
      * Parse given format and fill it's placeholders with params.
      *
      * @param array $params parameters used to format given string
-     * @param bool  $merge  if true, params passed in constructor are merged with this given to FormatterNamed::parse
+     * @param bool  $merge  if true, params passed in constructor are merged with this given to FormatterNamed::compile
      *
      * @return Transformer
      */
-    public function parse(array $params = null, $merge = true)
+    public function compile(array $params = null, $merge = true)
     {
         if (is_null($params)) {
             $params = $this->params;

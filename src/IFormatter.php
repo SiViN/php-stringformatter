@@ -20,5 +20,5 @@ interface IFormatter
      *
      * @return Transformer
      */
-    public function parse();
+    public function compile();
 }

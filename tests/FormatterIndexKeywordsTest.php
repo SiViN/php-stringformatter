@@ -24,7 +24,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@class} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse();
+        $res = $fmt->compile();
         $this->assertEquals('Test FormatterIndexKeywordsTest Test', (string) $res);
     }
 
@@ -35,7 +35,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@classLong} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse();
+        $res = $fmt->compile();
         $this->assertEquals('Test MSZ\String\Tests\FormatterIndexKeywordsTest Test', (string) $res);
     }
 
@@ -46,7 +46,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@method} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse();
+        $res = $fmt->compile();
         $this->assertEquals('Test FormatterIndexKeywordsTest::keywordMethod Test', (string) $res);
     }
 
@@ -57,7 +57,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@methodLong} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse();
+        $res = $fmt->compile();
         $this->assertEquals('Test MSZ\String\Tests\FormatterIndexKeywordsTest::keywordMethodLong Test', (string) $res);
     }
 
@@ -68,7 +68,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@function} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse();
+        $res = $fmt->compile();
         $this->assertEquals('Test keywordFunction Test', (string) $res);
     }
 
@@ -79,7 +79,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@file} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse();
+        $res = $fmt->compile();
         $this->assertEquals('Test FormatterIndexKeywordsTest.php Test', (string) $res);
     }
 
@@ -90,7 +90,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@fileLong} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse();
+        $res = $fmt->compile();
         $this->assertEquals('Test ' . __FILE__ . ' Test', (string) $res);
     }
 
@@ -101,7 +101,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@dir} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse();
+        $res = $fmt->compile();
         $this->assertEquals('Test tests Test', (string) $res);
     }
 
@@ -112,7 +112,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@dirLong} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse();
+        $res = $fmt->compile();
         $this->assertEquals('Test ' . __DIR__ . ' Test', (string) $res);
     }
 
@@ -123,7 +123,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@line} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse(); $line = __LINE__;
+        $res = $fmt->compile(); $line = __LINE__;
         $this->assertEquals('Test ' . $line . ' Test', (string) $res);
     }
 
@@ -154,7 +154,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@method} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse();
+        $res = $fmt->compile();
         return $res;
     }
 
@@ -165,7 +165,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@dir}:{@file}:{@line}:{@method} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->parse(); $line = __LINE__;
+        $res = $fmt->compile(); $line = __LINE__;
         $this->assertEquals("Test tests:FormatterIndexKeywordsTest.php:{$line}:" .
             "FormatterIndexKeywordsTest::combined Test", (string) $res);
     }

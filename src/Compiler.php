@@ -69,6 +69,13 @@ class Compiler
     /x';
 
     /**
+     * Result of debug_backtrace().
+     *
+     * @var array
+     */
+    protected $trace;
+
+    /**
      * Mode we are run.
      *
      * @var int one of: Compiler::MODE_NORMAL, Compiler::MODE_NAMED
@@ -166,31 +173,30 @@ class Compiler
             $
             /x', $data[1], $match)
         ) {
-            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5);
             switch ($match[1]) {
                 case 'classLong':
-                    return $trace[4]['class'];
+                    return $this->trace[2]['class'];
                 case 'class':
-                    $cls = explode('\\', $trace[4]['class']);
+                    $cls = explode('\\', $this->trace[2]['class']);
                     return end($cls);
                 case 'method':
-                    $cls = explode('\\', $trace[4]['class']);
+                    $cls = explode('\\', $this->trace[2]['class']);
                     $cls = end($cls);
-                    return $cls . '::' . $trace[4]['function'];
+                    return $cls . '::' . $this->trace[2]['function'];
                 case 'methodLong':
-                    return $trace[4]['class'] . '::' . $trace[4]['function'];
+                    return $this->trace[2]['class'] . '::' . $this->trace[2]['function'];
                 case 'function':
-                    return $trace[4]['function'];
+                    return $this->trace[2]['function'];
                 case 'file':
-                    return basename($trace[3]['file']);
+                    return basename($this->trace[1]['file']);
                 case 'fileLong':
-                    return $trace[3]['file'];
+                    return $this->trace[1]['file'];
                 case 'dir':
-                    return basename(dirname($trace[3]['file']));
+                    return basename(dirname($this->trace[1]['file']));
                 case 'dirLong':
-                    return dirname($trace[3]['file']);
+                    return dirname($this->trace[1]['file']);
                 case 'line':
-                    return $trace[3]['line'];
+                    return $this->trace[1]['line'];
             }
         }
 
@@ -315,6 +321,7 @@ class Compiler
      */
     public function run()
     {
+        $this->trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
         $parsed = preg_replace_callback(self::$rxp_token, array($this, 'format_callback'), $this->format);
 
         return $parsed;

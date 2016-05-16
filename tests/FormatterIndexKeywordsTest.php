@@ -155,6 +155,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
         $format = 'Test {@method} Test';
         $fmt = new FormatterIndex($format);
         $res = $fmt->compile();
+
         return $res;
     }
 
@@ -167,6 +168,6 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
         $fmt = new FormatterIndex($format);
         $res = $fmt->compile(); $line = __LINE__;
         $this->assertEquals("Test tests:FormatterIndexKeywordsTest.php:{$line}:" .
-            "FormatterIndexKeywordsTest::combined Test", (string) $res);
+            'FormatterIndexKeywordsTest::combined Test', (string) $res);
     }
 }

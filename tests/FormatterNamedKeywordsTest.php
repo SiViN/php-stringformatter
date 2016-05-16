@@ -155,6 +155,7 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
         $format = 'Test {@method} Test';
         $fmt = new FormatterNamed($format);
         $res = $fmt->compile();
+
         return $res;
     }
 
@@ -167,6 +168,6 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
         $fmt = new FormatterNamed($format);
         $res = $fmt->compile(); $line = __LINE__;
         $this->assertEquals("Test tests:FormatterNamedKeywordsTest.php:{$line}:" .
-            "FormatterNamedKeywordsTest::combined Test", (string) $res);
+            'FormatterNamedKeywordsTest::combined Test', (string) $res);
     }
 }

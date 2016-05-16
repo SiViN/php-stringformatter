@@ -163,9 +163,7 @@ class Compiler
         // simple named, explicit placeholder
         elseif ($this->mode == self::MODE_NAMED && strlen($data[1]) > 0 && $this->has_key($data[1])) {
             return $this->get_param($data[1]);
-        }
-
-        elseif (preg_match('
+        } elseif (preg_match('
             /
             ^
                 @
@@ -178,10 +176,12 @@ class Compiler
                     return $this->trace[2]['class'];
                 case 'class':
                     $cls = explode('\\', $this->trace[2]['class']);
+
                     return end($cls);
                 case 'method':
                     $cls = explode('\\', $this->trace[2]['class']);
                     $cls = end($cls);
+
                     return $cls . '::' . $this->trace[2]['function'];
                 case 'methodLong':
                     return $this->trace[2]['class'] . '::' . $this->trace[2]['function'];

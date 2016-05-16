@@ -158,6 +158,42 @@ class Compiler
             return $this->get_param($data[1]);
         }
 
+        elseif (preg_match('
+            /
+            ^
+                @
+                (class|classLong|method|methodLong|function|file|fileLong|dir|dirLong|line)
+            $
+            /x', $data[1], $match)
+        ) {
+            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5);
+            switch ($match[1]) {
+                case 'classLong':
+                    return $trace[4]['class'];
+                case 'class':
+                    $cls = explode('\\', $trace[4]['class']);
+                    return end($cls);
+                case 'method':
+                    $cls = explode('\\', $trace[4]['class']);
+                    $cls = end($cls);
+                    return $cls . '::' . $trace[4]['function'];
+                case 'methodLong':
+                    return $trace[4]['class'] . '::' . $trace[4]['function'];
+                case 'function':
+                    return $trace[4]['function'];
+                case 'file':
+                    return basename($trace[3]['file']);
+                case 'fileLong':
+                    return $trace[3]['file'];
+                case 'dir':
+                    return basename(dirname($trace[3]['file']));
+                case 'dirLong':
+                    return dirname($trace[3]['file']);
+                case 'line':
+                    return $trace[3]['line'];
+            }
+        }
+
         // text alignment
         elseif (preg_match('
             /

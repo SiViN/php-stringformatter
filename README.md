@@ -6,7 +6,7 @@ StringFormatter
 Current stable version
 ----------------------
 
-0.1.0
+0.5.0
 
 PHP version
 -----------

@@ -196,7 +196,7 @@ class Transformer
      */
     public function eol()
     {
-        return new static($this->string.PHP_EOL);
+        return new static($this->string . PHP_EOL);
     }
 
     /**
@@ -206,7 +206,7 @@ class Transformer
      */
     public function eolrn()
     {
-        return new static($this->string."\r\n");
+        return new static($this->string . "\r\n");
     }
 
     /**
@@ -216,7 +216,7 @@ class Transformer
      */
     public function eoln()
     {
-        return new static($this->string."\n");
+        return new static($this->string . "\n");
     }
 
     public function __toString()

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of msztolcman/stringformatter.
+ *
+ * (c) Marcin Sztolcman <http://urzenia.net>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ *
+ * @version 0.5.0
+ */
+
 namespace MSZ\String\Tests;
 
 use MSZ\String\FormatterNamed;
@@ -13,7 +24,7 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
     {
         $format = '{welcome} {name}!';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->parse(['welcome' => 'Hello', 'name' => 'world']);
+        $res = $fmt->parse(array('welcome' => 'Hello', 'name' => 'world'));
         $this->assertEquals('Hello world!', (string) $res);
     }
 
@@ -24,7 +35,7 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
     {
         $format = '{welcome} "{name:<20}"';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->parse(['welcome' => 'Hello', 'name' => 'world']);
+        $res = $fmt->parse(array('welcome' => 'Hello', 'name' => 'world'));
         $this->assertEquals('Hello "world               "', (string) $res);
     }
 
@@ -35,7 +46,7 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
     {
         $format = '{welcome} "{name:>20}"';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->parse(['welcome' => 'Hello', 'name' => 'world']);
+        $res = $fmt->parse(array('welcome' => 'Hello', 'name' => 'world'));
         $this->assertEquals('Hello "               world"', (string) $res);
     }
 
@@ -46,7 +57,7 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
     {
         $format = '{welcome} "{name:^20}"';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->parse(['welcome' => 'Hello', 'name' => 'world']);
+        $res = $fmt->parse(array('welcome' => 'Hello', 'name' => 'world'));
         $this->assertEquals('Hello "       world        "', (string) $res);
     }
 
@@ -57,7 +68,7 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
     {
         $format = '{welcome} "{name:*^20}"';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->parse(['welcome' => 'Hello', 'name' => 'world']);
+        $res = $fmt->parse(array('welcome' => 'Hello', 'name' => 'world'));
         $this->assertEquals('Hello "*******world********"', (string) $res);
     }
 
@@ -68,12 +79,12 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test: {data%%.3f}';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->parse(['data' => 2.1234567]);
+        $res = $fmt->parse(array('data' => 2.1234567));
         $this->assertEquals('Test: 2.123', (string) $res);
 
         $format = 'Test 2: {data%%c}';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->parse(['data' => 97]);
+        $res = $fmt->parse(array('data' => 97));
         $this->assertEquals('Test 2: a', (string) $res);
     }
 
@@ -84,7 +95,7 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test: {data->property}';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->parse(['data' => new TestNamedStringFormatter()]);
+        $res = $fmt->parse(array('data' => new TestNamedStringFormatter()));
         $this->assertEquals('Test: test property', (string) $res);
     }
 
@@ -95,7 +106,7 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test: {data->method}';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->parse(['data' => new TestNamedStringFormatter()]);
+        $res = $fmt->parse(array('data' => new TestNamedStringFormatter()));
         $this->assertEquals('Test: test method', (string) $res);
     }
 
@@ -106,12 +117,12 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test: 10: {data#d}, 16: {data#x}, 2: {data#b}';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->parse(['data' => 11]);
+        $res = $fmt->parse(array('data' => 11));
         $this->assertEquals('Test: 10: 11, 16: b, 2: 1011', (string) $res);
 
         $format = 'Test: 10: {data#10}, 16: {data#16}, 2: {data#2}, 7: {data#7}';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->parse(['data' => 11]);
+        $res = $fmt->parse(array('data' => 11));
         $this->assertEquals('Test: 10: 11, 16: b, 2: 1011, 7: 14', (string) $res);
     }
 
@@ -132,18 +143,18 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
     public function paramsInConstructor()
     {
         $format = '{welcome} {name}!';
-        $fmt = new FormatterNamed($format, ['welcome' => 'Hello', 'name' => 'world']);
+        $fmt = new FormatterNamed($format, array('welcome' => 'Hello', 'name' => 'world'));
         $res = $fmt->parse();
         $this->assertEquals('Hello world!', (string) $res);
 
         $format = '{welcome} {name}!';
-        $fmt = new FormatterNamed($format, ['welcome' => 'Hello', 'name' => 'world']);
-        $res = $fmt->parse(['name' => 'earth']);
+        $fmt = new FormatterNamed($format, array('welcome' => 'Hello', 'name' => 'world'));
+        $res = $fmt->parse(array('name' => 'earth'));
         $this->assertEquals('Hello earth!', (string) $res);
 
         $format = '{welcome} {name}!';
-        $fmt = new FormatterNamed($format, ['welcome' => 'Hello', 'name' => 'world']);
-        $res = $fmt->parse(['welcome' => 'Hi', 'name' => 'earth']);
+        $fmt = new FormatterNamed($format, array('welcome' => 'Hello', 'name' => 'world'));
+        $res = $fmt->parse(array('welcome' => 'Hi', 'name' => 'earth'));
         $this->assertEquals('Hi earth!', (string) $res);
     }
 }

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of msztolcman/stringformatter.
+ *
+ * (c) Marcin Sztolcman <http://urzenia.net>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ *
+ * @version 0.5.0
+ */
+
 namespace MSZ\String\Tests;
 
 use MSZ\String\Transformer;
@@ -157,8 +168,8 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $src = 'The quick brown fox jumped over the lazy dog.';
         $tr = new Transformer($src);
         $res = $tr->wordWrap(20, "<br />\n");
-        $this->assertEquals("The quick brown fox<br />\n".
-            "jumped over the lazy<br />\n".
+        $this->assertEquals("The quick brown fox<br />\n" .
+            "jumped over the lazy<br />\n" .
             'dog.', (string) $res);
     }
 
@@ -192,7 +203,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $tr = new Transformer($src);
 
         $res = $tr->eol();
-        $this->assertEquals('abc'.PHP_EOL, (string) $res);
+        $this->assertEquals('abc' . PHP_EOL, (string) $res);
     }
 
     /**

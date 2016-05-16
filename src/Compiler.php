@@ -162,7 +162,7 @@ class Compiler
         elseif (preg_match('
             /
             ^
-                ('.self::$rxp_keys[$this->mode].')      # placeholder
+                (' . self::$rxp_keys[$this->mode] . ')  # placeholder
                 :                                       # explicit colon
                 (.)?                                    # pad character
                 ([<>^])                                 # alignment
@@ -183,7 +183,7 @@ class Compiler
         elseif (preg_match('
             /
             ^
-                ('.self::$rxp_keys[$this->mode].')      # placeholder
+                (' . self::$rxp_keys[$this->mode] . ')  # placeholder
                 %                                       # explicit percent
                 (.*)                                    # sprintf pattern
             $
@@ -197,7 +197,7 @@ class Compiler
         elseif (preg_match('
             /
             ^
-                ('.self::$rxp_keys[$this->mode].')      # placeholder
+                (' . self::$rxp_keys[$this->mode] . ')  # placeholder
                 ->                                      # explicit arrow
                 (\w+)                                   # keyword (field or method name)
             $
@@ -226,7 +226,7 @@ class Compiler
         elseif (preg_match('
             /
             ^
-            ('.self::$rxp_keys[$this->mode].')      # placeholder
+            (' . self::$rxp_keys[$this->mode] . ')  # placeholder
             [#]                                     # explicit hash
             (?:
                 (\d+)                               # source base
@@ -257,7 +257,7 @@ class Compiler
         elseif (preg_match('
             /
             ^
-                ('.self::$rxp_keys[$this->mode].')      # placeholder
+                (' . self::$rxp_keys[$this->mode] . ')  # placeholder
                 \[                                      # opening square bracket
                     (\w+)                               # key
                 \]                                      # closing square bracket

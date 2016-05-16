@@ -10,36 +10,6 @@ tag = yes
 tag_params =
 commit_message = '%(version)s'
 
-[file:src/Compiler.php]
-enabled = true
-match = line
-search = ^(\s*\*\s*@version\s+).*$
-replace = \g<1>%(version)s
-
-[file:src/FormatterIndex.php]
-enabled = true
-match = line
-search = ^(\s*\*\s*@version\s+).*$
-replace = \g<1>%(version)s
-
-[file:src/FormatterNamed.php]
-enabled = true
-match = line
-search = ^(\s*\*\s*@version\s+).*$
-replace = \g<1>%(version)s
-
-[file:src/IFormatter.php]
-enabled = true
-match = line
-search = ^(\s*\*\s*@version\s+).*$
-replace = \g<1>%(version)s
-
-[file:src/Transformer.php]
-enabled = true
-match = line
-search = ^(\s*\*\s*@version\s+).*$
-replace = \g<1>%(version)s
-
 [file:README.md]
 enabled = true
 match = file
@@ -50,4 +20,11 @@ replace = \nCurrent stable version
     ----------------------
 
     %(version)s\n
+encoding = utf-8
+
+[file:.php_cs]
+enabled = true
+match = line
+search = ^@version \d+\.\d+\.\d+$
+replace = @version %(version)s
 encoding = utf-8

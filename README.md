@@ -26,6 +26,9 @@ Simplest usage can be like:
 
     $f = new FormatterIndex('{0} {1}!');
     echo $f->compile('Hello', 'world')->eol(); # Hello world!
+
+Instead of `FormatterIndex::compile` method You can use a
+shortcut: `FormatterIndex::c`.
     
 There we are using `FormatterIndex` class, so we will use indexed placeholders.
 There are defined two placeholders: `0` and `1`. In some cases, we can omit

@@ -27,7 +27,8 @@
     }
   },
   "scripts": {
-    "test": "phpunit"
+    "test": "phpunit",
+    "testx": "phpunit --stop-on-failure"
   },
   "require": {
     "php": ">=5.3.0 || >7.0.0"

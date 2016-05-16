@@ -113,11 +113,11 @@ Convert int to other base:
     echo $f->parse(11)->eol(); # Test: 10: 11, 16: b, 2: 1011, 7: 14
     
 Available bases:
-  * b - binary
-  * o - octal
-  * d - decimal
-  * x - hex (small letters)
-  * X - hex (big letters)
+  * `b` - binary
+  * `o` - octal
+  * `d` - decimal
+  * `x` - hex (small letters)
+  * `X` - hex (big letters)
 
 Array indexes:
  

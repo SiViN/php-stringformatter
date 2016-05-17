@@ -164,8 +164,7 @@ class Transformer
             version_compare(PHP_VERSION, '5.5.16', '>=')
         ) {
             return $this->transform('ucwords', $delimiters);
-        }
-        else {
+        } else {
             return $this->transform('ucwords');
         }
     }
@@ -198,7 +197,7 @@ class Transformer
     }
 
     /**
-     * Prepend some string on the beginning
+     * Prepend some string on the beginning.
      *
      * @param string $string
      *
@@ -210,7 +209,7 @@ class Transformer
     }
 
     /**
-     * Append some string to the end
+     * Append some string to the end.
      *
      * @param string $string
      *

@@ -238,8 +238,8 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $src = 'abc';
         $tr = new Transformer($src);
 
-        $res = $tr->prefix("ALA");
-        $this->assertEquals("ALAabc", (string) $res);
+        $res = $tr->prefix('ALA');
+        $this->assertEquals('ALAabc', (string) $res);
     }
 
     /**
@@ -250,7 +250,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $src = 'abc';
         $tr = new Transformer($src);
 
-        $res = $tr->suffix("ALA");
-        $this->assertEquals("abcALA", (string) $res);
+        $res = $tr->suffix('ALA');
+        $this->assertEquals('abcALA', (string) $res);
     }
 }

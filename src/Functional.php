@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of msztolcman/stringformatter.
+ *
+ * (c) Marcin Sztolcman <http://urzenia.net>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ *
+ * @version 0.5.0
+ */
+
 namespace Msztolcman\StringFormatter;
 
 /**
@@ -14,13 +25,14 @@ namespace Msztolcman\StringFormatter;
  * Few characters less :)
  *
  * @param string $format
- * @param array $params parameters used to fill placeholders
+ * @param array  $params parameters used to fill placeholders
  *
  * @return Transformer
  */
-function iformat($format, $params=array())
+function iformat($format, $params = array())
 {
     $fmt = new FormatterIndex($format);
+
     return call_user_func_array(array($fmt, 'compile'), $params);
 }
 
@@ -36,7 +48,7 @@ function iformat($format, $params=array())
  * Few characters less :)
  *
  * @param string $format
- * @param array $params parameters used to fill placeholders
+ * @param array  $params parameters used to fill placeholders
  *
  * @return Transformer
  */
@@ -44,6 +56,7 @@ function iformatl($format)
 {
     $params = func_get_args();
     array_shift($params);
+
     return iformat($format, $params);
 }
 
@@ -59,12 +72,13 @@ function iformatl($format)
  * Few characters less :)
  *
  * @param string $format
- * @param array $params parameters used to fill placeholders
+ * @param array  $params parameters used to fill placeholders
  *
  * @return Transformer
  */
-function nformat($format, $params=array())
+function nformat($format, $params = array())
 {
     $fmt = new FormatterNamed($format);
+
     return $fmt->compile($params);
 }

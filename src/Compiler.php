@@ -323,8 +323,7 @@ class Compiler
     {
         if (version_compare(PHP_VERSION, '5.4.0', '<')) {
             $this->trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-        }
-        else {
+        } else {
             $this->trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
         }
 

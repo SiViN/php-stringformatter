@@ -13,8 +13,8 @@
 
 namespace Msztolcman\StringFormatter\Tests;
 
-use Msztolcman\StringFormatter\FormatterNamed;
 use Msztolcman\StringFormatter;
+use Msztolcman\StringFormatter\FormatterNamed;
 
 class FormatterNamedTest extends \PHPUnit_Framework_TestCase
 {

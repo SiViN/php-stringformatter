@@ -13,8 +13,8 @@
 
 namespace Msztolcman\StringFormatter\Tests;
 
-use Msztolcman\StringFormatter\FormatterIndex;
 use Msztolcman\StringFormatter;
+use Msztolcman\StringFormatter\FormatterIndex;
 
 class FormatterIndexTest extends \PHPUnit_Framework_TestCase
 {

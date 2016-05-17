@@ -20,15 +20,12 @@ Usage
 just two of them. Both require `format` being used to `compile` final string,
 and some `params` (optional) to fill placeholders in `format`. Placeholder is
 surrounded by braces, and contain index (`FormatterIndex` class) or name
-(`FormatterNamed` class), and modifiers. 
+(`FormatterNamed` class), and optional modifiers. 
 
 Simplest usage can be like:
 
     $f = new FormatterIndex('{0} {1}!');
     echo $f->compile('Hello', 'world')->eol(); # Hello world!
-
-Instead of `FormatterIndex::compile` method You can use a
-shortcut: `FormatterIndex::c`.
     
 There we are using `FormatterIndex` class, so we will use indexed placeholders.
 There are defined two placeholders: `0` and `1`. In some cases, we can omit
@@ -66,6 +63,30 @@ placeholders:
 
 As a result of `IFormatter::compile` method we got an instance of `Transformer`
 class, that have some additional possibilities (described below). 
+
+Shortcuts
+---------
+
+Pst, there is more ;)
+
+Both classes have also functional API. Instead of manually creating object,
+call a method etc, You can use functions:
+ 
+    $adj = 'glorious';
+    $char = '!';
+    echo iformat('Some {} method{}', [$adj, $char])->eol(); 
+    echo iformatl('Some {} method{}', $adj, $char)->eol(); 
+    echo nformat('Some {adj} method{char}', ['adj' => $adj, 'char' => $char])->eol(); 
+
+`iformat` and `iformatl` differs only with parameters format (array or list).  
+
+For PHP 5.6.0 or newer, you can import just this functions:
+
+    use function Msztolcman\StringFormatter\iformat;
+    use function Msztolcman\StringFormatter\iformatl;
+    use function Msztolcman\StringFormatter\nformat;
+    
+And use them as well :)
 
 Formatters
 ----------

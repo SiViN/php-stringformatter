@@ -185,6 +185,8 @@ There are defined some simple and useful transformers for parsed string:
   * `eol` - append `PHP_EOL` at the end of string 
   * `eoln` - append `\n` at the end of string 
   * `eolrn` - append `\r\n` at the end of string
+  * `suffix` - append given string to the end of current value
+  * `prefix` - prepend given string to the beginning of current value
    
 `Transformer` is immutable, what means after every transformation it return
 always new instance of itself. 

@@ -229,4 +229,28 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $res = $tr->eoln();
         $this->assertEquals("abc\n", (string) $res);
     }
+
+    /**
+     * @test
+     */
+    public function prefix()
+    {
+        $src = 'abc';
+        $tr = new Transformer($src);
+
+        $res = $tr->prefix("ALA");
+        $this->assertEquals("ALAabc", (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function suffix()
+    {
+        $src = 'abc';
+        $tr = new Transformer($src);
+
+        $res = $tr->suffix("ALA");
+        $this->assertEquals("abcALA", (string) $res);
+    }
 }

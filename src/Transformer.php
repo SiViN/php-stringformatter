@@ -198,13 +198,37 @@ class Transformer
     }
 
     /**
+     * Prepend some string on the beginning
+     *
+     * @param string $string
+     *
+     * @return Transformer
+     */
+    public function prefix($string)
+    {
+        return new static($string . $this->string);
+    }
+
+    /**
+     * Append some string to the end
+     *
+     * @param string $string
+     *
+     * @return Transformer
+     */
+    public function suffix($string)
+    {
+        return new static($this->string . $string);
+    }
+
+    /**
      * Adds PHP_EOL to the end of string.
      *
      * @return Transformer
      */
     public function eol()
     {
-        return new static($this->string . PHP_EOL);
+        return $this->suffix(PHP_EOL);
     }
 
     /**
@@ -214,7 +238,7 @@ class Transformer
      */
     public function eolrn()
     {
-        return new static($this->string . "\r\n");
+        return $this->suffix("\r\n");
     }
 
     /**
@@ -224,7 +248,7 @@ class Transformer
      */
     public function eoln()
     {
-        return new static($this->string . "\n");
+        return $this->suffix("\n");
     }
 
     public function __toString()

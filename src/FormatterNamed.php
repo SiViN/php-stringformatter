@@ -63,4 +63,8 @@ class FormatterNamed implements IFormatter
         return new Transformer($string);
     }
 
+    public function __toString()
+    {
+        return $this->format;
+    }
 }

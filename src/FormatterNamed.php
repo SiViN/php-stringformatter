@@ -11,7 +11,7 @@
  * @version 0.5.0
  */
 
-namespace MSZ\String;
+namespace Msztolcman\StringFormatter;
 
 class FormatterNamed implements IFormatter
 {

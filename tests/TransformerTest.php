@@ -11,9 +11,9 @@
  * @version 0.5.0
  */
 
-namespace MSZ\String\Tests;
+namespace Msztolcman\StringFormatter\Tests;
 
-use MSZ\String\Transformer;
+use Msztolcman\StringFormatter\Transformer;
 
 class TransformerTest extends \PHPUnit_Framework_TestCase
 {

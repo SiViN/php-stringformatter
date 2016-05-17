@@ -11,9 +11,10 @@
  * @version 0.5.0
  */
 
-namespace MSZ\String\Tests;
+namespace Msztolcman\StringFormatter\Tests;
 
-use MSZ\String\FormatterNamed;
+use Msztolcman\StringFormatter\FormatterNamed;
+use Msztolcman\StringFormatter;
 
 class FormatterNamedTest extends \PHPUnit_Framework_TestCase
 {

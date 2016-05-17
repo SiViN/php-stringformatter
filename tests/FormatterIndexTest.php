@@ -11,9 +11,10 @@
  * @version 0.5.0
  */
 
-namespace MSZ\String\Tests;
+namespace Msztolcman\StringFormatter\Tests;
 
-use MSZ\String\FormatterIndex;
+use Msztolcman\StringFormatter\FormatterIndex;
+use Msztolcman\StringFormatter;
 
 class FormatterIndexTest extends \PHPUnit_Framework_TestCase
 {

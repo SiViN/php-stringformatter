@@ -11,9 +11,9 @@
  * @version 0.5.0
  */
 
-namespace MSZ\String\Tests;
+namespace Msztolcman\StringFormatter\Tests;
 
-use MSZ\String\FormatterIndex;
+use Msztolcman\StringFormatter\FormatterIndex;
 
 class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +36,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
         $format = 'Test {@classLong} Test';
         $fmt = new FormatterIndex($format);
         $res = $fmt->compile();
-        $this->assertEquals('Test MSZ\String\Tests\FormatterIndexKeywordsTest Test', (string) $res);
+        $this->assertEquals('Test Msztolcman\StringFormatter\Tests\FormatterIndexKeywordsTest Test', (string) $res);
     }
 
     /**
@@ -58,7 +58,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
         $format = 'Test {@methodLong} Test';
         $fmt = new FormatterIndex($format);
         $res = $fmt->compile();
-        $this->assertEquals('Test MSZ\String\Tests\FormatterIndexKeywordsTest::keywordMethodLong Test', (string) $res);
+        $this->assertEquals('Test Msztolcman\StringFormatter\Tests\FormatterIndexKeywordsTest::keywordMethodLong Test', (string) $res);
     }
 
     /**

@@ -11,9 +11,9 @@
  * @version 0.5.0
  */
 
-namespace MSZ\String\Tests;
+namespace Msztolcman\StringFormatter\Tests;
 
-use MSZ\String\FormatterNamed;
+use Msztolcman\StringFormatter\FormatterNamed;
 
 class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +36,7 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
         $format = 'Test {@classLong} Test';
         $fmt = new FormatterNamed($format);
         $res = $fmt->compile();
-        $this->assertEquals('Test MSZ\String\Tests\FormatterNamedKeywordsTest Test', (string) $res);
+        $this->assertEquals('Test Msztolcman\StringFormatter\Tests\FormatterNamedKeywordsTest Test', (string) $res);
     }
 
     /**
@@ -58,7 +58,7 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
         $format = 'Test {@methodLong} Test';
         $fmt = new FormatterNamed($format);
         $res = $fmt->compile();
-        $this->assertEquals('Test MSZ\String\Tests\FormatterNamedKeywordsTest::keywordMethodLong Test', (string) $res);
+        $this->assertEquals('Test Msztolcman\StringFormatter\Tests\FormatterNamedKeywordsTest::keywordMethodLong Test', (string) $res);
     }
 
     /**

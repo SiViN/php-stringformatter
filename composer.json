@@ -18,12 +18,12 @@
   },
   "autoload": {
     "psr-4": {
-      "MSZ\\String\\": "src/"
+      "Msztolcman\\StringFormatter\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-        "MSZ\\String\\Tests\\": "tests/"
+        "Msztolcman\\StringFormatter\\Tests\\": "tests/"
     }
   },
   "scripts": {

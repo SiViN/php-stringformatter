@@ -14,7 +14,7 @@
 namespace Msztolcman\StringFormatter;
 
 /**
- * Other way to use FormatterIndex. Instead of:
+ * Functional API for FormatterIndex. Instead of:
  *
  *   new FormatterIndex('some {} format')->compile('glorious');
  *
@@ -37,7 +37,7 @@ function iformat($format, $params = array())
 }
 
 /**
- * Other way to use FormatterIndex. Instead of:
+ * Functional API for FormatterIndex. Instead of:
  *
  *   new FormatterIndex('some {} format')->compile('glorious');
  *
@@ -61,7 +61,7 @@ function iformatl($format)
 }
 
 /**
- * Other way to use FormatterNamed. Instead of:
+ * Functional API for FormatterNamed. Instead of:
  *
  *   new FormatterNamed('some {adjective} format')->compile(['adjective' => 'glorious']);
  *

@@ -63,25 +63,6 @@ class FormatterIndex implements IFormatter
         return new Transformer($string);
     }
 
-    /**
-     * Parse given format and fill it's placeholders with params.
-     *
-     * Should be always synchronized with FormatterIndex::compile
-     *
-     * @param ...mixed $params parameters used to format given string
-     *
-     * @return Transformer
-     */
-    public function c()
-    {
-        $params = (func_num_args() > 0 ? func_get_args() : $this->params);
-
-        $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEX);
-        $string = $compiler->run();
-
-        return new Transformer($string);
-    }
-
     public function __toString()
     {
         return $this->format;

@@ -164,6 +164,23 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
         $res = $fmt->compile('Hi', 'earth');
         $this->assertEquals('Hi earth!', (string) $res);
     }
+
+    /**
+     * @test
+     */
+    public function functionalCall()
+    {
+        $format = 'Some {} method{}';
+        $adj = 'glorious';
+        $char = '!';
+        $expected = "Some {$adj} method{$char}";
+
+        $res = StringFormatter\iformat($format, [$adj, $char]);
+        $this->assertEquals($expected, (string) $res);
+
+        $res = StringFormatter\iformatl($format, $adj, $char);
+        $this->assertEquals($expected, (string) $res);
+    }
 }
 
 class TestIndexStringFormatter

@@ -158,6 +158,20 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
         $res = $fmt->compile(array('welcome' => 'Hi', 'name' => 'earth'));
         $this->assertEquals('Hi earth!', (string) $res);
     }
+
+    /**
+     * @test
+     */
+    public function functionalCall()
+    {
+        $format = 'Some {adj} method{char}';
+        $adj = 'glorious';
+        $char = '!';
+        $expected = "Some {$adj} method{$char}";
+
+        $res = StringFormatter\nformat($format, ['adj' => $adj, 'char' => $char]);
+        $this->assertEquals($expected, (string) $res);
+    }
 }
 
 class TestNamedStringFormatter

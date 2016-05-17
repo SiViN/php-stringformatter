@@ -19,7 +19,8 @@
   "autoload": {
     "psr-4": {
       "Msztolcman\\StringFormatter\\": "src/"
-    }
+    },
+    "files": ["src/Functional.php"]
   },
   "autoload-dev": {
     "psr-4": {

@@ -63,27 +63,4 @@ class FormatterNamed implements IFormatter
         return new Transformer($string);
     }
 
-    /**
-     * Parse given format and fill it's placeholders with params.
-     *
-     * Should be always synchronized with FormatterNamed::compile
-     *
-     * @param array $params parameters used to format given string
-     * @param bool  $merge  if true, params passed in constructor are merged with this given to FormatterNamed::compile
-     *
-     * @return Transformer
-     */
-    public function c(array $params = null, $merge = true)
-    {
-        if (is_null($params)) {
-            $params = $this->params;
-        } elseif ($merge) {
-            $params = array_merge($this->params, $params);
-        }
-
-        $compiler = new Compiler($this->format, $params, Compiler::MODE_NAMED);
-        $string = $compiler->run();
-
-        return new Transformer($string);
-    }
 }

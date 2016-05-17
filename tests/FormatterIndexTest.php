@@ -175,7 +175,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
         $char = '!';
         $expected = "Some {$adj} method{$char}";
 
-        $res = StringFormatter\iformat($format, [$adj, $char]);
+        $res = StringFormatter\iformat($format, array($adj, $char));
         $this->assertEquals($expected, (string) $res);
 
         $res = StringFormatter\iformatl($format, $adj, $char);

@@ -21,7 +21,7 @@ namespace Msztolcman\StringFormatter;
 function iformat($format, $params=array())
 {
     $fmt = new FormatterIndex($format);
-    return call_user_func_array([$fmt, 'compile'], $params);
+    return call_user_func_array(array($fmt, 'compile'), $params);
 }
 
 /**

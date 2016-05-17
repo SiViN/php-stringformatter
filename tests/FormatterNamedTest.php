@@ -169,7 +169,7 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
         $char = '!';
         $expected = "Some {$adj} method{$char}";
 
-        $res = StringFormatter\nformat($format, ['adj' => $adj, 'char' => $char]);
+        $res = StringFormatter\nformat($format, array('adj' => $adj, 'char' => $char));
         $this->assertEquals($expected, (string) $res);
     }
 }

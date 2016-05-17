@@ -153,13 +153,21 @@ class Transformer
     /**
      * Wrapper for ucwords.
      *
-     * @param string $delimiters
+     * @param string $delimiters (ignored if php do not handle this parameter)
      *
      * @return Transformer
      */
     public function upperWords($delimiters = " \t\r\n\f\v")
     {
-        return $this->transform('ucwords', $delimiters);
+        if (
+            (version_compare(PHP_VERSION, '5.4.32', '>=') && version_compare(PHP_VERSION, '5.5.0', '<')) ||
+            version_compare(PHP_VERSION, '5.5.16', '>=')
+        ) {
+            return $this->transform('ucwords', $delimiters);
+        }
+        else {
+            return $this->transform('ucwords');
+        }
     }
 
     /**

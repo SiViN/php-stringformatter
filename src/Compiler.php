@@ -321,7 +321,13 @@ class Compiler
      */
     public function run()
     {
-        $this->trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+        if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+            $this->trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        }
+        else {
+            $this->trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+        }
+
         $parsed = preg_replace_callback(self::$rxp_token, array($this, 'format_callback'), $this->format);
 
         return $parsed;

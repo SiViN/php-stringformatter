@@ -1,7 +1,7 @@
 {
   "name": "msztolcman/stringformatter",
-  "description": "Simple and powerfull string formatting",
-  "keywords": ["string", "formatting", "string formatting", "sprintf", "vsprintf"],
+  "description": "Simple but powerfull string formatting",
+  "keywords": ["string", "formatting", "format", "template", "string formatter", "string formatting", "sprintf", "vsprintf", "placeholders"],
   "homepage": "https://github.com/msztolcman/php-stringformatter",
   "version": "0.5.0",
   "type": "library",

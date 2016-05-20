@@ -1,7 +1,7 @@
 StringFormatter
 ===============
 
-`StringFormatter` library allows you to powerful formatting of your strings.
+`StringFormatter` - simple but powerfull string formatting.
 
 Current stable version
 ----------------------

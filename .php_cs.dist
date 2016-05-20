@@ -4,12 +4,12 @@
 $header = <<<EOF
 This file is part of m36/stringformatter.
 
-(c) Marcin Sztolcman <http://urzenia.net>
+(c) 36monkeys <http://36monkeys.com>
 
 For the full copyright and license information, please view
 the LICENSE file that was distributed with this source code.
 
-@version 0.0.0
+@version 0.5.0
 EOF;
 
 $finder = PhpCsFixer\Finder::create()

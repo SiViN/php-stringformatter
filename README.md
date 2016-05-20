@@ -213,13 +213,13 @@ Voila!
 Authors
 -------
 
-Marcin Sztolcman <marcin@urzenia.net>
+Marcin Sztolcman <m.sztolcman@36monkeys.com>
 
 Contact
 -------
 
 If you like or dislike this software, please do not hesitate to tell me about
-this me via email (marcin@urzenia.net).
+this me via email (m.sztolcman@36monkeys.com).
 
 If you find bug or have an idea to enhance this tool, please use GitHub's
 [issues](https://github.com/36monkeys/php-stringformatter/issues).

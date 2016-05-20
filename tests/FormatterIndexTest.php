@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of msztolcman/stringformatter.
+ * This file is part of m36/stringformatter.
  *
  * (c) Marcin Sztolcman <http://urzenia.net>
  *
@@ -11,10 +11,10 @@
  * @version 0.5.0
  */
 
-namespace Msztolcman\StringFormatter\Tests;
+namespace m36\StringFormatter\Tests;
 
-use Msztolcman\StringFormatter;
-use Msztolcman\StringFormatter\FormatterIndex;
+use m36\StringFormatter;
+use m36\StringFormatter\FormatterIndex;
 
 class FormatterIndexTest extends \PHPUnit_Framework_TestCase
 {

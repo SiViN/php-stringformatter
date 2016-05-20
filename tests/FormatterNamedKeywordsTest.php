@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of msztolcman/stringformatter.
+ * This file is part of m36/stringformatter.
  *
  * (c) Marcin Sztolcman <http://urzenia.net>
  *
@@ -11,9 +11,9 @@
  * @version 0.5.0
  */
 
-namespace Msztolcman\StringFormatter\Tests;
+namespace m36\StringFormatter\Tests;
 
-use Msztolcman\StringFormatter\FormatterNamed;
+use m36\StringFormatter\FormatterNamed;
 
 class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +36,7 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
         $format = 'Test {@classLong} Test';
         $fmt = new FormatterNamed($format);
         $res = $fmt->compile();
-        $this->assertEquals('Test Msztolcman\StringFormatter\Tests\FormatterNamedKeywordsTest Test', (string) $res);
+        $this->assertEquals('Test m36\StringFormatter\Tests\FormatterNamedKeywordsTest Test', (string) $res);
     }
 
     /**
@@ -58,7 +58,7 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
         $format = 'Test {@methodLong} Test';
         $fmt = new FormatterNamed($format);
         $res = $fmt->compile();
-        $this->assertEquals('Test Msztolcman\StringFormatter\Tests\FormatterNamedKeywordsTest::keywordMethodLong Test', (string) $res);
+        $this->assertEquals('Test m36\StringFormatter\Tests\FormatterNamedKeywordsTest::keywordMethodLong Test', (string) $res);
     }
 
     /**

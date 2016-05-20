@@ -82,9 +82,9 @@ call a method etc, You can use functions:
 
 For PHP 5.6.0 or newer, you can import just this functions:
 
-    use function Msztolcman\StringFormatter\iformat;
-    use function Msztolcman\StringFormatter\iformatl;
-    use function Msztolcman\StringFormatter\nformat;
+    use function m36\StringFormatter\iformat;
+    use function m36\StringFormatter\iformatl;
+    use function m36\StringFormatter\nformat;
     
 And use them as well :)
 
@@ -206,7 +206,7 @@ Installation
 
 Use composer:
 
-    composer require msztolcman/stringformatter 
+    composer require m36/stringformatter 
 
 Voila!
 
@@ -222,7 +222,7 @@ If you like or dislike this software, please do not hesitate to tell me about
 this me via email (marcin@urzenia.net).
 
 If you find bug or have an idea to enhance this tool, please use GitHub's
-[issues](https://github.com/msztolcman/php-stringformatter/issues).
+[issues](https://github.com/36monkeys/php-stringformatter/issues).
 
 License
 -------

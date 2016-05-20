@@ -2,7 +2,7 @@
 # vim: ft=php
 
 $header = <<<EOF
-This file is part of msztolcman/stringformatter.
+This file is part of m36/stringformatter.
 
 (c) Marcin Sztolcman <http://urzenia.net>
 

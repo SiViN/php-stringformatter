@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of msztolcman/stringformatter.
+ * This file is part of m36/stringformatter.
  *
  * (c) Marcin Sztolcman <http://urzenia.net>
  *
@@ -11,7 +11,7 @@
  * @version 0.5.0
  */
 
-namespace Msztolcman\StringFormatter;
+namespace m36\StringFormatter;
 
 class Compiler
 {

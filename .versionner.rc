@@ -28,3 +28,10 @@ match = line
 search = ^@version \d+\.\d+\.\d+$
 replace = @version %(version)s
 encoding = utf-8
+
+[file:.php_cs.dist]
+enabled = true
+match = line
+search = ^@version \d+\.\d+\.\d+$
+replace = @version %(version)s
+encoding = utf-8

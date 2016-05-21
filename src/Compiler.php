@@ -45,7 +45,7 @@ class Compiler
     /**
      * Regular expressions for key used in template.
      *
-     * Key must be one of StringFormatter::MODE_* constant, and value is regular expression used to find key in tokens
+     * Key must be one of Compiler::MODE_* constant, and value is regular expression used to find key in tokens
      *
      * @var array
      */
@@ -172,7 +172,10 @@ class Compiler
         // simple named, explicit placeholder
         elseif ($this->mode == self::MODE_NAMED && strlen($data[1]) > 0 && $this->has_key($data[1])) {
             return $this->get_param($data[1]);
-        } elseif (preg_match('
+        }
+
+        // keywords
+        elseif (preg_match('
             /
             ^
                 @

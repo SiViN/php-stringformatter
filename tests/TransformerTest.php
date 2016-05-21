@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  *
- * @version 0.5.1
+ * @version 0.5.2
  */
 
 namespace m36\StringFormatter\Tests;

@@ -236,7 +236,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
      */
     public function upperWordsUtf8()
     {
-        $this->markTestSkipped("not finished yet");
+        $this->markTestSkipped('not finished yet');
         $src = 'ąbć ćbd ęBĘ';
         $tr = new Transformer($src);
         $res = $tr->upperWords();
@@ -353,7 +353,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
      */
     public function indexAscii()
     {
-        $src = "abef";
+        $src = 'abef';
         $tr = new Transformer($src);
 
         $res = $tr->insert('cd', 2);
@@ -372,7 +372,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
      */
     public function indexUtf8()
     {
-        $src = "ąbęf";
+        $src = 'ąbęf';
         $tr = new Transformer($src);
 
         $res = $tr->insert('ćd', 2, 'UTF-8');
@@ -390,7 +390,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
      */
     public function ensurePrefixAscii()
     {
-        $src = "abef";
+        $src = 'abef';
         $tr = new Transformer($src);
 
         $res = $tr->ensurePrefix('ab', 'UTF-8');
@@ -406,7 +406,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
      */
     public function ensurePrefixUtf8()
     {
-        $src = "ąbęf";
+        $src = 'ąbęf';
         $tr = new Transformer($src);
 
         $res = $tr->ensurePrefix('ąb', 'UTF-8');
@@ -421,7 +421,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
      */
     public function ensureSuffixAscii()
     {
-        $src = "abef";
+        $src = 'abef';
         $tr = new Transformer($src);
 
         $res = $tr->ensureSuffix('ef', 'UTF-8');
@@ -437,7 +437,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
      */
     public function ensureSuffixUtf8()
     {
-        $src = "ąbęf";
+        $src = 'ąbęf';
         $tr = new Transformer($src);
 
         $res = $tr->ensureSuffix('ęf', 'UTF-8');

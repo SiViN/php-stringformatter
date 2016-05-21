@@ -161,6 +161,7 @@ class Transformer
         }
 
         $encoding = $this->encoding($encoding);
+
         return $this->transform('\mb_convert_case', MB_CASE_UPPER, $encoding);
     }
 
@@ -168,6 +169,7 @@ class Transformer
      * Wrapper for strtolower.
      *
      * @param string|null $encoding
+     *
      * @return Transformer
      */
     public function lower($encoding = null)
@@ -177,6 +179,7 @@ class Transformer
         }
 
         $encoding = $this->encoding($encoding);
+
         return $this->transform('\mb_convert_case', MB_CASE_LOWER, $encoding);
     }
 
@@ -184,6 +187,7 @@ class Transformer
      * Wrapper for ucfirst.
      *
      * @param string|null $encoding
+     *
      * @return Transformer
      */
     public function upperFirst($encoding = null)
@@ -195,6 +199,7 @@ class Transformer
         $encoding = $this->encoding($encoding);
 
         $string = \mb_strtoupper(\mb_substr($this->string, 0, 1, $encoding), $encoding);
+
         return new static($string . \mb_substr($this->string, 1, null, $encoding));
     }
 
@@ -202,6 +207,7 @@ class Transformer
      * Wrapper for lcfirst.
      *
      * @param string|null $encoding
+     *
      * @return Transformer
      */
     public function lowerFirst($encoding = null)
@@ -213,6 +219,7 @@ class Transformer
         $encoding = $this->encoding($encoding);
 
         $string = \mb_strtolower(\mb_substr($this->string, 0, 1, $encoding), $encoding);
+
         return new static($string . \mb_substr($this->string, 1, null, $encoding));
     }
 
@@ -264,13 +271,14 @@ class Transformer
         }
 
         $encoding = $this->encoding($encoding);
+
         return $this->transform('\mb_substr', $start, $length, $encoding);
     }
 
     /**
      * Wrapper for str_repeat.
      *
-     * @param integer $count
+     * @param int $count
      *
      * @return Transformer
      */
@@ -280,7 +288,7 @@ class Transformer
     }
 
     /**
-     * Reverse string
+     * Reverse string.
      *
      * @param null $encoding
      *
@@ -295,8 +303,7 @@ class Transformer
             for ($i = $len - 1; $i >= 0; --$i) {
                 $reversed .= \substr($this->string, $i, 1);
             }
-        }
-        else {
+        } else {
             $encoding = $this->encoding($encoding);
 
             $len = \mb_strlen($this->string, $encoding);
@@ -321,8 +328,8 @@ class Transformer
     /**
      * Insert given string at $idx.
      *
-     * @param string $substring
-     * @param integer $idx
+     * @param string      $substring
+     * @param int         $idx
      * @param string|null $encoding
      *
      * @return Transformer
@@ -341,8 +348,7 @@ class Transformer
 
             $start = \substr($this->string, 0, $idx);
             $end = \substr($this->string, $idx, $len);
-        }
-        else {
+        } else {
             $encoding = $this->encoding($encoding);
             $len = \mb_strlen($this->string, $encoding);
             if ($idx >= $len) {
@@ -361,6 +367,7 @@ class Transformer
      *
      * @param $substring
      * @param null $encoding
+     *
      * @return Transformer
      */
     public function ensurePrefix($substring, $encoding = null)
@@ -370,8 +377,7 @@ class Transformer
             if (\substr($this->string, 0, $len) == $substring) {
                 return $this;
             }
-        }
-        else {
+        } else {
             $encoding = $this->encoding($encoding);
             $len = \mb_strlen($substring, $encoding);
             if (\mb_substr($this->string, 0, $len, $encoding) == $substring) {
@@ -387,6 +393,7 @@ class Transformer
      *
      * @param $substring
      * @param null $encoding
+     *
      * @return Transformer
      */
     public function ensureSuffix($substring, $encoding = null)
@@ -396,8 +403,7 @@ class Transformer
             if (\substr($this->string, -$len) == $substring) {
                 return $this;
             }
-        }
-        else {
+        } else {
             $encoding = $this->encoding($encoding);
 
             $len = \mb_strlen($substring, $encoding);

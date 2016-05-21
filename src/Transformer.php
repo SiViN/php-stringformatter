@@ -136,41 +136,82 @@ class Transformer
     /**
      * Wrapper for strtoupper.
      *
+     * @param string|null $encoding
+     *
      * @return Transformer
      */
-    public function upper()
+    public function upper($encoding = null)
     {
-        return $this->transform('strtoupper');
+        if (function_exists('mb_convert_case')) {
+            if (is_null($encoding)) {
+                $encoding = mb_internal_encoding();
+            }
+            return $this->transform('mb_convert_case', MB_CASE_UPPER, $encoding);
+        }
+        else {
+            return $this->transform('strtoupper');
+        }
     }
 
     /**
      * Wrapper for strtolower.
      *
+     * @param string|null $encoding
      * @return Transformer
      */
-    public function lower()
+    public function lower($encoding = null)
     {
-        return $this->transform('strtolower');
+        if (function_exists('mb_convert_case')) {
+            if (is_null($encoding)) {
+                $encoding = mb_internal_encoding();
+            }
+            return $this->transform('mb_convert_case', MB_CASE_LOWER, $encoding);
+        }
+        else {
+            return $this->transform('strtolower');
+        }
     }
 
     /**
      * Wrapper for ucfirst.
      *
+     * @param string|null $encoding
      * @return Transformer
      */
-    public function upperFirst()
+    public function upperFirst($encoding = null)
     {
-        return $this->transform('ucfirst');
+        if (function_exists('mb_strtoupper')) {
+            if (is_null($encoding)) {
+                $encoding = mb_internal_encoding();
+            }
+
+            $string = mb_strtoupper(mb_substr($this->string, 0, 1, $encoding), $encoding);
+            return new static($string . mb_substr($this->string, 1, null, $encoding));
+        }
+        else {
+            return $this->transform('ucfirst');
+        }
     }
 
     /**
      * Wrapper for lcfirst.
      *
+     * @param string|null $encoding
      * @return Transformer
      */
-    public function lowerFirst()
+    public function lowerFirst($encoding = null)
     {
-        return $this->transform('lcfirst');
+        if (function_exists('mb_strtolower')) {
+            if (is_null($encoding)) {
+                $encoding = mb_internal_encoding();
+            }
+
+            $string = mb_strtolower(mb_substr($this->string, 0, 1, $encoding), $encoding);
+            return new static($string . mb_substr($this->string, 1, null, $encoding));
+        }
+        else {
+            return $this->transform('lcfirst');
+        }
     }
 
     /**

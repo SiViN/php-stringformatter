@@ -259,6 +259,7 @@ ChangeLog
 
 * `Transformer::substr` uses `mb_substr` if available
 * added new transformer: `Transformer::regexReplace`
+* transformers `Transformer::lower`, `Transformer::upper`, `Transformer::lowerFirst`, `Transformer::upperFirst` uses Multibyte String module if available
 
 ### v0.5.4
 

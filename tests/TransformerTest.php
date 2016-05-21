@@ -130,7 +130,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function upper()
+    public function upperAscii()
     {
         $src = 'abcabd';
         $tr = new Transformer($src);
@@ -141,7 +141,18 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function lower()
+    public function upperUtf8()
+    {
+        $src = 'ąbćąbd';
+        $tr = new Transformer($src);
+        $res = $tr->upper();
+        $this->assertEquals('ĄBĆĄBD', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function lowerAscii()
     {
         $src = 'ABCABD';
         $tr = new Transformer($src);
@@ -152,12 +163,34 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function upperFirst()
+    public function lowerUtf8()
+    {
+        $src = 'ĄBĆĄBD';
+        $tr = new Transformer($src);
+        $res = $tr->lower();
+        $this->assertEquals('ąbćąbd', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function upperFirstAscii()
     {
         $src = 'abc abd';
         $tr = new Transformer($src);
         $res = $tr->upperFirst();
         $this->assertEquals('Abc abd', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function upperFirstUtf8()
+    {
+        $src = 'ąbć ąbd';
+        $tr = new Transformer($src);
+        $res = $tr->upperFirst();
+        $this->assertEquals('Ąbć ąbd', (string) $res);
     }
 
     /**
@@ -169,6 +202,17 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $tr = new Transformer($src);
         $res = $tr->lowerFirst();
         $this->assertEquals('aBC ABD', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function lowerFirstUtf8()
+    {
+        $src = 'ĄBĆ ĄBD';
+        $tr = new Transformer($src);
+        $res = $tr->lowerFirst();
+        $this->assertEquals('ąBĆ ĄBD', (string) $res);
     }
 
     /**

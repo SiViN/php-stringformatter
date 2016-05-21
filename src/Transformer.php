@@ -268,6 +268,148 @@ class Transformer
     }
 
     /**
+     * Wrapper for str_repeat.
+     *
+     * @param integer $count
+     *
+     * @return Transformer
+     */
+    public function repeat($count)
+    {
+        return $this->transform('\str_repeat', $count);
+    }
+
+    /**
+     * Reverse string
+     *
+     * @param null $encoding
+     *
+     * @return Transformer
+     */
+    public function reverse($encoding = null)
+    {
+        $reversed = '';
+
+        if (!$this->hasMbstring()) {
+            $len = \strlen($this->string);
+            for ($i = $len - 1; $i >= 0; --$i) {
+                $reversed .= \substr($this->string, $i, 1);
+            }
+        }
+        else {
+            $encoding = $this->encoding($encoding);
+
+            $len = \mb_strlen($this->string, $encoding);
+            for ($i = $len - 1; $i >= 0; --$i) {
+                $reversed .= \mb_substr($this->string, $i, 1, $encoding);
+            }
+        }
+
+        return new static($reversed);
+    }
+
+    /**
+     * Squash and unify white characters into single space.
+     *
+     * @return Transformer
+     */
+    public function squashWhitechars()
+    {
+        return $this->regexReplace('/[[:space:]]+/', ' ')->strip();
+    }
+
+    /**
+     * Insert given string at $idx.
+     *
+     * @param string $substring
+     * @param integer $idx
+     * @param string|null $encoding
+     *
+     * @return Transformer
+     */
+    public function insert($substring, $idx, $encoding = null)
+    {
+        if ($idx <= 0) {
+            return $this->prefix($substring);
+        }
+
+        if (!$this->hasMbstring()) {
+            $len = \strlen($this->string);
+            if ($idx >= $len) {
+                return $this->suffix($substring);
+            }
+
+            $start = \substr($this->string, 0, $idx);
+            $end = \substr($this->string, $idx, $len);
+        }
+        else {
+            $encoding = $this->encoding($encoding);
+            $len = \mb_strlen($this->string, $encoding);
+            if ($idx >= $len) {
+                return $this->suffix($substring);
+            }
+
+            $start = \mb_substr($this->string, 0, $idx, $encoding);
+            $end = \mb_substr($this->string, $idx, $len, $encoding);
+        }
+
+        return new static($start . $substring . $end);
+    }
+
+    /**
+     * Prepend $substring if string doesn't begin with it.
+     *
+     * @param $substring
+     * @param null $encoding
+     * @return Transformer
+     */
+    public function ensurePrefix($substring, $encoding = null)
+    {
+        if (!$this->hasMbstring()) {
+            $len = \strlen($substring);
+            if (\substr($this->string, 0, $len) == $substring) {
+                return $this;
+            }
+        }
+        else {
+            $encoding = $this->encoding($encoding);
+            $len = \mb_strlen($substring, $encoding);
+            if (\mb_substr($this->string, 0, $len, $encoding) == $substring) {
+                return $this;
+            }
+        }
+
+        return $this->prefix($substring);
+    }
+
+    /**
+     * Append $substring if string doesn't end with it.
+     *
+     * @param $substring
+     * @param null $encoding
+     * @return Transformer
+     */
+    public function ensureSuffix($substring, $encoding = null)
+    {
+        if (!$this->hasMbstring()) {
+            $len = \strlen($substring);
+            if (\substr($this->string, -$len) == $substring) {
+                return $this;
+            }
+        }
+        else {
+            $encoding = $this->encoding($encoding);
+
+            $len = \mb_strlen($substring, $encoding);
+            if (\mb_substr($this->string, -$len, null, $encoding) == $substring) {
+                return $this;
+            }
+        }
+
+        return $this->suffix($substring);
+    }
+
+    /**
      * Prepend some string on the beginning.
      *
      * @param string $string

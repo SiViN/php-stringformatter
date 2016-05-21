@@ -302,6 +302,154 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function repeat()
+    {
+        $src = 'abc.';
+        $tr = new Transformer($src);
+
+        $res = $tr->repeat(3);
+        $this->assertEquals('abc.abc.abc.', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function reverseAscii()
+    {
+        $src = 'abcdef';
+        $tr = new Transformer($src);
+
+        $res = $tr->reverse();
+        $this->assertEquals('fedcba', (string) $res);
+    }
+
+    /**
+     * @test
+     * @requires extension mbstring
+     */
+    public function reverseUtf8()
+    {
+        $src = 'ąbćdęf';
+        $tr = new Transformer($src);
+
+        $res = $tr->reverse('UTF-8');
+        $this->assertEquals('fędćbą', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function squashWhitechars()
+    {
+        $src = "  ąb \tć\r\nd ęf\t\r\n ";
+        $tr = new Transformer($src);
+
+        $res = $tr->squashWhitechars();
+        $this->assertEquals('ąb ć d ęf', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function indexAscii()
+    {
+        $src = "abef";
+        $tr = new Transformer($src);
+
+        $res = $tr->insert('cd', 2);
+        $this->assertEquals('abcdef', (string) $res);
+
+        $res = $tr->insert('cd', -2);
+        $this->assertEquals('cdabef', (string) $res);
+
+        $res = $tr->insert('cd', 8);
+        $this->assertEquals('abefcd', (string) $res);
+    }
+
+    /**
+     * @test
+     * @requires extension mbstring
+     */
+    public function indexUtf8()
+    {
+        $src = "ąbęf";
+        $tr = new Transformer($src);
+
+        $res = $tr->insert('ćd', 2, 'UTF-8');
+        $this->assertEquals('ąbćdęf', (string) $res);
+
+        $res = $tr->insert('ćd', -2, 'UTF-8');
+        $this->assertEquals('ćdąbęf', (string) $res);
+
+        $res = $tr->insert('ćd', 8, 'UTF-8');
+        $this->assertEquals('ąbęfćd', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function ensurePrefixAscii()
+    {
+        $src = "abef";
+        $tr = new Transformer($src);
+
+        $res = $tr->ensurePrefix('ab', 'UTF-8');
+        $this->assertEquals('abef', (string) $res);
+
+        $res = $tr->ensurePrefix('ćw', 'UTF-8');
+        $this->assertEquals('ćwabef', (string) $res);
+    }
+
+    /**
+     * @test
+     * @requires extension mbstring
+     */
+    public function ensurePrefixUtf8()
+    {
+        $src = "ąbęf";
+        $tr = new Transformer($src);
+
+        $res = $tr->ensurePrefix('ąb', 'UTF-8');
+        $this->assertEquals('ąbęf', (string) $res);
+
+        $res = $tr->ensurePrefix('ćw', 'UTF-8');
+        $this->assertEquals('ćwąbęf', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function ensureSuffixAscii()
+    {
+        $src = "abef";
+        $tr = new Transformer($src);
+
+        $res = $tr->ensureSuffix('ef', 'UTF-8');
+        $this->assertEquals('abef', (string) $res);
+
+        $res = $tr->ensureSuffix('ćw', 'UTF-8');
+        $this->assertEquals('abefćw', (string) $res);
+    }
+
+    /**
+     * @test
+     * @requires extension mbstring
+     */
+    public function ensureSuffixUtf8()
+    {
+        $src = "ąbęf";
+        $tr = new Transformer($src);
+
+        $res = $tr->ensureSuffix('ęf', 'UTF-8');
+        $this->assertEquals('ąbęf', (string) $res);
+
+        $res = $tr->ensureSuffix('ćw', 'UTF-8');
+        $this->assertEquals('ąbęfćw', (string) $res);
+    }
+
+    /**
+     * @test
+     */
     public function eol()
     {
         $src = 'abc';

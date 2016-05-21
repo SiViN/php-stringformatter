@@ -257,9 +257,11 @@ ChangeLog
 
 ### (dev)
 
-* `Transformer::substr` uses `mb_substr` if available
-* added new transformer: `Transformer::regexReplace`
-* transformers `Transformer::lower`, `Transformer::upper`, `Transformer::lowerFirst`, `Transformer::upperFirst` uses Multibyte String module if available
+* many transformers uses Multibyte String module if available
+* added new transformers: `Transformer::regexReplace`, `Transformer::repeat`,
+    `Transformer::reverse`, `Transformer::squashWhitechars`,
+    `Transformer::insert`, `Transformer::ensurePrefix`,
+    `Transformer::ensureSuffix`
 
 ### v0.5.4
 

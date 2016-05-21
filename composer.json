@@ -3,7 +3,7 @@
   "description": "Simple but powerfull string formatting",
   "keywords": ["string", "formatting", "format", "template", "string formatter", "string formatting", "sprintf", "vsprintf", "placeholders"],
   "homepage": "https://github.com/36monkeys/php-stringformatter",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "type": "library",
   "license": ["MIT"],
   "authors": [

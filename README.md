@@ -151,6 +151,8 @@ Array indexes:
 Keywords
 --------
 
+As a placeholder, you can use one of followed keywords (modifiers are not accepted there):
+
   * `@class` - replaced by current class name (without namespace)
   * `@classLong` - replaced by current class name (with namespace) 
   * `@method` - replaced by current class name (without namespace) and method

@@ -153,13 +153,13 @@ Keywords
 
 As a placeholder, you can use one of followed keywords (modifiers are not accepted there):
 
-  * `@class` - replaced by current class name (without namespace)
-  * `@classLong` - replaced by current class name (with namespace) 
+  * `@class` - replaced by current class name (without namespace). Will trigger E_USER_WARNING if used outside of class.
+  * `@classLong` - replaced by current class name (with namespace). Will trigger E_USER_WARNING if used outside of class.
   * `@method` - replaced by current class name (without namespace) and method
-    name
+    name. Will trigger E_USER_WARNING if used outside of class.
   * `@methodLong` - replaced by current class name (with namespace) and method
-    name
-  * `@function` - replaced by current function/method name (without namespace and class name)
+    name. Will trigger E_USER_WARNING if used outside of class.
+  * `@function` - replaced by current function/method name (without namespace and class name). Will trigger E_USER_WARNING if used outside of function.
   * `@file` - file name where `IFormatter::compile` is called (without parents)
   * `@fileLong` - full path to file where `IFormatter::compile` is called (with parents)
   * `@dir` - directory name of file where `IFormatter::compile` is called (without parents)

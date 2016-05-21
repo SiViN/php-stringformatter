@@ -190,6 +190,7 @@ class Compiler
                     if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['class'])) {
                         $msg = "Bad usage of @classLong keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
                         trigger_error($msg, E_USER_WARNING);
+
                         return '';
                     }
 
@@ -198,6 +199,7 @@ class Compiler
                     if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['class'])) {
                         $msg = "Bad usage of @class keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
                         trigger_error($msg, E_USER_WARNING);
+
                         return '';
                     }
 
@@ -208,6 +210,7 @@ class Compiler
                     if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['class'])) {
                         $msg = "Bad usage of @method keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
                         trigger_error($msg, E_USER_WARNING);
+
                         return '';
                     }
 
@@ -219,6 +222,7 @@ class Compiler
                     if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['class'])) {
                         $msg = "Bad usage of @methodLong keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
                         trigger_error($msg, E_USER_WARNING);
+
                         return '';
                     }
 
@@ -227,6 +231,7 @@ class Compiler
                     if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['function'])) {
                         $msg = "Bad usage of @function keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
                         trigger_error($msg, E_USER_WARNING);
+
                         return '';
                     }
 

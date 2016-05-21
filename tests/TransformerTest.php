@@ -176,7 +176,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function substr()
+    public function substrAscii()
     {
         $src = 'abcdef';
         $tr = new Transformer($src);
@@ -192,6 +192,27 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
 
         $res = $tr->substr(-3, -1);
         $this->assertEquals('de', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function substrUtf8()
+    {
+        $src = 'ąbćdęf';
+        $tr = new Transformer($src);
+
+        $res = $tr->substr(0, -1);
+        $this->assertEquals('ąbćdę', (string) $res);
+
+        $res = $tr->substr(2, -1);
+        $this->assertEquals('ćdę', (string) $res);
+
+        $res = $tr->substr(4, -4);
+        $this->assertEquals('', (string) $res);
+
+        $res = $tr->substr(-3, -1);
+        $this->assertEquals('dę', (string) $res);
     }
 
     /**

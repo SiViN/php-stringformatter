@@ -253,6 +253,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ChangeLog
 ---------
 
+### (dev)
+
+* `Transformer::substr` uses `mb_substr` if available
+
 ### v0.5.4
 
 * missing changelog

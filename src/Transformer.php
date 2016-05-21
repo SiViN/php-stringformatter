@@ -184,16 +184,24 @@ class Transformer
     }
 
     /**
-     * Wrapper for substr.
+     * Wrapper for mb_substr / substr.
      *
      * @param $start
      * @param int|null $length
      *
      * @return Transformer
      */
-    public function substr($start, $length = null)
+    public function substr($start, $length = null, $encoding = null)
     {
-        return $this->transform('substr', $start, $length);
+        if (function_exists('mb_substr')) {
+            if (is_null($encoding)) {
+                $encoding = mb_internal_encoding();
+            }
+            return $this->transform('mb_substr', $start, $length, $encoding);
+        }
+        else {
+            return $this->transform('substr', $start, $length);
+        }
     }
 
     /**

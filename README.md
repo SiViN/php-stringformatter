@@ -6,7 +6,7 @@ StringFormatter
 Current stable version
 ----------------------
 
-0.5.0
+0.5.1
 
 PHP version
 -----------
@@ -252,6 +252,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ChangeLog
 ---------
+
+### v0.5.1
+
+* using @keywords in functional API was broken for some keywords
 
 ### v0.5.0
 

@@ -35,3 +35,10 @@ match = line
 search = ^@version \d+\.\d+\.\d+$
 replace = @version %(version)s
 encoding = utf-8
+
+[file:composer.json]
+enabled = true
+match = line
+search = "version": "\d+\.\d+\.\d+",
+replace = "version": "%(version)s",
+encoding = utf-8

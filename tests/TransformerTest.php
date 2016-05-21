@@ -196,6 +196,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @requires function mb_substr
      */
     public function substrUtf8()
     {

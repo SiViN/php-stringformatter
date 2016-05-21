@@ -42,6 +42,28 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function regexReplaceString()
+    {
+        $src = 'aBcaBd';
+        $tr = new Transformer($src);
+        $res = $tr->regexReplace('/([A-Z])/', '${1}!');
+        $this->assertEquals('aB!caB!d', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function regexReplaceCallback()
+    {
+        $src = 'aBcaBd';
+        $tr = new Transformer($src);
+        $res = $tr->regexReplace('/([A-Z])/', function ($matches) { return "{$matches[0]}!"; });
+        $this->assertEquals('aB!caB!d', (string) $res);
+    }
+
+    /**
+     * @test
+     */
     public function strip()
     {
         $src = " \n\r\tabcabd\t\r\n ";

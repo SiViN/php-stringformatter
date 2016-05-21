@@ -75,6 +75,29 @@ class Transformer
     }
 
     /**
+     * Wrapper for preg_replace or preg_replace_callback (depends on $replacement
+     * being .callback or not).
+     *
+     * @param string $pattern
+     * @param string $replacement
+     * @param int    $limit
+     *
+     * @return Transformer
+     */
+    public function regexReplace($pattern, $replacement, $limit = -1)
+    {
+        if (is_callable($replacement)) {
+            $rxp_function = 'preg_replace_callback';
+        } else {
+            $rxp_function = 'preg_replace';
+        }
+
+        $result = $rxp_function($pattern, $replacement, $this->string, $limit);
+
+        return new static($result);
+    }
+
+    /**
      * Wrapper for trim.
      *
      * @param string $charmask
@@ -198,8 +221,7 @@ class Transformer
                 $encoding = mb_internal_encoding();
             }
             return $this->transform('mb_substr', $start, $length, $encoding);
-        }
-        else {
+        } else {
             return $this->transform('substr', $start, $length);
         }
     }

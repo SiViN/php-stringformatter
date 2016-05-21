@@ -174,6 +174,8 @@ There are defined some simple and useful transformers for parsed string:
  
   * `replace` - wrapper for `str_replace` 
   * `ireplace` - wrapper for `ireplace` 
+  * `regexReplace` - wrapper for preg_replace or preg_replace_callback (depends on
+   `$replacement` being .callback or not) 
   * `strip` - wrapper for `trim` 
   * `lstrip` - wrapper for `ltrim` 
   * `rstrip` - wrapper for `rtrim` 
@@ -256,6 +258,7 @@ ChangeLog
 ### (dev)
 
 * `Transformer::substr` uses `mb_substr` if available
+* added new transformer: `Transformer::regexReplace`
 
 ### v0.5.4
 

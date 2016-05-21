@@ -203,16 +203,16 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $src = 'ąbćdęf';
         $tr = new Transformer($src);
 
-        $res = $tr->substr(0, -1);
+        $res = $tr->substr(0, -1, 'UTF-8');
         $this->assertEquals('ąbćdę', (string) $res);
 
-        $res = $tr->substr(2, -1);
+        $res = $tr->substr(2, -1, 'UTF-8');
         $this->assertEquals('ćdę', (string) $res);
 
-        $res = $tr->substr(4, -4);
+        $res = $tr->substr(4, -4, 'UTF-8');
         $this->assertEquals('', (string) $res);
 
-        $res = $tr->substr(-3, -1);
+        $res = $tr->substr(-3, -1, 'UTF-8');
         $this->assertEquals('dę', (string) $res);
     }
 

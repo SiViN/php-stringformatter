@@ -30,6 +30,20 @@ class Transformer
         $this->string = $string;
     }
 
+    protected function hasMbstring()
+    {
+        return \extension_loaded('mbstring');
+    }
+
+    protected function encoding($encoding)
+    {
+        if (\is_null($encoding) && $this->hasMbstring()) {
+            return \mb_internal_encoding();
+        }
+
+        return $encoding;
+    }
+
     /**
      * Calls given callable from $fn. As a first argument is passed transformed string
      * from Transformer, then pass there other args from Transformer::transform method.
@@ -41,11 +55,11 @@ class Transformer
      */
     public function transform()
     {
-        $args = func_get_args();
-        $fn = array_shift($args);
-        array_unshift($args, $this->string);
+        $args = \func_get_args();
+        $fn = \array_shift($args);
+        \array_unshift($args, $this->string);
 
-        return new static(call_user_func_array($fn, $args));
+        return new static(\call_user_func_array($fn, $args));
     }
 
     /**
@@ -58,7 +72,7 @@ class Transformer
      */
     public function replace($from, $to)
     {
-        return new static(str_replace($from, $to, $this->string));
+        return new static(\str_replace($from, $to, $this->string));
     }
 
     /**
@@ -71,12 +85,12 @@ class Transformer
      */
     public function ireplace($from, $to)
     {
-        return new static(str_ireplace($from, $to, $this->string));
+        return new static(\str_ireplace($from, $to, $this->string));
     }
 
     /**
      * Wrapper for preg_replace or preg_replace_callback (depends on $replacement
-     * being .callback or not).
+     * being callback or not).
      *
      * @param string $pattern
      * @param string $replacement
@@ -86,10 +100,10 @@ class Transformer
      */
     public function regexReplace($pattern, $replacement, $limit = -1)
     {
-        if (is_callable($replacement)) {
-            $rxp_function = 'preg_replace_callback';
+        if (\is_callable($replacement)) {
+            $rxp_function = '\preg_replace_callback';
         } else {
-            $rxp_function = 'preg_replace';
+            $rxp_function = '\preg_replace';
         }
 
         $result = $rxp_function($pattern, $replacement, $this->string, $limit);
@@ -106,7 +120,7 @@ class Transformer
      */
     public function strip($charmask = " \t\n\r\0\x0B")
     {
-        return $this->transform('trim', $charmask);
+        return $this->transform('\trim', $charmask);
     }
 
     /**
@@ -118,7 +132,7 @@ class Transformer
      */
     public function lstrip($charmask = " \t\n\r\0\x0B")
     {
-        return $this->transform('ltrim', $charmask);
+        return $this->transform('\ltrim', $charmask);
     }
 
     /**
@@ -130,7 +144,7 @@ class Transformer
      */
     public function rstrip($charmask = " \t\n\r\0\x0B")
     {
-        return $this->transform('rtrim', $charmask);
+        return $this->transform('\rtrim', $charmask);
     }
 
     /**
@@ -142,15 +156,12 @@ class Transformer
      */
     public function upper($encoding = null)
     {
-        if (function_exists('mb_convert_case')) {
-            if (is_null($encoding)) {
-                $encoding = mb_internal_encoding();
-            }
-            return $this->transform('mb_convert_case', MB_CASE_UPPER, $encoding);
+        if (!$this->hasMbstring()) {
+            return $this->transform('\strtoupper');
         }
-        else {
-            return $this->transform('strtoupper');
-        }
+
+        $encoding = $this->encoding($encoding);
+        return $this->transform('\mb_convert_case', MB_CASE_UPPER, $encoding);
     }
 
     /**
@@ -161,15 +172,12 @@ class Transformer
      */
     public function lower($encoding = null)
     {
-        if (function_exists('mb_convert_case')) {
-            if (is_null($encoding)) {
-                $encoding = mb_internal_encoding();
-            }
-            return $this->transform('mb_convert_case', MB_CASE_LOWER, $encoding);
+        if (!$this->hasMbstring()) {
+            return $this->transform('\strtolower');
         }
-        else {
-            return $this->transform('strtolower');
-        }
+
+        $encoding = $this->encoding($encoding);
+        return $this->transform('\mb_convert_case', MB_CASE_LOWER, $encoding);
     }
 
     /**
@@ -180,17 +188,14 @@ class Transformer
      */
     public function upperFirst($encoding = null)
     {
-        if (function_exists('mb_strtoupper')) {
-            if (is_null($encoding)) {
-                $encoding = mb_internal_encoding();
-            }
+        if (!$this->hasMbstring()) {
+            return $this->transform('\ucfirst');
+        }
 
-            $string = mb_strtoupper(mb_substr($this->string, 0, 1, $encoding), $encoding);
-            return new static($string . mb_substr($this->string, 1, null, $encoding));
-        }
-        else {
-            return $this->transform('ucfirst');
-        }
+        $encoding = $this->encoding($encoding);
+
+        $string = \mb_strtoupper(\mb_substr($this->string, 0, 1, $encoding), $encoding);
+        return new static($string . \mb_substr($this->string, 1, null, $encoding));
     }
 
     /**
@@ -201,17 +206,14 @@ class Transformer
      */
     public function lowerFirst($encoding = null)
     {
-        if (function_exists('mb_strtolower')) {
-            if (is_null($encoding)) {
-                $encoding = mb_internal_encoding();
-            }
+        if (!$this->hasMbstring()) {
+            return $this->transform('\lcfirst');
+        }
 
-            $string = mb_strtolower(mb_substr($this->string, 0, 1, $encoding), $encoding);
-            return new static($string . mb_substr($this->string, 1, null, $encoding));
-        }
-        else {
-            return $this->transform('lcfirst');
-        }
+        $encoding = $this->encoding($encoding);
+
+        $string = \mb_strtolower(\mb_substr($this->string, 0, 1, $encoding), $encoding);
+        return new static($string . \mb_substr($this->string, 1, null, $encoding));
     }
 
     /**
@@ -244,7 +246,7 @@ class Transformer
      */
     public function wordWrap($width = 75, $break = "\n", $cut = false)
     {
-        return $this->transform('wordwrap', $width, $break, $cut);
+        return $this->transform('\wordwrap', $width, $break, $cut);
     }
 
     /**
@@ -257,14 +259,12 @@ class Transformer
      */
     public function substr($start, $length = null, $encoding = null)
     {
-        if (function_exists('mb_substr')) {
-            if (is_null($encoding)) {
-                $encoding = mb_internal_encoding();
-            }
-            return $this->transform('mb_substr', $start, $length, $encoding);
-        } else {
-            return $this->transform('substr', $start, $length);
+        if (!$this->hasMbstring()) {
+            return $this->transform('\substr', $start, $length);
         }
+
+        $encoding = $this->encoding($encoding);
+        return $this->transform('\mb_substr', $start, $length, $encoding);
     }
 
     /**

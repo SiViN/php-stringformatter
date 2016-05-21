@@ -140,12 +140,13 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @requires extension mbstring
      */
     public function upperUtf8()
     {
         $src = 'ąbćąbd';
         $tr = new Transformer($src);
-        $res = $tr->upper();
+        $res = $tr->upper('UTF-8');
         $this->assertEquals('ĄBĆĄBD', (string) $res);
     }
 
@@ -162,12 +163,13 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @requires extension mbstring
      */
     public function lowerUtf8()
     {
         $src = 'ĄBĆĄBD';
         $tr = new Transformer($src);
-        $res = $tr->lower();
+        $res = $tr->lower('UTF-8');
         $this->assertEquals('ąbćąbd', (string) $res);
     }
 
@@ -184,12 +186,13 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @requires extension mbstring
      */
     public function upperFirstUtf8()
     {
         $src = 'ąbć ąbd';
         $tr = new Transformer($src);
-        $res = $tr->upperFirst();
+        $res = $tr->upperFirst('UTF-8');
         $this->assertEquals('Ąbć ąbd', (string) $res);
     }
 
@@ -206,24 +209,38 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @requires extension mbstring
      */
     public function lowerFirstUtf8()
     {
         $src = 'ĄBĆ ĄBD';
         $tr = new Transformer($src);
-        $res = $tr->lowerFirst();
+        $res = $tr->lowerFirst('UTF-8');
         $this->assertEquals('ąBĆ ĄBD', (string) $res);
     }
 
     /**
      * @test
      */
-    public function upperWords()
+    public function upperWordsAscii()
     {
-        $src = 'abc abd';
+        $src = 'abc abd aBE';
+        $tr = new Transformer($src);
+        $res = $tr->upperWords('UTF-8');
+        $this->assertEquals('Abc Abd ABE', (string) $res);
+    }
+
+    /**
+     * @test
+     * @requires extension mbstring
+     */
+    public function upperWordsUtf8()
+    {
+        $this->markTestSkipped("not finished yet");
+        $src = 'ąbć ćbd ęBĘ';
         $tr = new Transformer($src);
         $res = $tr->upperWords();
-        $this->assertEquals('Abc Abd', (string) $res);
+        $this->assertEquals('Ąbć Ćbd ĘBĘ', (string) $res);
     }
 
     /**
@@ -262,7 +279,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @requires function mb_substr
+     * @requires extension mbstring
      */
     public function substrUtf8()
     {

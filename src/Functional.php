@@ -33,7 +33,7 @@ function iformat($format, $params = array())
 {
     $fmt = new FormatterIndex($format);
 
-    return call_user_func_array(array($fmt, 'compile'), $params);
+    return call_user_func_array(array($fmt, 'compileIformat'), $params);
 }
 
 /**
@@ -57,7 +57,9 @@ function iformatl($format)
     $params = func_get_args();
     array_shift($params);
 
-    return iformat($format, $params);
+    $fmt = new FormatterIndex($format);
+
+    return call_user_func_array(array($fmt, 'compileIformat'), $params);
 }
 
 /**
@@ -80,5 +82,5 @@ function nformat($format, $params = array())
 {
     $fmt = new FormatterNamed($format);
 
-    return $fmt->compile($params);
+    return $fmt->compileNformat($params);
 }

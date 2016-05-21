@@ -13,6 +13,7 @@
 
 namespace m36\StringFormatter\Tests;
 
+use m36\StringFormatter;
 use m36\StringFormatter\FormatterNamed;
 
 class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
@@ -31,11 +32,31 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function keywordClassNFormat()
+    {
+        $format = 'Test {@class} Test';
+        $res = StringFormatter\nformat($format);
+        $this->assertEquals('Test FormatterNamedKeywordsTest Test', (string) $res);
+    }
+
+    /**
+     * @test
+     */
     public function keywordClassLong()
     {
         $format = 'Test {@classLong} Test';
         $fmt = new FormatterNamed($format);
         $res = $fmt->compile();
+        $this->assertEquals('Test m36\StringFormatter\Tests\FormatterNamedKeywordsTest Test', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function keywordClassLongNFormat()
+    {
+        $format = 'Test {@classLong} Test';
+        $res = StringFormatter\nformat($format);
         $this->assertEquals('Test m36\StringFormatter\Tests\FormatterNamedKeywordsTest Test', (string) $res);
     }
 
@@ -53,12 +74,32 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function keywordMethodNFormat()
+    {
+        $format = 'Test {@method} Test';
+        $res = StringFormatter\nformat($format);
+        $this->assertEquals('Test FormatterNamedKeywordsTest::keywordMethodNFormat Test', (string) $res);
+    }
+
+    /**
+     * @test
+     */
     public function keywordMethodLong()
     {
         $format = 'Test {@methodLong} Test';
         $fmt = new FormatterNamed($format);
         $res = $fmt->compile();
         $this->assertEquals('Test m36\StringFormatter\Tests\FormatterNamedKeywordsTest::keywordMethodLong Test', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function keywordMethodLongNFormat()
+    {
+        $format = 'Test {@methodLong} Test';
+        $res = StringFormatter\nformat($format);
+        $this->assertEquals('Test m36\StringFormatter\Tests\FormatterNamedKeywordsTest::keywordMethodLongNFormat Test', (string) $res);
     }
 
     /**
@@ -75,11 +116,31 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function keywordFunctionNFormat()
+    {
+        $format = 'Test {@function} Test';
+        $res = StringFormatter\nformat($format);
+        $this->assertEquals('Test keywordFunctionNFormat Test', (string) $res);
+    }
+
+    /**
+     * @test
+     */
     public function keywordFile()
     {
         $format = 'Test {@file} Test';
         $fmt = new FormatterNamed($format);
         $res = $fmt->compile();
+        $this->assertEquals('Test FormatterNamedKeywordsTest.php Test', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function keywordFileNFormat()
+    {
+        $format = 'Test {@file} Test';
+        $res = StringFormatter\nformat($format);
         $this->assertEquals('Test FormatterNamedKeywordsTest.php Test', (string) $res);
     }
 
@@ -97,11 +158,31 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function keywordFileLongNFormat()
+    {
+        $format = 'Test {@fileLong} Test';
+        $res = StringFormatter\nformat($format);
+        $this->assertEquals('Test ' . __FILE__ . ' Test', (string) $res);
+    }
+
+    /**
+     * @test
+     */
     public function keywordDir()
     {
         $format = 'Test {@dir} Test';
         $fmt = new FormatterNamed($format);
         $res = $fmt->compile();
+        $this->assertEquals('Test tests Test', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function keywordDirNFormat()
+    {
+        $format = 'Test {@dir} Test';
+        $res = StringFormatter\nformat($format);
         $this->assertEquals('Test tests Test', (string) $res);
     }
 
@@ -119,11 +200,31 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function keywordDirLongNFormat()
+    {
+        $format = 'Test {@dirLong} Test';
+        $res = StringFormatter\nformat($format);
+        $this->assertEquals('Test ' . __DIR__ . ' Test', (string) $res);
+    }
+
+    /**
+     * @test
+     */
     public function keywordLine()
     {
         $format = 'Test {@line} Test';
         $fmt = new FormatterNamed($format);
         $res = $fmt->compile(); $line = __LINE__;
+        $this->assertEquals('Test ' . $line . ' Test', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function keywordLineNFormat()
+    {
+        $format = 'Test {@line} Test';
+        $res = StringFormatter\nformat($format); $line = __LINE__;
         $this->assertEquals('Test ' . $line . ' Test', (string) $res);
     }
 
@@ -162,6 +263,37 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function deeplyNestedNFormat()
+    {
+        $this->assertEquals('Test FormatterNamedKeywordsTest::nested4NFormat Test', (string) $this->nested1NFormat());
+    }
+
+    protected function nested1NFormat()
+    {
+        return $this->nested2NFormat();
+    }
+
+    protected function nested2NFormat()
+    {
+        return $this->nested3NFormat();
+    }
+
+    protected function nested3NFormat()
+    {
+        return $this->nested4NFormat();
+    }
+
+    protected function nested4NFormat()
+    {
+        $format = 'Test {@method} Test';
+        $res = StringFormatter\nformat($format);
+
+        return $res;
+    }
+
+    /**
+     * @test
+     */
     public function combined()
     {
         $format = 'Test {@dir}:{@file}:{@line}:{@method} Test';
@@ -169,5 +301,16 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
         $res = $fmt->compile(); $line = __LINE__;
         $this->assertEquals("Test tests:FormatterNamedKeywordsTest.php:{$line}:" .
             'FormatterNamedKeywordsTest::combined Test', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function combinedNFormat()
+    {
+        $format = 'Test {@dir}:{@file}:{@line}:{@method} Test';
+        $res = StringFormatter\nformat($format); $line = __LINE__;
+        $this->assertEquals("Test tests:FormatterNamedKeywordsTest.php:{$line}:" .
+            'FormatterNamedKeywordsTest::combinedNFormat Test', (string) $res);
     }
 }

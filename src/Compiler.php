@@ -76,6 +76,13 @@ class Compiler
     protected $trace;
 
     /**
+     * How long trace should be generated.
+     *
+     * @var int
+     */
+    protected $traceLevel;
+
+    /**
      * Mode we are run.
      *
      * @var int one of: Compiler::MODE_NORMAL, Compiler::MODE_NAMED
@@ -104,13 +111,15 @@ class Compiler
      *
      * @param string $format
      * @param array  $params
-     * @param string $mode   Compiler::MODE_*
+     * @param string $mode       Compiler::MODE_
+     * @param int    $traceLevel
      */
-    public function __construct($format, $params, $mode)
+    public function __construct($format, $params, $mode, $traceLevel)
     {
         $this->format = $format;
         $this->params = $params;
         $this->mode = $mode;
+        $this->traceLevel = $traceLevel;
     }
 
     /**
@@ -171,32 +180,34 @@ class Compiler
             $
             /x', $data[1], $match)
         ) {
+            $classIdx = $this->traceLevel - 1;
+            $fileIdx = $this->traceLevel - 2;
             switch ($match[1]) {
                 case 'classLong':
-                    return $this->trace[2]['class'];
+                    return $this->trace[$classIdx]['class'];
                 case 'class':
-                    $cls = explode('\\', $this->trace[2]['class']);
+                    $cls = explode('\\', $this->trace[$classIdx]['class']);
 
                     return end($cls);
                 case 'method':
-                    $cls = explode('\\', $this->trace[2]['class']);
+                    $cls = explode('\\', $this->trace[$classIdx]['class']);
                     $cls = end($cls);
 
-                    return $cls . '::' . $this->trace[2]['function'];
+                    return $cls . '::' . $this->trace[$classIdx]['function'];
                 case 'methodLong':
-                    return $this->trace[2]['class'] . '::' . $this->trace[2]['function'];
+                    return $this->trace[$classIdx]['class'] . '::' . $this->trace[$classIdx]['function'];
                 case 'function':
-                    return $this->trace[2]['function'];
+                    return $this->trace[$classIdx]['function'];
                 case 'file':
-                    return basename($this->trace[1]['file']);
+                    return basename($this->trace[$fileIdx]['file']);
                 case 'fileLong':
-                    return $this->trace[1]['file'];
+                    return $this->trace[$fileIdx]['file'];
                 case 'dir':
-                    return basename(dirname($this->trace[1]['file']));
+                    return basename(dirname($this->trace[$fileIdx]['file']));
                 case 'dirLong':
-                    return dirname($this->trace[1]['file']);
+                    return dirname($this->trace[$fileIdx]['file']);
                 case 'line':
-                    return $this->trace[1]['line'];
+                    return $this->trace[$fileIdx]['line'];
             }
         }
 
@@ -324,7 +335,7 @@ class Compiler
         if (version_compare(PHP_VERSION, '5.4.0', '<')) {
             $this->trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         } else {
-            $this->trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+            $this->trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $this->traceLevel);
         }
 
         $parsed = preg_replace_callback(self::$rxp_token, array($this, 'format_callback'), $this->format);

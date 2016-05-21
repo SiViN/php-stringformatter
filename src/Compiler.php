@@ -187,19 +187,49 @@ class Compiler
             $fileIdx = $this->traceLevel - 2;
             switch ($match[1]) {
                 case 'classLong':
+                    if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['class'])) {
+                        $msg = "Bad usage of @classLong keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
+                        trigger_error($msg, E_USER_WARNING);
+                        return '';
+                    }
+
                     return $this->trace[$classIdx]['class'];
                 case 'class':
+                    if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['class'])) {
+                        $msg = "Bad usage of @class keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
+                        trigger_error($msg, E_USER_WARNING);
+                        return '';
+                    }
+
                     $cls = explode('\\', $this->trace[$classIdx]['class']);
 
                     return end($cls);
                 case 'method':
+                    if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['class'])) {
+                        $msg = "Bad usage of @method keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
+                        trigger_error($msg, E_USER_WARNING);
+                        return '';
+                    }
+
                     $cls = explode('\\', $this->trace[$classIdx]['class']);
                     $cls = end($cls);
 
                     return $cls . '::' . $this->trace[$classIdx]['function'];
                 case 'methodLong':
+                    if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['class'])) {
+                        $msg = "Bad usage of @methodLong keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
+                        trigger_error($msg, E_USER_WARNING);
+                        return '';
+                    }
+
                     return $this->trace[$classIdx]['class'] . '::' . $this->trace[$classIdx]['function'];
                 case 'function':
+                    if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['function'])) {
+                        $msg = "Bad usage of @function keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
+                        trigger_error($msg, E_USER_WARNING);
+                        return '';
+                    }
+
                     return $this->trace[$classIdx]['function'];
                 case 'file':
                     return basename($this->trace[$fileIdx]['file']);

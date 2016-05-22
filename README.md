@@ -6,7 +6,7 @@ StringFormatter
 Current stable version
 ----------------------
 
-0.5.4
+0.6.0
 
 PHP version
 -----------
@@ -267,7 +267,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ChangeLog
 ---------
 
-### (dev)
+### v0.6.0
 
 * many transformers uses Multibyte String module if available
 * added new transformers: `Transformer::regexReplace`, `Transformer::repeat`,

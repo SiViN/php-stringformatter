@@ -230,8 +230,12 @@ class Transformer
      *
      * @return Transformer
      */
-    public function upperWords($delimiters = " \t\r\n\f\v")
+    public function upperWords($delimiters = null)
     {
+        if (is_null($delimiters)) {
+            $delimiters = " \t\r\n\f\v";
+        }
+
         if (
             (version_compare(PHP_VERSION, '5.4.32', '>=') && version_compare(PHP_VERSION, '5.5.0', '<')) ||
             version_compare(PHP_VERSION, '5.5.16', '>=')

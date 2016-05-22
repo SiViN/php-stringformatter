@@ -239,7 +239,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $this->markTestSkipped('not finished yet');
         $src = 'ąbć ćbd ęBĘ';
         $tr = new Transformer($src);
-        $res = $tr->upperWords('UTF-8');
+        $res = $tr->upperWords(null, 'UTF-8');
         $this->assertEquals('Ąbć Ćbd ĘBĘ', (string) $res);
     }
 

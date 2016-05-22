@@ -31,12 +31,34 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function replaceCallback()
+    {
+        $src = 'abcabd';
+        $tr = new Transformer($src);
+        $res = $tr->replace('b', function($from, $trfm) { return strtoupper($from); });
+        $this->assertEquals('aBcaBd', (string) $res);
+    }
+
+    /**
+     * @test
+     */
     public function ireplace()
     {
         $src = 'aBcaBd';
         $tr = new Transformer($src);
         $res = $tr->ireplace('b', 'Z');
         $this->assertEquals('aZcaZd', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function ireplaceCallback()
+    {
+        $src = 'aBcaBd';
+        $tr = new Transformer($src);
+        $res = $tr->ireplace('b', function($from, $trfm) { return strtoupper("!{$from}!"); });
+        $this->assertEquals('a!B!ca!B!d', (string) $res);
     }
 
     /**

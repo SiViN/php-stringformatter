@@ -65,26 +65,42 @@ class Transformer
     /**
      * Wrapper for str_replace.
      *
+     * If $to is callable, it's executed with two args:
+     *  $from - string to replace from
+     *  $trfm - current Transformer instance ($this)
+     *
      * @param string $from
-     * @param string $to
+     * @param string|callable $to
      *
      * @return Transformer
      */
     public function replace($from, $to)
     {
+        if (\is_callable($to)) {
+            $to = $to($from, $this);
+        }
+
         return new static(\str_replace($from, $to, $this->string));
     }
 
     /**
      * Wrapper for str_ireplace.
      *
+     * If $to is callable, it's executed with two args:
+     *  $from - string to replace from
+     *  $trfm - current Transformer instance ($this)
+     *
      * @param string $from
-     * @param string $to
+     * @param string|callable $to
      *
      * @return Transformer
      */
     public function ireplace($from, $to)
     {
+        if (\is_callable($to)) {
+            $to = $to($from, $this);
+        }
+
         return new static(\str_ireplace($from, $to, $this->string));
     }
 

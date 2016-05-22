@@ -130,7 +130,7 @@ class Compiler
      */
     protected function hasKey($key)
     {
-        return ($this->mode == self::MODE_INDEX && $key == '') || array_key_exists($key, $this->params);
+        return ($this->mode == self::MODE_INDEX && $key == '') || \array_key_exists($key, $this->params);
     }
 
     /**
@@ -159,7 +159,7 @@ class Compiler
      */
     protected function formatCallback($data)
     {
-        if (count($data) < 2) {
+        if (\count($data) < 2) {
             return $data[0];
         }
 
@@ -169,12 +169,12 @@ class Compiler
         }
 
         // simple named, explicit placeholder
-        elseif ($this->mode == self::MODE_NAMED && strlen($data[1]) > 0 && $this->hasKey($data[1])) {
+        elseif ($this->mode == self::MODE_NAMED && \strlen($data[1]) > 0 && $this->hasKey($data[1])) {
             return $this->getParam($data[1]);
         }
 
         // keywords
-        elseif (preg_match('
+        elseif (\preg_match('
             /
             ^
                 @
@@ -187,7 +187,7 @@ class Compiler
                     if (!$this->traceClass || !isset($this->traceClass['class'])) {
                         $msg = "Bad usage of @classLong keyword in {$this->traceFile['file']} on " .
                             "line {$this->traceFile['line']} (by m36\\StringFormatter)";
-                        trigger_error($msg, E_USER_WARNING);
+                        \trigger_error($msg, E_USER_WARNING);
 
                         return '';
                     }
@@ -197,32 +197,32 @@ class Compiler
                     if (!$this->traceClass || !isset($this->traceClass['class'])) {
                         $msg = "Bad usage of @class keyword in {$this->traceFile['file']} on " .
                             "line {$this->traceFile['line']} (by m36\\StringFormatter)";
-                        trigger_error($msg, E_USER_WARNING);
+                        \trigger_error($msg, E_USER_WARNING);
 
                         return '';
                     }
 
-                    $cls = explode('\\', $this->traceClass['class']);
+                    $cls = \explode('\\', $this->traceClass['class']);
 
                     return end($cls);
                 case 'method':
                     if (!$this->traceClass || !isset($this->traceClass['class'])) {
                         $msg = "Bad usage of @method keyword in {$this->traceFile['file']} on " .
                             "line {$this->traceFile['line']} (by m36\\StringFormatter)";
-                        trigger_error($msg, E_USER_WARNING);
+                        \trigger_error($msg, E_USER_WARNING);
 
                         return '';
                     }
 
-                    $cls = explode('\\', $this->traceClass['class']);
-                    $cls = end($cls);
+                    $cls = \explode('\\', $this->traceClass['class']);
+                    $cls = \end($cls);
 
                     return $cls . '::' . $this->traceClass['function'];
                 case 'methodLong':
                     if (!$this->traceClass || !isset($this->traceClass['class'])) {
                         $msg = "Bad usage of @methodLong keyword in {$this->traceFile['file']} on " .
                             "line {$this->traceFile['line']} (by m36\\StringFormatter)";
-                        trigger_error($msg, E_USER_WARNING);
+                        \trigger_error($msg, E_USER_WARNING);
 
                         return '';
                     }
@@ -232,27 +232,27 @@ class Compiler
                     if (!$this->traceClass || !isset($this->traceClass['function'])) {
                         $msg = "Bad usage of @function keyword in {$this->traceFile['file']} on " .
                             "line {$this->traceFile['line']} (by m36\\StringFormatter)";
-                        trigger_error($msg, E_USER_WARNING);
+                        \trigger_error($msg, E_USER_WARNING);
 
                         return '';
                     }
 
                     return $this->traceClass['function'];
                 case 'file':
-                    return basename($this->traceFile['file']);
+                    return \basename($this->traceFile['file']);
                 case 'fileLong':
                     return $this->traceFile['file'];
                 case 'dir':
-                    return basename(dirname($this->traceFile['file']));
+                    return \basename(\dirname($this->traceFile['file']));
                 case 'dirLong':
-                    return dirname($this->traceFile['file']);
+                    return \dirname($this->traceFile['file']);
                 case 'line':
                     return $this->traceFile['line'];
             }
         }
 
         // text alignment
-        elseif (preg_match('
+        elseif (\preg_match('
             /
             ^
                 (' . self::$rxp_keys[$this->mode] . ')  # placeholder
@@ -264,16 +264,16 @@ class Compiler
             /x', $data[1], $match) &&
             $this->hasKey($match[1])
         ) {
-            return str_pad(
+            return \str_pad(
                 $this->getParam($match[1]),
                 $match[4],
-                (strlen($match[2]) > 0 ? $match[2] : ' '),
+                (\strlen($match[2]) > 0 ? $match[2] : ' '),
                 static::$matrix__str_pad[$match[3]]
             );
         }
 
         // sprintf pattern
-        elseif (preg_match('
+        elseif (\preg_match('
             /
             ^
                 (' . self::$rxp_keys[$this->mode] . ')  # placeholder
@@ -283,11 +283,11 @@ class Compiler
             /x', $data[1], $match) &&
             $this->hasKey($match[1])
         ) {
-            return vsprintf($match[2], $this->getParam($match[1]));
+            return \vsprintf($match[2], $this->getParam($match[1]));
         }
 
         // call object method or get object property
-        elseif (preg_match('
+        elseif (\preg_match('
             /
             ^
                 (' . self::$rxp_keys[$this->mode] . ')  # placeholder
@@ -298,13 +298,13 @@ class Compiler
             $this->hasKey($match[1])
         ) {
             $param = $this->getParam($match[1]);
-            if (method_exists($param, $match[2])) {
-                return call_user_func(array($param, $match[2]));
-            } elseif (property_exists($param, $match[2])) {
+            if (\method_exists($param, $match[2])) {
+                return \call_user_func(array($param, $match[2]));
+            } elseif (\property_exists($param, $match[2])) {
                 return $param->{$match[2]};
-            } elseif (in_array('__call', get_class_methods($param))) {
-                return call_user_func(array($param, $match[2]));
-            } elseif (in_array('__get', get_class_methods($param))) {
+            } elseif (\in_array('__call', \get_class_methods($param))) {
+                return \call_user_func(array($param, $match[2]));
+            } elseif (\in_array('__get', \get_class_methods($param))) {
                 return $param->{$match[2]};
             } else {
                 return $data[0];
@@ -312,7 +312,7 @@ class Compiler
         }
 
         // converting int to other base
-        elseif (preg_match('
+        elseif (\preg_match('
             /
             ^
             (' . self::$rxp_keys[$this->mode] . ')  # placeholder
@@ -326,24 +326,24 @@ class Compiler
             /x', $data[1], $match) &&
             $this->hasKey($match[1])
         ) {
-            $ret = base_convert(
-                $this->getParam($match[1]),                        // value to convert
+            $ret = \base_convert(
+                $this->getParam($match[1]),                         // value to convert
                 ($match[2] ? $match[2] : 10),                       // source base (defaults to 10)
                 (
-                    is_numeric($match[3])                           // destination base is:
+                    \is_numeric($match[3])                          // destination base is:
                         ? $match[3]                                 // - numeric
                         : self::$matrix__base_convert[$match[3]]    // - or named
                 )
             );
             if ($match[3] == 'X') {
-                $ret = strtoupper($ret);
+                $ret = \strtoupper($ret);
             }
 
             return $ret;
         }
 
         // array index
-        elseif (preg_match('
+        elseif (\preg_match('
             /
             ^
                 (' . self::$rxp_keys[$this->mode] . ')  # placeholder
@@ -353,7 +353,7 @@ class Compiler
             $
             /x', $data[1], $match) &&
             $this->hasKey($match[1]) &&
-            is_array($ret = $this->getParam($match[1])) &&
+            \is_array($ret = $this->getParam($match[1])) &&
             isset($ret[$match[2]])
         ) {
             return $ret[$match[2]];
@@ -363,7 +363,7 @@ class Compiler
         else {
             $msg = "Unknown token found in format: {$data[0]} in {$this->traceFile['file']} on " .
                 "line {$this->traceFile['line']} (by m36\\StringFormatter)";
-            trigger_error($msg, E_USER_WARNING);
+            \trigger_error($msg, E_USER_WARNING);
             return $data[0];
         }
     }
@@ -375,16 +375,16 @@ class Compiler
      */
     public function run()
     {
-        if (version_compare(PHP_VERSION, '5.4.0', '<')) {
-            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        if (\version_compare(PHP_VERSION, '5.4.0', '<')) {
+            $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         } else {
-            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $this->traceLevel);
+            $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $this->traceLevel);
         }
 
         $this->traceClass = isset($trace[$this->traceLevel - 1]) ? $trace[$this->traceLevel - 1] : null;
         $this->traceFile = isset($trace[$this->traceLevel - 2]) ? $trace[$this->traceLevel - 2] : null;
 
-        $parsed = preg_replace_callback(self::$rxp_token, array($this, 'formatCallback'), $this->format);
+        $parsed = \preg_replace_callback(self::$rxp_token, array($this, 'formatCallback'), $this->format);
 
         return $parsed;
     }

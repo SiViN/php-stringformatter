@@ -64,7 +64,7 @@ class FormatterNamed implements IFormatter
         if (is_null($params)) {
             $params = $this->params;
         } elseif ($merge) {
-            $params = array_merge($this->params, $params);
+            $params = \array_merge($this->params, $params);
         }
 
         $compiler = new Compiler($this->format, $params, Compiler::MODE_NAMED, static::TRACE_LEVEL_NORMAL);
@@ -89,10 +89,10 @@ class FormatterNamed implements IFormatter
      */
     public function compileNformat(array $params = null, $merge = true)
     {
-        if (is_null($params)) {
+        if (\is_null($params)) {
             $params = $this->params;
         } elseif ($merge) {
-            $params = array_merge($this->params, $params);
+            $params = \array_merge($this->params, $params);
         }
 
         $compiler = new Compiler($this->format, $params, Compiler::MODE_NAMED, static::TRACE_LEVEL_FUNCTIONAL);

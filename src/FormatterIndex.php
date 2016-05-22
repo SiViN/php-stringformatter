@@ -47,9 +47,9 @@ class FormatterIndex implements IFormatter
     {
         $this->format = $format;
 
-        if (func_num_args() > 1) {
-            $args = func_get_args();
-            array_shift($args);
+        if (\func_num_args() > 1) {
+            $args = \func_get_args();
+            \array_shift($args);
             $this->params = $args;
         }
     }
@@ -65,7 +65,7 @@ class FormatterIndex implements IFormatter
      */
     public function compile()
     {
-        $params = (func_num_args() > 0 ? func_get_args() : $this->params);
+        $params = (\func_num_args() > 0 ? \func_get_args() : $this->params);
 
         $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEX, static::TRACE_LEVEL_NORMAL);
         $string = $compiler->run();
@@ -88,7 +88,7 @@ class FormatterIndex implements IFormatter
      */
     public function compileIformat()
     {
-        $params = (func_num_args() > 0 ? func_get_args() : $this->params);
+        $params = (\func_num_args() > 0 ? \func_get_args() : $this->params);
 
         $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEX, static::TRACE_LEVEL_FUNCTIONAL);
         $string = $compiler->run();

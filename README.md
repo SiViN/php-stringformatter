@@ -195,15 +195,27 @@ There are defined some simple and useful transformers for parsed string:
 `Transformer` is immutable, what means after every transformation it return
 always new instance of itself. 
 
-Some examples:
+Some examples
+-------------
 
+    // assume it's result of $request->query->all() from Symfony
+    $data = ['customerId' => 2, 'customerName' => 'John', 'customerLastName' => 'Wayne', 'age' => 24];
+    echo nformat('[{@file}:{@line}] Incoming data for customerId #{customerId}: first name: {customerName}, ' .
+        'last name: {customerLastName}, age: {age}', $data)->eol();
+    # [example.php:12] Incoming data for customerId #2: first name: John, last name: Wayne, age: 24
+    
+    // fetch data about package from Doctrine
+    $package = $this->em->find(Package::class, $request->get('packageId'));
+    $logger->info(nformat('[{@method}] Package id {packageId} found with data: {package->getName}, {package->getTechnology} created at {package->getCreateDate}', ['packageId' => $request->get('packageId'), 'package' => $package]));
+    # [Example::test] Package id 4 found with data: m36/StringFormatter, php created at 2016-05-19 12:02:16
+    
     $f = new FormatterNamed('{hello}, {name}!', ['hello' => 'Hi']);
     $data = $f->compile(['name' => 'Thomas']);
     echo $data->eol(); # Hi, Thomas!
     echo $data->upper()->eol(); HI, THOMAS! 
     echo $data->lower()->eol(); hi, thomas! 
     echo $data->replace('!', '?')->eol(); Hi, Thomas? 
-    echo $data->replace(['!', ','], ['?', '@'])->eol(); Hi@ Thomas? 
+    echo $data->replace(['!', ','], ['?', '@'])->eol(); Hi@ Thomas?
 
 Installation
 ------------

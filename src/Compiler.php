@@ -69,18 +69,17 @@ class Compiler
     /x';
 
     /**
-     * Result of debug_backtrace().
-     *
-     * @var array
-     */
-    protected $trace;
-
-    /**
      * How long trace should be generated.
      *
      * @var int
      */
     protected $traceLevel;
+
+    /** @var array */
+    protected $traceClass;
+
+    /** @var array */
+    protected $traceFile;
 
     /**
      * Mode we are run.
@@ -183,69 +182,72 @@ class Compiler
             $
             /x', $data[1], $match)
         ) {
-            $classIdx = $this->traceLevel - 1;
-            $fileIdx = $this->traceLevel - 2;
             switch ($match[1]) {
                 case 'classLong':
-                    if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['class'])) {
-                        $msg = "Bad usage of @classLong keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
+                    if (!$this->traceClass || !isset($this->traceClass['class'])) {
+                        $msg = "Bad usage of @classLong keyword in {$this->traceFile['file']} on " .
+                            "line {$this->traceFile['line']} (by m36\\StringFormatter)";
                         trigger_error($msg, E_USER_WARNING);
 
                         return '';
                     }
 
-                    return $this->trace[$classIdx]['class'];
+                    return $this->traceClass['class'];
                 case 'class':
-                    if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['class'])) {
-                        $msg = "Bad usage of @class keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
+                    if (!$this->traceClass || !isset($this->traceClass['class'])) {
+                        $msg = "Bad usage of @class keyword in {$this->traceFile['file']} on " .
+                            "line {$this->traceFile['line']} (by m36\\StringFormatter)";
                         trigger_error($msg, E_USER_WARNING);
 
                         return '';
                     }
 
-                    $cls = explode('\\', $this->trace[$classIdx]['class']);
+                    $cls = explode('\\', $this->traceClass['class']);
 
                     return end($cls);
                 case 'method':
-                    if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['class'])) {
-                        $msg = "Bad usage of @method keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
+                    if (!$this->traceClass || !isset($this->traceClass['class'])) {
+                        $msg = "Bad usage of @method keyword in {$this->traceFile['file']} on " .
+                            "line {$this->traceFile['line']} (by m36\\StringFormatter)";
                         trigger_error($msg, E_USER_WARNING);
 
                         return '';
                     }
 
-                    $cls = explode('\\', $this->trace[$classIdx]['class']);
+                    $cls = explode('\\', $this->traceClass['class']);
                     $cls = end($cls);
 
-                    return $cls . '::' . $this->trace[$classIdx]['function'];
+                    return $cls . '::' . $this->traceClass['function'];
                 case 'methodLong':
-                    if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['class'])) {
-                        $msg = "Bad usage of @methodLong keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
+                    if (!$this->traceClass || !isset($this->traceClass['class'])) {
+                        $msg = "Bad usage of @methodLong keyword in {$this->traceFile['file']} on " .
+                            "line {$this->traceFile['line']} (by m36\\StringFormatter)";
                         trigger_error($msg, E_USER_WARNING);
 
                         return '';
                     }
 
-                    return $this->trace[$classIdx]['class'] . '::' . $this->trace[$classIdx]['function'];
+                    return $this->traceClass['class'] . '::' . $this->traceClass['function'];
                 case 'function':
-                    if (!isset($this->trace[$classIdx]) || !isset($this->trace[$classIdx]['function'])) {
-                        $msg = "Bad usage of @function keyword in {$this->trace[$fileIdx]['file']} on line {$this->trace[$fileIdx]['line']} (by m36\\StringFormatter)";
+                    if (!$this->traceClass || !isset($this->traceClass['function'])) {
+                        $msg = "Bad usage of @function keyword in {$this->traceFile['file']} on " .
+                            "line {$this->traceFile['line']} (by m36\\StringFormatter)";
                         trigger_error($msg, E_USER_WARNING);
 
                         return '';
                     }
 
-                    return $this->trace[$classIdx]['function'];
+                    return $this->traceClass['function'];
                 case 'file':
-                    return basename($this->trace[$fileIdx]['file']);
+                    return basename($this->traceFile['file']);
                 case 'fileLong':
-                    return $this->trace[$fileIdx]['file'];
+                    return $this->traceFile['file'];
                 case 'dir':
-                    return basename(dirname($this->trace[$fileIdx]['file']));
+                    return basename(dirname($this->traceFile['file']));
                 case 'dirLong':
-                    return dirname($this->trace[$fileIdx]['file']);
+                    return dirname($this->traceFile['file']);
                 case 'line':
-                    return $this->trace[$fileIdx]['line'];
+                    return $this->traceFile['line'];
             }
         }
 
@@ -371,10 +373,13 @@ class Compiler
     public function run()
     {
         if (version_compare(PHP_VERSION, '5.4.0', '<')) {
-            $this->trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         } else {
-            $this->trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $this->traceLevel);
+            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $this->traceLevel);
         }
+
+        $this->traceClass = isset($trace[$this->traceLevel - 1]) ? $trace[$this->traceLevel - 1] : null;
+        $this->traceFile = isset($trace[$this->traceLevel - 2]) ? $trace[$this->traceLevel - 2] : null;
 
         $parsed = preg_replace_callback(self::$rxp_token, array($this, 'format_callback'), $this->format);
 

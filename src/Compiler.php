@@ -361,6 +361,9 @@ class Compiler
 
         // unknown token type
         else {
+            $msg = "Unknown token found in format: {$data[0]} in {$this->traceFile['file']} on " .
+                "line {$this->traceFile['line']} (by m36\\StringFormatter)";
+            trigger_error($msg, E_USER_WARNING);
             return $data[0];
         }
     }

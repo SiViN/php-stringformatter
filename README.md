@@ -267,6 +267,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ChangeLog
 ---------
 
+### (dev)
+
+* trigger E_USER_WARNING if token is unknown
+* internal optimizations and cleanups
+
 ### v0.6.0
 
 * many transformers uses Multibyte String module if available

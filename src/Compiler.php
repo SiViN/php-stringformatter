@@ -128,7 +128,7 @@ class Compiler
      *
      * @return bool
      */
-    protected function has_key($key)
+    protected function hasKey($key)
     {
         return ($this->mode == self::MODE_INDEX && $key == '') || array_key_exists($key, $this->params);
     }
@@ -140,7 +140,7 @@ class Compiler
      *
      * @return mixed
      */
-    protected function get_param($key = '')
+    protected function getParam($key = '')
     {
         if ($key === '') {
             $key = $this->pointer++;
@@ -157,20 +157,20 @@ class Compiler
      *
      * @return string
      */
-    protected function format_callback($data)
+    protected function formatCallback($data)
     {
         if (count($data) < 2) {
             return $data[0];
         }
 
         // simple auto or explicit placeholder
-        if ($this->mode == self::MODE_INDEX && $this->has_key($data[1])) {
-            return $this->get_param($data[1]);
+        if ($this->mode == self::MODE_INDEX && $this->hasKey($data[1])) {
+            return $this->getParam($data[1]);
         }
 
         // simple named, explicit placeholder
-        elseif ($this->mode == self::MODE_NAMED && strlen($data[1]) > 0 && $this->has_key($data[1])) {
-            return $this->get_param($data[1]);
+        elseif ($this->mode == self::MODE_NAMED && strlen($data[1]) > 0 && $this->hasKey($data[1])) {
+            return $this->getParam($data[1]);
         }
 
         // keywords
@@ -262,10 +262,10 @@ class Compiler
                 (\d+)                                   # pad length
             $
             /x', $data[1], $match) &&
-            $this->has_key($match[1])
+            $this->hasKey($match[1])
         ) {
             return str_pad(
-                $this->get_param($match[1]),
+                $this->getParam($match[1]),
                 $match[4],
                 (strlen($match[2]) > 0 ? $match[2] : ' '),
                 static::$matrix__str_pad[$match[3]]
@@ -281,9 +281,9 @@ class Compiler
                 (.*)                                    # sprintf pattern
             $
             /x', $data[1], $match) &&
-            $this->has_key($match[1])
+            $this->hasKey($match[1])
         ) {
-            return vsprintf($match[2], $this->get_param($match[1]));
+            return vsprintf($match[2], $this->getParam($match[1]));
         }
 
         // call object method or get object property
@@ -295,9 +295,9 @@ class Compiler
                 (\w+)                                   # keyword (field or method name)
             $
             /x', $data[1], $match) &&
-            $this->has_key($match[1])
+            $this->hasKey($match[1])
         ) {
-            $param = $this->get_param($match[1]);
+            $param = $this->getParam($match[1]);
             if (method_exists($param, $match[2])) {
                 return call_user_func(array($param, $match[2]));
             } elseif (property_exists($param, $match[2])) {
@@ -324,10 +324,10 @@ class Compiler
             ([dxXob]|\d\d?)                         # destination base
             $
             /x', $data[1], $match) &&
-            $this->has_key($match[1])
+            $this->hasKey($match[1])
         ) {
             $ret = base_convert(
-                $this->get_param($match[1]),                        // value to convert
+                $this->getParam($match[1]),                        // value to convert
                 ($match[2] ? $match[2] : 10),                       // source base (defaults to 10)
                 (
                     is_numeric($match[3])                           // destination base is:
@@ -352,14 +352,14 @@ class Compiler
                 \]                                      # closing square bracket
             $
             /x', $data[1], $match) &&
-            $this->has_key($match[1]) &&
-            is_array($ret = $this->get_param($match[1])) &&
+            $this->hasKey($match[1]) &&
+            is_array($ret = $this->getParam($match[1])) &&
             isset($ret[$match[2]])
         ) {
             return $ret[$match[2]];
         }
 
-        // unknown token type
+        // unknown token
         else {
             $msg = "Unknown token found in format: {$data[0]} in {$this->traceFile['file']} on " .
                 "line {$this->traceFile['line']} (by m36\\StringFormatter)";
@@ -384,7 +384,7 @@ class Compiler
         $this->traceClass = isset($trace[$this->traceLevel - 1]) ? $trace[$this->traceLevel - 1] : null;
         $this->traceFile = isset($trace[$this->traceLevel - 2]) ? $trace[$this->traceLevel - 2] : null;
 
-        $parsed = preg_replace_callback(self::$rxp_token, array($this, 'format_callback'), $this->format);
+        $parsed = preg_replace_callback(self::$rxp_token, array($this, 'formatCallback'), $this->format);
 
         return $parsed;
     }

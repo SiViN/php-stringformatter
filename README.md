@@ -212,10 +212,10 @@ Some examples
     $f = new FormatterNamed('{hello}, {name}!', ['hello' => 'Hi']);
     $data = $f->compile(['name' => 'Thomas']);
     echo $data->eol(); # Hi, Thomas!
-    echo $data->upper()->eol(); HI, THOMAS! 
-    echo $data->lower()->eol(); hi, thomas! 
-    echo $data->replace('!', '?')->eol(); Hi, Thomas? 
-    echo $data->replace(['!', ','], ['?', '@'])->eol(); Hi@ Thomas?
+    echo $data->upper()->eol(); # HI, THOMAS!
+    echo $data->lower()->eol(); # hi, thomas!
+    echo $data->replace('!', '?')->eol(); # Hi, Thomas?
+    echo $data->replace(['!', ','], ['?', '@'])->eol(); # Hi@ Thomas?
 
 Installation
 ------------

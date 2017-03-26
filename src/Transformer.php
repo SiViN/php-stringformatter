@@ -216,7 +216,7 @@ class Transformer
 
         $string = \mb_strtoupper(\mb_substr($this->string, 0, 1, $encoding), $encoding);
 
-        return new static($string . \mb_substr($this->string, 1, null, $encoding));
+        return new static($string . \mb_substr($this->string, 1, \mb_strlen($this->string, $encoding), $encoding));
     }
 
     /**
@@ -236,7 +236,7 @@ class Transformer
 
         $string = \mb_strtolower(\mb_substr($this->string, 0, 1, $encoding), $encoding);
 
-        return new static($string . \mb_substr($this->string, 1, null, $encoding));
+        return new static($string . \mb_substr($this->string, 1, \mb_strlen($this->string, $encoding), $encoding));
     }
 
     /**
@@ -292,6 +292,11 @@ class Transformer
         }
 
         $encoding = $this->encoding($encoding);
+
+        // workaround for php < 5.4.8
+        if (is_null($length)) {
+            $length = \mb_strlen($this->string, $encoding);
+        }
 
         return $this->transform('\mb_substr', $start, $length, $encoding);
     }
@@ -428,7 +433,7 @@ class Transformer
             $encoding = $this->encoding($encoding);
 
             $len = \mb_strlen($substring, $encoding);
-            if (\mb_substr($this->string, -$len, null, $encoding) == $substring) {
+            if (\mb_substr($this->string, -$len, \mb_strlen($this->string, $encoding), $encoding) == $substring) {
                 return $this;
             }
         }

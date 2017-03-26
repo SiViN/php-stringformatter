@@ -348,7 +348,7 @@ class Transformer
      */
     public function squashWhitechars()
     {
-        return $this->regexReplace('/[[:space:]]+/', ' ')->strip();
+        return $this->regexReplace('/[[:space:]]+/u', ' ')->strip();
     }
 
     /**

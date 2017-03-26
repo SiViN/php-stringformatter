@@ -269,10 +269,10 @@ ChangeLog
 
 ### (dev)
 
-* trigger E_USER_WARNING if token is unknown
 * for transformers `Transformer::replace` and `Transformer::ireplace`
     second parameter (`$to`) can be a callable (like for
     `Transformer::regexpReplace`)
+* trigger E_USER_WARNING if token is unknown
 * internal optimizations and cleanups
 
 ### v0.6.0

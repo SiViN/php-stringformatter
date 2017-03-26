@@ -381,11 +381,8 @@ class Compiler
             $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $this->traceLevel);
         }
 
-        $finish = false;
-        $traceClass = null;
-        $traceFile = null;
         foreach ($trace as $traceItem) {
-            if ($finish) {
+            if ($this->traceFile) {
                 $this->traceClass = $traceItem;
                 break;
             }
@@ -395,14 +392,12 @@ class Compiler
                 in_array($traceItem['function'], ['m36\StringFormatter\iformat', 'm36\StringFormatter\nformat'])
             ) {
                 $this->traceFile = $traceItem;
-                $finish = true;
             }
             else if (
                 $traceItem['function'] == 'compile' &&
                 in_array($traceItem['class'], array('m36\StringFormatter\FormatterIndex', 'm36\StringFormatter\FormatterNamed'))
             ) {
                 $this->traceFile = $traceItem;
-                $finish = true;
             }
         }
 

@@ -273,6 +273,7 @@ ChangeLog
     second parameter (`$to`) can be a callable (like for
     `Transformer::regexpReplace`)
 * trigger E_USER_WARNING if token is unknown
+* many improvements for older PHP versions
 * internal optimizations and cleanups
 
 ### v0.6.0

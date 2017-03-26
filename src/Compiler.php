@@ -389,7 +389,7 @@ class Compiler
 
             if (
                 !isset($traceItem['class']) &&
-                in_array($traceItem['function'], ['m36\StringFormatter\iformat', 'm36\StringFormatter\nformat'])
+                in_array($traceItem['function'], array('m36\StringFormatter\iformat', 'm36\StringFormatter\nformat'))
             ) {
                 $this->traceFile = $traceItem;
             }

@@ -381,8 +381,30 @@ class Compiler
             $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $this->traceLevel);
         }
 
-        $this->traceClass = isset($trace[$this->traceLevel - 1]) ? $trace[$this->traceLevel - 1] : null;
-        $this->traceFile = isset($trace[$this->traceLevel - 2]) ? $trace[$this->traceLevel - 2] : null;
+        $finish = false;
+        $traceClass = null;
+        $traceFile = null;
+        foreach ($trace as $traceItem) {
+            if ($finish) {
+                $this->traceClass = $traceItem;
+                break;
+            }
+
+            if (
+                !isset($traceItem['class']) &&
+                in_array($traceItem['function'], ['m36\StringFormatter\iformat', 'm36\StringFormatter\nformat'])
+            ) {
+                $this->traceFile = $traceItem;
+                $finish = true;
+            }
+            else if (
+                $traceItem['function'] == 'compile' &&
+                in_array($traceItem['class'], array('m36\StringFormatter\FormatterIndex', 'm36\StringFormatter\FormatterNamed'))
+            ) {
+                $this->traceFile = $traceItem;
+                $finish = true;
+            }
+        }
 
         $parsed = \preg_replace_callback(self::$rxp_token, array($this, 'formatCallback'), $this->format);
 

@@ -35,7 +35,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     {
         $src = 'abcabd';
         $tr = new Transformer($src);
-        $res = $tr->replace('b', function($from, $trfm) { return strtoupper($from); });
+        $res = $tr->replace('b', function ($from, $trfm) { return strtoupper($from); });
         $this->assertEquals('aBcaBd', (string) $res);
     }
 
@@ -57,7 +57,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     {
         $src = 'aBcaBd';
         $tr = new Transformer($src);
-        $res = $tr->ireplace('b', function($from, $trfm) { return strtoupper("!{$from}!"); });
+        $res = $tr->ireplace('b', function ($from, $trfm) { return strtoupper("!{$from}!"); });
         $this->assertEquals('a!B!ca!B!d', (string) $res);
     }
 

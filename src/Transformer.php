@@ -281,6 +281,7 @@ class Transformer
      *
      * @param $start
      * @param int|null $length
+     * @param string|null $encoding
      *
      * @return Transformer
      */

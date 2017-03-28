@@ -181,6 +181,46 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
         $res = StringFormatter\iformatl($format, $adj, $char);
         $this->assertEquals($expected, (string) $res);
     }
+
+    /**
+     * @test
+     */
+    public function compiledTwiceChangedProperty()
+    {
+        $format = 'Some {0->property}, some {0->method}';
+        $data = new TestIndexStringFormatter();
+        $expected = "Some {$data->property}, some {$data->method()}";
+
+        $res = StringFormatter\iformat($format, array($data));
+
+        $res2 = $res->unfold();
+        $this->assertEquals($expected, (string) $res2);
+
+        $data->property = 'changed property';
+
+        $res2 = $res->unfold();
+        $this->assertEquals($expected, (string) $res2);
+    }
+
+    /**
+     * @test
+     */
+    public function compiledTwiceChangedModifiers()
+    {
+        $format = 'Some {0->property}, some {0->method}';
+        $data = new TestIndexStringFormatter();
+        $expected = "Some {$data->property}, some {$data->method()}";
+
+        $res = StringFormatter\iformat($format, array($data));
+
+        $res2 = $res->eol()->unfold();
+        $this->assertEquals($expected . PHP_EOL, (string) $res2);
+
+        $data->property = 'changed property';
+
+        $res2 = $res->lower()->unfold();
+        $this->assertEquals(mb_strtolower($expected), (string) $res2);
+    }
 }
 
 class TestIndexStringFormatter

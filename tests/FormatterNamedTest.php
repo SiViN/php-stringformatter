@@ -172,6 +172,46 @@ class FormatterNamedTest extends \PHPUnit_Framework_TestCase
         $res = StringFormatter\nformat($format, array('adj' => $adj, 'char' => $char));
         $this->assertEquals($expected, (string) $res);
     }
+
+    /**
+     * @test
+     */
+    public function compiledTwiceChangedProperty()
+    {
+        $format = 'Some {data->property}, some {data->method}';
+        $data = new TestNamedStringFormatter();
+        $expected = "Some {$data->property}, some {$data->method()}";
+
+        $res = StringFormatter\nformat($format, array('data' => $data));
+
+        $res2 = $res->unfold();
+        $this->assertEquals($expected, (string) $res2);
+
+        $data->property = 'changed property';
+
+        $res2 = $res->unfold();
+        $this->assertEquals($expected, (string) $res2);
+    }
+
+    /**
+     * @test
+     */
+    public function compiledTwiceChangedModifiers()
+    {
+        $format = 'Some {data->property}, some {data->method}';
+        $data = new TestNamedStringFormatter();
+        $expected = "Some {$data->property}, some {$data->method()}";
+
+        $res = StringFormatter\nformat($format, array('data' => $data));
+
+        $res2 = $res->eol()->unfold();
+        $this->assertEquals($expected . PHP_EOL, (string) $res2);
+
+        $data->property = 'changed property';
+
+        $res2 = $res->lower()->unfold();
+        $this->assertEquals(mb_strtolower($expected), (string) $res2);
+    }
 }
 
 class TestNamedStringFormatter

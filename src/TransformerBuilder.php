@@ -20,6 +20,11 @@ class TransformerBuilder
     /** @var Compiler  */
     protected $input;
 
+    /**
+     * TransformerBuilder constructor.
+     *
+     * @param Compiler $input
+     */
     public function __construct(Compiler $input)
     {
         $this->input = $input;

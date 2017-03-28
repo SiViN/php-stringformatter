@@ -14,9 +14,8 @@
 namespace m36\StringFormatter;
 
 /**
- * Class Compiler
+ * Class Compiler.
  *
- * @package m36\StringFormatter
  * @internal
  */
 class Compiler

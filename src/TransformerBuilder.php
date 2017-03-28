@@ -15,9 +15,9 @@ namespace m36\StringFormatter;
 
 class TransformerBuilder
 {
-    /** @var array  */
+    /** @var array */
     protected $modifiers = array();
-    /** @var Compiler  */
+    /** @var Compiler */
     protected $input;
     /** @var string */
     protected $unfolded;
@@ -398,6 +398,7 @@ class TransformerBuilder
             }
             $this->unfolded = (string) $transformer;
         }
+
         return $this->unfolded;
     }
 

@@ -24,7 +24,7 @@ class Compiler
     const MODE_INDEX = 'index';
     const MODE_NAMED = 'named';
 
-    const TRACE_LEVEL_MAX = 5;
+    const TRACE_LEVEL_MAX = 6;
 
     /**
      * Matrix for mapping string suffixes to values provided for base_convert function.

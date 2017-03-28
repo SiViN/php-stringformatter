@@ -24,6 +24,8 @@ class Compiler
     const MODE_INDEX = 'index';
     const MODE_NAMED = 'named';
 
+    const TRACE_LEVEL_MAX = 5;
+
     /**
      * Matrix for mapping string suffixes to values provided for base_convert function.
      *
@@ -74,13 +76,6 @@ class Compiler
         \}              # closing brace
     /x';
 
-    /**
-     * How long trace should be generated.
-     *
-     * @var int
-     */
-    protected $traceLevel;
-
     /** @var array */
     protected $traceClass;
 
@@ -117,14 +112,12 @@ class Compiler
      * @param string $format
      * @param array  $params
      * @param string $mode       Compiler::MODE_
-     * @param int    $traceLevel
      */
-    public function __construct($format, $params, $mode, $traceLevel)
+    public function __construct($format, $params, $mode)
     {
         $this->format = $format;
         $this->params = $params;
         $this->mode = $mode;
-        $this->traceLevel = $traceLevel;
     }
 
     /**
@@ -385,7 +378,7 @@ class Compiler
         if (\version_compare(PHP_VERSION, '5.4.0', '<')) {
             $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         } else {
-            $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $this->traceLevel);
+            $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, static::TRACE_LEVEL_MAX);
         }
 
         foreach ($trace as $traceItem) {

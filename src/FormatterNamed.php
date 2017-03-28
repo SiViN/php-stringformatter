@@ -30,16 +30,6 @@ class FormatterNamed implements IFormatter
     protected $params = array();
 
     /**
-     * Trace level for OO API - internal use.
-     */
-    const TRACE_LEVEL_NORMAL = 3;
-
-    /**
-     * Trace level for functional API - internal use.
-     */
-    const TRACE_LEVEL_FUNCTIONAL = 4;
-
-    /**
      * @param string $format format to compile
      * @param array  $params parameters used to format given string
      */
@@ -67,7 +57,7 @@ class FormatterNamed implements IFormatter
             $params = \array_merge($this->params, $params);
         }
 
-        $compiler = new Compiler($this->format, $params, Compiler::MODE_NAMED, static::TRACE_LEVEL_NORMAL);
+        $compiler = new Compiler($this->format, $params, Compiler::MODE_NAMED);
         $string = $compiler->run();
 
         return new Transformer($string);
@@ -95,7 +85,7 @@ class FormatterNamed implements IFormatter
             $params = \array_merge($this->params, $params);
         }
 
-        $compiler = new Compiler($this->format, $params, Compiler::MODE_NAMED, static::TRACE_LEVEL_FUNCTIONAL);
+        $compiler = new Compiler($this->format, $params, Compiler::MODE_NAMED);
         $string = $compiler->run();
 
         return new Transformer($string);

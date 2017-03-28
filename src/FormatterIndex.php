@@ -30,16 +30,6 @@ class FormatterIndex implements IFormatter
     protected $params = array();
 
     /**
-     * Trace level for OO API - internal use.
-     */
-    const TRACE_LEVEL_NORMAL = 3;
-
-    /**
-     * Trace level for functional API - internal use.
-     */
-    const TRACE_LEVEL_FUNCTIONAL = 5;
-
-    /**
      * @param string   $format format to compile
      * @param ...mixed $params parameters used to format given string
      */
@@ -67,7 +57,7 @@ class FormatterIndex implements IFormatter
     {
         $params = (\func_num_args() > 0 ? \func_get_args() : $this->params);
 
-        $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEX, static::TRACE_LEVEL_NORMAL);
+        $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEX);
         $string = $compiler->run();
 
         return new Transformer($string);
@@ -90,7 +80,7 @@ class FormatterIndex implements IFormatter
     {
         $params = (\func_num_args() > 0 ? \func_get_args() : $this->params);
 
-        $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEX, static::TRACE_LEVEL_FUNCTIONAL);
+        $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEX);
         $string = $compiler->run();
 
         return new Transformer($string);

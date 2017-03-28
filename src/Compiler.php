@@ -131,42 +131,29 @@ class Compiler
         } else {
             $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, static::TRACE_LEVEL_MAX);
         }
+        $trace = array_reverse($trace);
 
+        $tracePrevious = null;
         foreach ($trace as $itemIdx => $traceItem) {
             if ($this->traceFile) {
-                $this->traceClass = $traceItem;
+                $this->traceClass = $tracePrevious;
                 break;
             }
 
             if (
-                in_array($traceItem['function'], array('m36\StringFormatter\iformat', 'm36\StringFormatter\iformatl', 'm36\StringFormatter\nformat')) &&
-                !isset($traceItem['class'])
+                !isset($traceItem['class']) &&
+                in_array($traceItem['function'], array('m36\StringFormatter\iformat', 'm36\StringFormatter\iformatl', 'm36\StringFormatter\nformat'))
             ) {
                 $this->traceFile = $traceItem;
-            } else if (
-                $traceItem['function'] == 'compile' &&
-                in_array($traceItem['class'], array('m36\StringFormatter\FormatterIndex', 'm36\StringFormatter\FormatterNamed'))
+            }
+            else if (
+                isset($traceItem['function']) && $traceItem['function'] == 'compile' &&
+                isset($traceItem['class']) && in_array($traceItem['class'], array('m36\StringFormatter\FormatterIndex', 'm36\StringFormatter\FormatterNamed'))
             ) {
                 $this->traceFile = $traceItem;
-            } else if (
-                $traceItem['function'] == 'unfold' &&
-                $traceItem['class'] == 'm36\StringFormatter\TransformerBuilder'
-            ) {
-                if (
-                    isset($trace[$itemIdx + 1]) &&
-                    $trace[$itemIdx + 1]['function'] == '__toString' &&
-                    $traceItem['class'] == 'm36\StringFormatter\TransformerBuilder'
-                ) {
-                    // pass
-                } else {
-                    $this->traceFile = $traceItem;
-                }
-
-            } else if (
-                $traceItem['function'] == '__toString' &&
-                $traceItem['class'] == 'm36\StringFormatter\TransformerBuilder'
-            ) {
-                $this->traceFile = $traceItem;
+            }
+            else {
+                $tracePrevious = $traceItem;
             }
         }
     }

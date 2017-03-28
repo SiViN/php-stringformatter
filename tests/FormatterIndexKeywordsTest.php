@@ -214,7 +214,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@line} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->compile(); $line = __LINE__;
+        $res = $fmt->compile()->unfold(); $line = __LINE__;
         $this->assertEquals('Test ' . $line . ' Test', (string) $res);
     }
 
@@ -224,7 +224,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     public function keywordLineIFormat()
     {
         $format = 'Test {@line} Test';
-        $res = StringFormatter\iformat($format); $line = __LINE__;
+        $res = StringFormatter\iformat($format)->unfold(); $line = __LINE__;
         $this->assertEquals('Test ' . $line . ' Test', (string) $res);
     }
 
@@ -255,7 +255,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@method} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->compile();
+        $res = $fmt->compile()->unfold();
 
         return $res;
     }
@@ -286,7 +286,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     protected function nested4IFormat()
     {
         $format = 'Test {@method} Test';
-        $res = StringFormatter\iformat($format);
+        $res = StringFormatter\iformat($format)->unfold();
 
         return $res;
     }
@@ -298,7 +298,7 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@dir}:{@file}:{@line}:{@method} Test';
         $fmt = new FormatterIndex($format);
-        $res = $fmt->compile(); $line = __LINE__;
+        $res = $fmt->compile()->unfold(); $line = __LINE__;
         $this->assertEquals("Test tests:FormatterIndexKeywordsTest.php:{$line}:" .
             'FormatterIndexKeywordsTest::combined Test', (string) $res);
     }
@@ -309,8 +309,25 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     public function combinedIFormat()
     {
         $format = 'Test {@dir}:{@file}:{@line}:{@method} Test';
-        $res = StringFormatter\iformat($format); $line = __LINE__;
+        $res = StringFormatter\iformat($format)->unfold(); $line = __LINE__;
         $this->assertEquals("Test tests:FormatterIndexKeywordsTest.php:{$line}:" .
             'FormatterIndexKeywordsTest::combinedIFormat Test', (string) $res);
+    }
+
+    /**
+     * @test
+     */
+    public function compiledTwice()
+    {
+        $format = 'Test {@dir}:{@file}:{@line}:{@method} Test';
+        $res = StringFormatter\iformat($format);
+
+        $res2 = $res->unfold(); $line = __LINE__;
+        $this->assertEquals("Test tests:FormatterIndexKeywordsTest.php:{$line}:" .
+            'FormatterIndexKeywordsTest::compiledTwice Test', (string) $res2);
+
+        $res2 = $res->unfold(); $line = __LINE__;
+        $this->assertEquals("Test tests:FormatterIndexKeywordsTest.php:{$line}:" .
+            'FormatterIndexKeywordsTest::compiledTwice Test', (string) $res2);
     }
 }

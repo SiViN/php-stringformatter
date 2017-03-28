@@ -121,6 +121,22 @@ class Compiler
     }
 
     /**
+     * @return string
+     */
+    public function getFormat()
+    {
+        return $this->format;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    /**
      * Helper function - test for existence of key in given parameters.
      *
      * @param string|int $key
@@ -375,21 +391,25 @@ class Compiler
      */
     public function run()
     {
+        $this->pointer = 0;
+        $this->traceClass = null;
+        $this->traceFile = null;
+
         if (\version_compare(PHP_VERSION, '5.4.0', '<')) {
             $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         } else {
             $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, static::TRACE_LEVEL_MAX);
         }
 
-        foreach ($trace as $traceItem) {
+        foreach ($trace as $itemIdx => $traceItem) {
             if ($this->traceFile) {
                 $this->traceClass = $traceItem;
                 break;
             }
 
             if (
-                !isset($traceItem['class']) &&
-                in_array($traceItem['function'], array('m36\StringFormatter\iformat', 'm36\StringFormatter\nformat'))
+                in_array($traceItem['function'], array('m36\StringFormatter\iformat', 'm36\StringFormatter\nformat')) &&
+                !isset($traceItem['class'])
             ) {
                 $this->traceFile = $traceItem;
             }
@@ -399,9 +419,31 @@ class Compiler
             ) {
                 $this->traceFile = $traceItem;
             }
+            else if (
+                $traceItem['function'] == 'unfold' &&
+                $traceItem['class'] == 'm36\StringFormatter\TransformerBuilder'
+            ) {
+                if (
+                    isset($trace[$itemIdx + 1]) &&
+                    $trace[$itemIdx + 1]['function'] == '__toString' &&
+                    $traceItem['class'] == 'm36\StringFormatter\TransformerBuilder'
+                ) {
+                    // pass
+                }
+                else {
+                    $this->traceFile = $traceItem;
+                }
+
+            }
+            else if (
+                $traceItem['function'] == '__toString' &&
+                $traceItem['class'] == 'm36\StringFormatter\TransformerBuilder'
+            ) {
+                $this->traceFile = $traceItem;
+            }
         }
 
-        $parsed = \preg_replace_callback(self::$rxp_token, array($this, 'formatCallback'), $this->format);
+        $parsed = \preg_replace_callback(static::$rxp_token, array($this, 'formatCallback'), $this->format);
 
         return $parsed;
     }

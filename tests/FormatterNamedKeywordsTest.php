@@ -214,7 +214,7 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@line} Test';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->compile(); $line = __LINE__;
+        $res = $fmt->compile()->unfold(); $line = __LINE__;
         $this->assertEquals('Test ' . $line . ' Test', (string) $res);
     }
 
@@ -224,7 +224,7 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
     public function keywordLineNFormat()
     {
         $format = 'Test {@line} Test';
-        $res = StringFormatter\nformat($format); $line = __LINE__;
+        $res = StringFormatter\nformat($format)->unfold(); $line = __LINE__;
         $this->assertEquals('Test ' . $line . ' Test', (string) $res);
     }
 
@@ -255,7 +255,7 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@method} Test';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->compile();
+        $res = $fmt->compile()->unfold();
 
         return $res;
     }
@@ -286,7 +286,7 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
     protected function nested4NFormat()
     {
         $format = 'Test {@method} Test';
-        $res = StringFormatter\nformat($format);
+        $res = StringFormatter\nformat($format)->unfold();
 
         return $res;
     }
@@ -298,7 +298,7 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
     {
         $format = 'Test {@dir}:{@file}:{@line}:{@method} Test';
         $fmt = new FormatterNamed($format);
-        $res = $fmt->compile(); $line = __LINE__;
+        $res = $fmt->compile()->unfold(); $line = __LINE__;
         $this->assertEquals("Test tests:FormatterNamedKeywordsTest.php:{$line}:" .
             'FormatterNamedKeywordsTest::combined Test', (string) $res);
     }
@@ -309,7 +309,7 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
     public function combinedNFormat()
     {
         $format = 'Test {@dir}:{@file}:{@line}:{@method} Test';
-        $res = StringFormatter\nformat($format); $line = __LINE__;
+        $res = StringFormatter\nformat($format)->unfold(); $line = __LINE__;
         $this->assertEquals("Test tests:FormatterNamedKeywordsTest.php:{$line}:" .
             'FormatterNamedKeywordsTest::combinedNFormat Test', (string) $res);
     }

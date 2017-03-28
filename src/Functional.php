@@ -27,7 +27,7 @@ namespace m36\StringFormatter;
  * @param string $format
  * @param array  $params parameters used to fill placeholders
  *
- * @return Transformer
+ * @return TransformerBuilder
  */
 function iformat($format, $params = array())
 {
@@ -50,7 +50,7 @@ function iformat($format, $params = array())
  * @param string $format
  * @param array  $params parameters used to fill placeholders
  *
- * @return Transformer
+ * @return TransformerBuilder
  */
 function iformatl($format)
 {
@@ -76,7 +76,7 @@ function iformatl($format)
  * @param string $format
  * @param array  $params parameters used to fill placeholders
  *
- * @return Transformer
+ * @return TransformerBuilder
  */
 function nformat($format, $params = array())
 {

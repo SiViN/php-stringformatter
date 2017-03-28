@@ -47,7 +47,7 @@ class FormatterNamed implements IFormatter
      * @param array $params parameters used to format given string
      * @param bool  $merge  if true, params passed in constructor are merged with this given to FormatterNamed::compile
      *
-     * @return Transformer
+     * @return TransformerBuilder
      */
     public function compile(array $params = null, $merge = true)
     {
@@ -58,9 +58,8 @@ class FormatterNamed implements IFormatter
         }
 
         $compiler = new Compiler($this->format, $params, Compiler::MODE_NAMED);
-        $string = $compiler->run();
 
-        return new Transformer($string);
+        return new TransformerBuilder($compiler);
     }
 
     /**
@@ -75,7 +74,7 @@ class FormatterNamed implements IFormatter
      *
      * @internal
      *
-     * @return Transformer
+     * @return TransformerBuilder
      */
     public function compileNformat(array $params = null, $merge = true)
     {
@@ -86,9 +85,8 @@ class FormatterNamed implements IFormatter
         }
 
         $compiler = new Compiler($this->format, $params, Compiler::MODE_NAMED);
-        $string = $compiler->run();
 
-        return new Transformer($string);
+        return new TransformerBuilder($compiler);
     }
 
     public function __toString()

@@ -51,16 +51,15 @@ class FormatterIndex implements IFormatter
      *
      * @param ...mixed $params parameters used to format given string
      *
-     * @return Transformer
+     * @return TransformerBuilder
      */
     public function compile()
     {
         $params = (\func_num_args() > 0 ? \func_get_args() : $this->params);
 
         $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEX);
-        $string = $compiler->run();
 
-        return new Transformer($string);
+        return new TransformerBuilder($compiler);
     }
 
     /**
@@ -74,16 +73,15 @@ class FormatterIndex implements IFormatter
      *
      * @internal
      *
-     * @return Transformer
+     * @return TransformerBuilder
      */
     public function compileIformat()
     {
         $params = (\func_num_args() > 0 ? \func_get_args() : $this->params);
 
         $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEX);
-        $string = $compiler->run();
 
-        return new Transformer($string);
+        return new TransformerBuilder($compiler);
     }
 
     public function __toString()

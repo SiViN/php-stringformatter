@@ -528,4 +528,16 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $res = $tr->suffix('ALA');
         $this->assertEquals('abcALA', (string) $res);
     }
+
+    /**
+     * @test
+     */
+    public function surround()
+    {
+        $src = 'abc';
+        $tr = new Transformer($src);
+
+        $res = $tr->surround('ALA');
+        $this->assertEquals('ALAabcALA', (string) $res);
+    }
 }

@@ -466,6 +466,18 @@ class Transformer
     }
 
     /**
+     * Append some string to the beginning and to the end.
+     *
+     * @param string $string
+     *
+     * @return $this
+     */
+    public function surround($string)
+    {
+        return new static($string . $this->string . $string);
+    }
+
+    /**
      * Adds PHP_EOL to the end of string.
      *
      * @return Transformer

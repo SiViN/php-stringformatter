@@ -320,13 +320,13 @@ class FormatterIndexKeywordsTest extends \PHPUnit_Framework_TestCase
     public function compiledTwice()
     {
         $format = 'Test {@dir}:{@file}:{@line}:{@method} Test';
-        $res = StringFormatter\iformat($format);
+        $res = StringFormatter\iformat($format); $line = __LINE__;
 
-        $res2 = $res->unfold(); $line = __LINE__;
+        $res2 = $res->unfold();
         $this->assertEquals("Test tests:FormatterIndexKeywordsTest.php:{$line}:" .
             'FormatterIndexKeywordsTest::compiledTwice Test', (string) $res2);
 
-        $res2 = $res->unfold(); $line = __LINE__;
+        $res2 = $res->unfold();
         $this->assertEquals("Test tests:FormatterIndexKeywordsTest.php:{$line}:" .
             'FormatterIndexKeywordsTest::compiledTwice Test', (string) $res2);
     }

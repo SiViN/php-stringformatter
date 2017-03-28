@@ -41,12 +41,17 @@ class TransformerBuilder
     /**
      * @param string $name modifier name
      * @param array $args modifier arguments
-     * @return $this
+     * @return TransformerBuilder
      */
     protected function addModifier($name, $args)
     {
-        $this->modifiers[] = array('name' => $name, 'args' => $args);
-        return $this;
+        $modifiers = $this->modifiers;
+        $modifiers[] = array('name' => $name, 'args' => $args);
+
+        $ret = new static($this->getInput());
+        $ret->modifiers = $modifiers;
+
+        return $ret;
     }
 
     /**
@@ -56,13 +61,11 @@ class TransformerBuilder
      * @param mixed    $fn     callable in any format recognized by call_user_func_array
      * @param ...mixed $params params for $fn
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function transform()
     {
-        $args = \func_get_args();
-        $this->addModifier('transform', $args);
-        return $this;
+        return $this->addModifier('transform', \func_get_args());
     }
 
     /**
@@ -75,12 +78,11 @@ class TransformerBuilder
      * @param string $from
      * @param string|callable $to
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function replace($from, $to)
     {
-        $this->addModifier('replace', array($from, $to));
-        return $this;
+        return $this->addModifier('replace', array($from, $to));
     }
 
     /**
@@ -93,12 +95,11 @@ class TransformerBuilder
      * @param string $from
      * @param string|callable $to
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function ireplace($from, $to)
     {
-        $this->addModifier('ireplace', array($from, $to));
-        return $this;
+        return $this->addModifier('ireplace', array($from, $to));
     }
 
     /**
@@ -109,12 +110,11 @@ class TransformerBuilder
      * @param string $replacement
      * @param int    $limit
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function regexReplace($pattern, $replacement, $limit = -1)
     {
-        $this->addModifier('regexReplace', array($pattern, $replacement, $limit));
-        return $this;
+        return $this->addModifier('regexReplace', array($pattern, $replacement, $limit));
     }
 
     /**
@@ -122,12 +122,11 @@ class TransformerBuilder
      *
      * @param string $charmask
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function strip($charmask = " \t\n\r\0\x0B")
     {
-        $this->addModifier('strip', array($charmask));
-        return $this;
+        return $this->addModifier('strip', array($charmask));
     }
 
     /**
@@ -135,12 +134,11 @@ class TransformerBuilder
      *
      * @param string $charmask
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function lstrip($charmask = " \t\n\r\0\x0B")
     {
-        $this->addModifier('lstrip', array($charmask));
-        return $this;
+        return $this->addModifier('lstrip', array($charmask));
     }
 
     /**
@@ -148,12 +146,11 @@ class TransformerBuilder
      *
      * @param string $charmask
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function rstrip($charmask = " \t\n\r\0\x0B")
     {
-        $this->addModifier('rstrip', array($charmask));
-        return $this;
+        return $this->addModifier('rstrip', array($charmask));
     }
 
     /**
@@ -161,12 +158,11 @@ class TransformerBuilder
      *
      * @param string|null $encoding
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function upper($encoding = null)
     {
-        $this->addModifier('upper', array($encoding));
-        return $this;
+        return $this->addModifier('upper', array($encoding));
     }
 
     /**
@@ -174,12 +170,11 @@ class TransformerBuilder
      *
      * @param string|null $encoding
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function lower($encoding = null)
     {
-        $this->addModifier('lower', array($encoding));
-        return $this;
+        return $this->addModifier('lower', array($encoding));
     }
 
     /**
@@ -187,12 +182,11 @@ class TransformerBuilder
      *
      * @param string|null $encoding
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function upperFirst($encoding = null)
     {
-        $this->addModifier('upperFirst', array($encoding));
-        return $this;
+        return $this->addModifier('upperFirst', array($encoding));
     }
 
     /**
@@ -200,12 +194,11 @@ class TransformerBuilder
      *
      * @param string|null $encoding
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function lowerFirst($encoding = null)
     {
-        $this->addModifier('lowerFirst', array($encoding));
-        return $this;
+        return $this->addModifier('lowerFirst', array($encoding));
     }
 
     /**
@@ -213,12 +206,11 @@ class TransformerBuilder
      *
      * @param string $delimiters (ignored if php do not handle this parameter)
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function upperWords($delimiters = null)
     {
-        $this->addModifier('upperWords', array($delimiters));
-        return $this;
+        return $this->addModifier('upperWords', array($delimiters));
     }
 
     /**
@@ -228,12 +220,11 @@ class TransformerBuilder
      * @param string $break
      * @param bool   $cut
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function wordWrap($width = 75, $break = "\n", $cut = false)
     {
-        $this->addModifier('wordWrap', array($width, $break, $cut));
-        return $this;
+        return $this->addModifier('wordWrap', array($width, $break, $cut));
     }
 
     /**
@@ -243,12 +234,11 @@ class TransformerBuilder
      * @param int|null $length
      * @param string|null $encoding
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function substr($start, $length = null, $encoding = null)
     {
-        $this->addModifier('substr', array($start, $length, $encoding));
-        return $this;
+        return $this->addModifier('substr', array($start, $length, $encoding));
     }
 
     /**
@@ -256,12 +246,11 @@ class TransformerBuilder
      *
      * @param int $count
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function repeat($count)
     {
-        $this->addModifier('repeat', array($count));
-        return $this;
+        return $this->addModifier('repeat', array($count));
     }
 
     /**
@@ -269,23 +258,21 @@ class TransformerBuilder
      *
      * @param null $encoding
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function reverse($encoding = null)
     {
-        $this->addModifier('reverse', array($encoding));
-        return $this;
+        return $this->addModifier('reverse', array($encoding));
     }
 
     /**
      * Squash and unify white characters into single space.
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function squashWhitechars()
     {
-        $this->addModifier('squashWhitechars', array());
-        return $this;
+        return $this->addModifier('squashWhitechars', array());
     }
 
     /**
@@ -295,12 +282,11 @@ class TransformerBuilder
      * @param int         $idx
      * @param string|null $encoding
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function insert($substring, $idx, $encoding = null)
     {
-        $this->addModifier('insert', array($substring, $idx, $encoding));
-        return $this;
+        return $this->addModifier('insert', array($substring, $idx, $encoding));
     }
 
     /**
@@ -309,12 +295,11 @@ class TransformerBuilder
      * @param $substring
      * @param null $encoding
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function ensurePrefix($substring, $encoding = null)
     {
-        $this->addModifier('ensurePrefix', array($substring, $encoding));
-        return $this;
+        return $this->addModifier('ensurePrefix', array($substring, $encoding));
     }
 
     /**
@@ -323,12 +308,11 @@ class TransformerBuilder
      * @param $substring
      * @param null $encoding
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function ensureSuffix($substring, $encoding = null)
     {
-        $this->addModifier('ensureSuffix', array($substring, $encoding));
-        return $this;
+        return $this->addModifier('ensureSuffix', array($substring, $encoding));
     }
 
     /**
@@ -336,12 +320,11 @@ class TransformerBuilder
      *
      * @param string $string
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function prefix($string)
     {
-        $this->addModifier('prefix', array($string));
-        return $this;
+        return $this->addModifier('prefix', array($string));
     }
 
     /**
@@ -349,12 +332,11 @@ class TransformerBuilder
      *
      * @param string $string
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function suffix($string)
     {
-        $this->addModifier('suffix', array($string));
-        return $this;
+        return $this->addModifier('suffix', array($string));
     }
 
     /**
@@ -362,47 +344,48 @@ class TransformerBuilder
      *
      * @param string $string
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function surround($string)
     {
-        $this->addModifier('surround', array($string));
-        return $this;
+        return $this->addModifier('surround', array($string));
     }
 
     /**
      * Adds PHP_EOL to the end of string.
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function eol()
     {
-        $this->addModifier('eol', array());
-        return $this;
+        return $this->addModifier('eol', array());
     }
 
     /**
      * Adds \r\n to the end of string.
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function eolrn()
     {
-        $this->addModifier('eolrn', array());
-        return $this;
+        return $this->addModifier('eolrn', array());
     }
 
     /**
      * Adds \n to the end of string.
      *
-     * @return $this
+     * @return TransformerBuilder
      */
     public function eoln()
     {
-        $this->addModifier('eoln', array());
-        return $this;
+        return $this->addModifier('eoln', array());
     }
 
+    /**
+     * Apply all modifiers for given input and return formatted string.
+     *
+     * @return string
+     */
     public function unfold()
     {
         $string = $this->input->run();

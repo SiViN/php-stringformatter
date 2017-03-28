@@ -47,35 +47,11 @@ class FormatterIndex implements IFormatter
     /**
      * Parse given format and fill it's placeholders with params.
      *
-     * Should be always synchronized with FormatterIndex::compileIformat
-     *
      * @param ...mixed $params parameters used to format given string
      *
      * @return TransformerBuilder
      */
     public function compile()
-    {
-        $params = (\func_num_args() > 0 ? \func_get_args() : $this->params);
-
-        $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEX);
-
-        return new TransformerBuilder($compiler);
-    }
-
-    /**
-     * Parse given format and fill it's placeholders with params.
-     * Should be used only for internal use, can be changed anytime without
-     * warning.
-     *
-     * Should be always synchronized with FormatterIndex::compile
-     *
-     * @param ...mixed $params parameters used to format given string
-     *
-     * @internal
-     *
-     * @return TransformerBuilder
-     */
-    public function compileIformat()
     {
         $params = (\func_num_args() > 0 ? \func_get_args() : $this->params);
 

@@ -19,6 +19,8 @@ class TransformerBuilder
     protected $modifiers = array();
     /** @var Compiler  */
     protected $input;
+    /** @var string */
+    protected $unfolded;
 
     /**
      * TransformerBuilder constructor.
@@ -388,12 +390,15 @@ class TransformerBuilder
      */
     public function unfold()
     {
-        $string = $this->input->run();
-        $transformer = new Transformer($string);
-        foreach ($this->modifiers as $modifier) {
-            $transformer = call_user_func_array(array($transformer, $modifier['name']), $modifier['args']);
+        if (is_null($this->unfolded)) {
+            $string = $this->input->run();
+            $transformer = new Transformer($string);
+            foreach ($this->modifiers as $modifier) {
+                $transformer = call_user_func_array(array($transformer, $modifier['name']), $modifier['args']);
+            }
+            $this->unfolded = (string) $transformer;
         }
-        return (string) $transformer;
+        return $this->unfolded;
     }
 
     public function __toString()

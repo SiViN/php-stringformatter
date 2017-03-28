@@ -313,4 +313,21 @@ class FormatterNamedKeywordsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("Test tests:FormatterNamedKeywordsTest.php:{$line}:" .
             'FormatterNamedKeywordsTest::combinedNFormat Test', (string) $res);
     }
+
+    /**
+     * @test
+     */
+    public function compiledTwice()
+    {
+        $format = 'Test {@dir}:{@file}:{@line}:{@method} Test';
+        $res = StringFormatter\nformat($format);
+
+        $res2 = $res->unfold(); $line = __LINE__;
+        $this->assertEquals("Test tests:FormatterNamedKeywordsTest.php:{$line}:" .
+            'FormatterNamedKeywordsTest::compiledTwice Test', (string) $res2);
+
+        $res2 = $res->unfold(); $line = __LINE__;
+        $this->assertEquals("Test tests:FormatterNamedKeywordsTest.php:{$line}:" .
+            'FormatterNamedKeywordsTest::compiledTwice Test', (string) $res2);
+    }
 }

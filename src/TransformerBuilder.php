@@ -38,9 +38,15 @@ class TransformerBuilder
         return $this->input;
     }
 
-    public function addModifier($name, $args)
+    /**
+     * @param string $name modifier name
+     * @param array $args modifier arguments
+     * @return $this
+     */
+    protected function addModifier($name, $args)
     {
         $this->modifiers[] = array('name' => $name, 'args' => $args);
+        return $this;
     }
 
     /**

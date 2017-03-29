@@ -392,7 +392,7 @@ class TransformerBuilder
     {
         if (is_null($this->unfolded)) {
             $string = $this->input->run();
-            $transformer = new Transformer($string);
+            $transformer = new TransformerWorker($string);
             foreach ($this->modifiers as $modifier) {
                 call_user_func_array(array($transformer, $modifier['name']), $modifier['args']);
             }

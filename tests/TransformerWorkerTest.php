@@ -13,9 +13,9 @@
 
 namespace m36\StringFormatter\Tests;
 
-use m36\StringFormatter\Transformer;
+use m36\StringFormatter\TransformerWorker;
 
-class TransformerTest extends \PHPUnit_Framework_TestCase
+class TransformerWorkerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -23,7 +23,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function replace()
     {
         $src = 'abcabd';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->replace('b', 'Z');
         $this->assertEquals('aZcaZd', (string) $res);
     }
@@ -34,7 +34,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function replaceCallback()
     {
         $src = 'abcabd';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->replace('b', function ($from, $trfm) { return strtoupper($from); });
         $this->assertEquals('aBcaBd', (string) $res);
     }
@@ -45,7 +45,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function ireplace()
     {
         $src = 'aBcaBd';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->ireplace('b', 'Z');
         $this->assertEquals('aZcaZd', (string) $res);
     }
@@ -56,7 +56,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function ireplaceCallback()
     {
         $src = 'aBcaBd';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->ireplace('b', function ($from, $trfm) { return strtoupper("!{$from}!"); });
         $this->assertEquals('a!B!ca!B!d', (string) $res);
     }
@@ -67,7 +67,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function regexReplaceString()
     {
         $src = 'aBcaBd';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->regexReplace('/([A-Z])/', '${1}!');
         $this->assertEquals('aB!caB!d', (string) $res);
     }
@@ -78,7 +78,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function regexReplaceCallback()
     {
         $src = 'aBcaBd';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->regexReplace('/([A-Z])/', function ($matches) { return "{$matches[0]}!"; });
         $this->assertEquals('aB!caB!d', (string) $res);
     }
@@ -89,7 +89,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function strip()
     {
         $src = " \n\r\tabcabd\t\r\n ";
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->strip();
         $this->assertEquals('abcabd', (string) $res);
     }
@@ -100,7 +100,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function stripOtherCharmask()
     {
         $src = '--abcabd--';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->strip('-');
         $this->assertEquals('abcabd', (string) $res);
     }
@@ -111,7 +111,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function lstrip()
     {
         $src = " \n\r\tabcabd\t\r\n ";
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->lstrip();
         $this->assertEquals("abcabd\t\r\n ", (string) $res);
     }
@@ -122,7 +122,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function lstripOtherCharmask()
     {
         $src = '--abcabd--';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->lstrip('-');
         $this->assertEquals('abcabd--', (string) $res);
     }
@@ -133,7 +133,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function rstrip()
     {
         $src = " \n\r\tabcabd\t\r\n ";
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->rstrip();
         $this->assertEquals(" \n\r\tabcabd", (string) $res);
     }
@@ -144,7 +144,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function rstripOtherCharmask()
     {
         $src = '--abcabd--';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->rstrip('-');
         $this->assertEquals('--abcabd', (string) $res);
     }
@@ -155,7 +155,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function upperAscii()
     {
         $src = 'abcabd';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->upper();
         $this->assertEquals('ABCABD', (string) $res);
     }
@@ -167,7 +167,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function upperUtf8()
     {
         $src = 'ąbćąbd';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->upper('UTF-8');
         $this->assertEquals('ĄBĆĄBD', (string) $res);
     }
@@ -178,7 +178,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function lowerAscii()
     {
         $src = 'ABCABD';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->lower();
         $this->assertEquals('abcabd', (string) $res);
     }
@@ -190,7 +190,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function lowerUtf8()
     {
         $src = 'ĄBĆĄBD';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->lower('UTF-8');
         $this->assertEquals('ąbćąbd', (string) $res);
     }
@@ -201,7 +201,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function upperFirstAscii()
     {
         $src = 'abc abd';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->upperFirst();
         $this->assertEquals('Abc abd', (string) $res);
     }
@@ -213,7 +213,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function upperFirstUtf8()
     {
         $src = 'ąbć ąbd';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->upperFirst('UTF-8');
         $this->assertEquals('Ąbć ąbd', (string) $res);
     }
@@ -224,7 +224,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function lowerFirst()
     {
         $src = 'ABC ABD';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->lowerFirst();
         $this->assertEquals('aBC ABD', (string) $res);
     }
@@ -236,7 +236,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function lowerFirstUtf8()
     {
         $src = 'ĄBĆ ĄBD';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->lowerFirst('UTF-8');
         $this->assertEquals('ąBĆ ĄBD', (string) $res);
     }
@@ -247,7 +247,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function upperWordsAscii()
     {
         $src = 'abc abd aBE';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->upperWords();
         $this->assertEquals('Abc Abd ABE', (string) $res);
     }
@@ -260,7 +260,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestSkipped('not finished yet');
         $src = 'ąbć ćbd ęBĘ';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->upperWords(null, 'UTF-8');
         $this->assertEquals('Ąbć Ćbd ĘBĘ', (string) $res);
     }
@@ -271,7 +271,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function wordWrap()
     {
         $src = 'The quick brown fox jumped over the lazy dog.';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->wordWrap(20, "<br />\n");
         $this->assertEquals("The quick brown fox<br />\n" .
             "jumped over the lazy<br />\n" .
@@ -285,19 +285,19 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     {
         $src = 'abcdef';
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->substr(0, -1);
         $this->assertEquals('abcde', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->substr(2, -1);
         $this->assertEquals('cde', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->substr(4, -4);
         $this->assertEquals('', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->substr(-3, -1);
         $this->assertEquals('de', (string) $res);
     }
@@ -310,19 +310,19 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     {
         $src = 'ąbćdęf';
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->substr(0, -1, 'UTF-8');
         $this->assertEquals('ąbćdę', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->substr(2, -1, 'UTF-8');
         $this->assertEquals('ćdę', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->substr(4, -4, 'UTF-8');
         $this->assertEquals('', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->substr(-3, -1, 'UTF-8');
         $this->assertEquals('dę', (string) $res);
     }
@@ -333,7 +333,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function repeat()
     {
         $src = 'abc.';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
 
         $res = $tr->repeat(3);
         $this->assertEquals('abc.abc.abc.', (string) $res);
@@ -345,7 +345,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function reverseAscii()
     {
         $src = 'abcdef';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
 
         $res = $tr->reverse();
         $this->assertEquals('fedcba', (string) $res);
@@ -358,7 +358,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function reverseUtf8()
     {
         $src = 'ąbćdęf';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
 
         $res = $tr->reverse('UTF-8');
         $this->assertEquals('fędćbą', (string) $res);
@@ -370,7 +370,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function squashWhitechars()
     {
         $src = "  ąb \tć\r\nd ęf\t\r\n ";
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
 
         $res = $tr->squashWhitechars();
         $this->assertEquals('ąb ć d ęf', (string) $res);
@@ -383,15 +383,15 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     {
         $src = 'abef';
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->insert('cd', 2);
         $this->assertEquals('abcdef', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->insert('cd', -2);
         $this->assertEquals('cdabef', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->insert('cd', 8);
         $this->assertEquals('abefcd', (string) $res);
     }
@@ -404,15 +404,15 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     {
         $src = 'ąbęf';
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->insert('ćd', 2, 'UTF-8');
         $this->assertEquals('ąbćdęf', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->insert('ćd', -2, 'UTF-8');
         $this->assertEquals('ćdąbęf', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->insert('ćd', 8, 'UTF-8');
         $this->assertEquals('ąbęfćd', (string) $res);
     }
@@ -424,11 +424,11 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     {
         $src = 'abef';
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->ensurePrefix('ab', 'UTF-8');
         $this->assertEquals('abef', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->ensurePrefix('ćw', 'UTF-8');
         $this->assertEquals('ćwabef', (string) $res);
     }
@@ -441,11 +441,11 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     {
         $src = 'ąbęf';
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->ensurePrefix('ąb', 'UTF-8');
         $this->assertEquals('ąbęf', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->ensurePrefix('ćw', 'UTF-8');
         $this->assertEquals('ćwąbęf', (string) $res);
     }
@@ -457,11 +457,11 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     {
         $src = 'abef';
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->ensureSuffix('ef', 'UTF-8');
         $this->assertEquals('abef', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->ensureSuffix('ćw', 'UTF-8');
         $this->assertEquals('abefćw', (string) $res);
     }
@@ -474,11 +474,11 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     {
         $src = 'ąbęf';
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->ensureSuffix('ęf', 'UTF-8');
         $this->assertEquals('ąbęf', (string) $res);
 
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
         $res = $tr->ensureSuffix('ćw', 'UTF-8');
         $this->assertEquals('ąbęfćw', (string) $res);
     }
@@ -489,7 +489,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function eol()
     {
         $src = 'abc';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
 
         $res = $tr->eol();
         $this->assertEquals('abc' . PHP_EOL, (string) $res);
@@ -501,7 +501,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function eolrn()
     {
         $src = 'abc';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
 
         $res = $tr->eolrn();
         $this->assertEquals("abc\r\n", (string) $res);
@@ -513,7 +513,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function eoln()
     {
         $src = 'abc';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
 
         $res = $tr->eoln();
         $this->assertEquals("abc\n", (string) $res);
@@ -525,7 +525,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function prefix()
     {
         $src = 'abc';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
 
         $res = $tr->prefix('ALA');
         $this->assertEquals('ALAabc', (string) $res);
@@ -537,7 +537,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function suffix()
     {
         $src = 'abc';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
 
         $res = $tr->suffix('ALA');
         $this->assertEquals('abcALA', (string) $res);
@@ -549,7 +549,7 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function surround()
     {
         $src = 'abc';
-        $tr = new Transformer($src);
+        $tr = new TransformerWorker($src);
 
         $res = $tr->surround('ALA');
         $this->assertEquals('ALAabcALA', (string) $res);

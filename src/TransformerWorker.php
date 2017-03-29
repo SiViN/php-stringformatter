@@ -13,7 +13,7 @@
 
 namespace m36\StringFormatter;
 
-class Transformer
+class TransformerWorker
 {
     /**
      * @var string
@@ -51,7 +51,7 @@ class Transformer
      * @param mixed    $fn     callable in any format recognized by call_user_func_array
      * @param ...mixed $params params for $fn
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function transform()
     {
@@ -73,7 +73,7 @@ class Transformer
      * @param string $from
      * @param string|callable $to
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function replace($from, $to)
     {
@@ -95,7 +95,7 @@ class Transformer
      * @param string $from
      * @param string|callable $to
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function ireplace($from, $to)
     {
@@ -115,7 +115,7 @@ class Transformer
      * @param string $replacement
      * @param int    $limit
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function regexReplace($pattern, $replacement, $limit = -1)
     {
@@ -135,7 +135,7 @@ class Transformer
      *
      * @param string $charmask
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function strip($charmask = " \t\n\r\0\x0B")
     {
@@ -147,7 +147,7 @@ class Transformer
      *
      * @param string $charmask
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function lstrip($charmask = " \t\n\r\0\x0B")
     {
@@ -159,7 +159,7 @@ class Transformer
      *
      * @param string $charmask
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function rstrip($charmask = " \t\n\r\0\x0B")
     {
@@ -171,7 +171,7 @@ class Transformer
      *
      * @param string|null $encoding
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function upper($encoding = null)
     {
@@ -189,7 +189,7 @@ class Transformer
      *
      * @param string|null $encoding
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function lower($encoding = null)
     {
@@ -207,7 +207,7 @@ class Transformer
      *
      * @param string|null $encoding
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function upperFirst($encoding = null)
     {
@@ -228,7 +228,7 @@ class Transformer
      *
      * @param string|null $encoding
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function lowerFirst($encoding = null)
     {
@@ -249,7 +249,7 @@ class Transformer
      *
      * @param string $delimiters (ignored if php do not handle this parameter)
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function upperWords($delimiters = null)
     {
@@ -274,7 +274,7 @@ class Transformer
      * @param string $break
      * @param bool   $cut
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function wordWrap($width = 75, $break = "\n", $cut = false)
     {
@@ -288,7 +288,7 @@ class Transformer
      * @param int|null $length
      * @param string|null $encoding
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function substr($start, $length = null, $encoding = null)
     {
@@ -311,7 +311,7 @@ class Transformer
      *
      * @param int $count
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function repeat($count)
     {
@@ -323,7 +323,7 @@ class Transformer
      *
      * @param null $encoding
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function reverse($encoding = null)
     {
@@ -350,7 +350,7 @@ class Transformer
     /**
      * Squash and unify white characters into single space.
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function squashWhitechars()
     {
@@ -364,7 +364,7 @@ class Transformer
      * @param int         $idx
      * @param string|null $encoding
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function insert($substring, $idx, $encoding = null)
     {
@@ -401,7 +401,7 @@ class Transformer
      * @param $substring
      * @param null $encoding
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function ensurePrefix($substring, $encoding = null)
     {
@@ -427,7 +427,7 @@ class Transformer
      * @param $substring
      * @param null $encoding
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function ensureSuffix($substring, $encoding = null)
     {
@@ -453,7 +453,7 @@ class Transformer
      *
      * @param string $string
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function prefix($string)
     {
@@ -466,7 +466,7 @@ class Transformer
      *
      * @param string $string
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function suffix($string)
     {
@@ -490,7 +490,7 @@ class Transformer
     /**
      * Adds PHP_EOL to the end of string.
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function eol()
     {
@@ -501,7 +501,7 @@ class Transformer
     /**
      * Adds \r\n to the end of string.
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function eolrn()
     {
@@ -512,7 +512,7 @@ class Transformer
     /**
      * Adds \n to the end of string.
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function eoln()
     {

@@ -18,7 +18,7 @@ interface IFormatter
     /**
      * Parse given format.
      *
-     * @return Transformer
+     * @return TransformerWorker
      */
     public function compile();
 }

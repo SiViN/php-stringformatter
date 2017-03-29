@@ -12,3 +12,5 @@ echo 5.6
 docker run -it -v "$PWD":/usr/src/myapp -w /usr/src/myapp php:5.6-cli vendor/bin/phpunit "$@"
 echo 7.0
 docker run -it -v "$PWD":/usr/src/myapp -w /usr/src/myapp php:7.0-cli vendor/bin/phpunit "$@"
+echo 7.1
+docker run -it -v "$PWD":/usr/src/myapp -w /usr/src/myapp php:7.1-cli vendor/bin/phpunit "$@"

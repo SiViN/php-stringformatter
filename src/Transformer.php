@@ -13,7 +13,7 @@
 
 namespace m36\StringFormatter;
 
-class TransformerBuilder
+class Transformer
 {
     /** @var array */
     protected $modifiers = array();
@@ -43,7 +43,7 @@ class TransformerBuilder
     /**
      * @param string $name modifier name
      * @param array $args modifier arguments
-     * @return TransformerBuilder
+     * @return Transformer
      */
     protected function addModifier($name, $args)
     {
@@ -63,7 +63,7 @@ class TransformerBuilder
      * @param mixed    $fn     callable in any format recognized by call_user_func_array
      * @param ...mixed $params params for $fn
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function transform()
     {
@@ -80,7 +80,7 @@ class TransformerBuilder
      * @param string $from
      * @param string|callable $to
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function replace($from, $to)
     {
@@ -97,7 +97,7 @@ class TransformerBuilder
      * @param string $from
      * @param string|callable $to
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function ireplace($from, $to)
     {
@@ -112,7 +112,7 @@ class TransformerBuilder
      * @param string $replacement
      * @param int    $limit
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function regexReplace($pattern, $replacement, $limit = -1)
     {
@@ -124,7 +124,7 @@ class TransformerBuilder
      *
      * @param string $charmask
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function strip($charmask = " \t\n\r\0\x0B")
     {
@@ -136,7 +136,7 @@ class TransformerBuilder
      *
      * @param string $charmask
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function lstrip($charmask = " \t\n\r\0\x0B")
     {
@@ -148,7 +148,7 @@ class TransformerBuilder
      *
      * @param string $charmask
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function rstrip($charmask = " \t\n\r\0\x0B")
     {
@@ -160,7 +160,7 @@ class TransformerBuilder
      *
      * @param string|null $encoding
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function upper($encoding = null)
     {
@@ -172,7 +172,7 @@ class TransformerBuilder
      *
      * @param string|null $encoding
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function lower($encoding = null)
     {
@@ -184,7 +184,7 @@ class TransformerBuilder
      *
      * @param string|null $encoding
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function upperFirst($encoding = null)
     {
@@ -196,7 +196,7 @@ class TransformerBuilder
      *
      * @param string|null $encoding
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function lowerFirst($encoding = null)
     {
@@ -208,7 +208,7 @@ class TransformerBuilder
      *
      * @param string $delimiters (ignored if php do not handle this parameter)
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function upperWords($delimiters = null)
     {
@@ -222,7 +222,7 @@ class TransformerBuilder
      * @param string $break
      * @param bool   $cut
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function wordWrap($width = 75, $break = "\n", $cut = false)
     {
@@ -236,7 +236,7 @@ class TransformerBuilder
      * @param int|null $length
      * @param string|null $encoding
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function substr($start, $length = null, $encoding = null)
     {
@@ -248,7 +248,7 @@ class TransformerBuilder
      *
      * @param int $count
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function repeat($count)
     {
@@ -260,7 +260,7 @@ class TransformerBuilder
      *
      * @param null $encoding
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function reverse($encoding = null)
     {
@@ -270,7 +270,7 @@ class TransformerBuilder
     /**
      * Squash and unify white characters into single space.
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function squashWhitechars()
     {
@@ -284,7 +284,7 @@ class TransformerBuilder
      * @param int         $idx
      * @param string|null $encoding
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function insert($substring, $idx, $encoding = null)
     {
@@ -297,7 +297,7 @@ class TransformerBuilder
      * @param $substring
      * @param null $encoding
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function ensurePrefix($substring, $encoding = null)
     {
@@ -310,7 +310,7 @@ class TransformerBuilder
      * @param $substring
      * @param null $encoding
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function ensureSuffix($substring, $encoding = null)
     {
@@ -322,7 +322,7 @@ class TransformerBuilder
      *
      * @param string $string
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function prefix($string)
     {
@@ -334,7 +334,7 @@ class TransformerBuilder
      *
      * @param string $string
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function suffix($string)
     {
@@ -346,7 +346,7 @@ class TransformerBuilder
      *
      * @param string $string
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function surround($string)
     {
@@ -356,7 +356,7 @@ class TransformerBuilder
     /**
      * Adds PHP_EOL to the end of string.
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function eol()
     {
@@ -366,7 +366,7 @@ class TransformerBuilder
     /**
      * Adds \r\n to the end of string.
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function eolrn()
     {
@@ -376,7 +376,7 @@ class TransformerBuilder
     /**
      * Adds \n to the end of string.
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function eoln()
     {

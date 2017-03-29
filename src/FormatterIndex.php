@@ -49,7 +49,7 @@ class FormatterIndex implements IFormatter
      *
      * @param ...mixed $params parameters used to format given string
      *
-     * @return TransformerBuilder
+     * @return Transformer
      */
     public function compile()
     {
@@ -57,7 +57,7 @@ class FormatterIndex implements IFormatter
 
         $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEX);
 
-        return new TransformerBuilder($compiler);
+        return new Transformer($compiler);
     }
 
     public function __toString()

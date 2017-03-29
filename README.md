@@ -1,7 +1,7 @@
 StringFormatter
 ===============
 
-`StringFormatter` - simple but powerfull string formatting.
+`StringFormatter` - simple but powerful string formatting.
 
 Current stable version
 ----------------------
@@ -11,7 +11,7 @@ Current stable version
 PHP version
 -----------
 
-`StringFormatter` works with PHP 5.3+ or PHP 7.0+
+`StringFormatter` works with PHP 5.3+, 5.4+, 5.5+, 5.6+, 7.0+, 7.1+
 
 Usage
 -----
@@ -63,6 +63,48 @@ placeholders:
 
 As a result of `IFormatter::compile` method we got an instance of `Transformer`
 class, that have some additional possibilities (described below). 
+
+Internals
+---------
+
+Whole package is focused on two things:
+
+* create string using template (`format`) and replace placeholders with data
+ (`params`). This process is called `compiling`.
+* manipulate final string after compilation (`transforming`)
+
+Compilation
+===========
+
+Compilation is done by calling method `Compiler::run`. Usually it's done by you
+under the hood, when you call `IFormat::compile` or `iformat`, `iformatl` or `nformat`.
+This process is done usually when you will evaluate `Tranformer` first time (lazy
+evaluated), and then cached, so will not be processed anymore.
+
+Transformation
+==============
+
+`Transformer` is an object you are receiving after calling `IFormatter::compile` (`iformat`,
+`iformatl` or `nformat` functions call it under the hood). `Transformer` allows you to
+manipulate final string, created after compilation.
+
+`Transformer` result is non-mutable. It means that you can store result of one transformation,
+add new one, and this will not modify previous one:
+ 
+     $adj = 'glorious';
+     $char = '!';
+     $normal = iformat('Some {} method{}', [$adj, $char]);
+     $lower = $normal->lower()->eol();
+     $surrounded = $normal->surround('@@@')->eol();
+     echo $normal->eol(); # Some glorious method!
+     echo $lower; # some glorious method!
+     echo $surrounded; # @@@Some glorious method!@@@
+
+Look on `$surrounded`: it's not lower-cased like in `$lower`.
+
+Transformers are lazy evaluated on first call to `Transformer::unfold` method (explicit
+or implicit by casting it to string). Also result of evaluation is cached, so next
+use of same `Transformer` is cheap.
 
 Shortcuts
 ---------
@@ -166,8 +208,8 @@ As a placeholder, you can use one of followed keywords (modifiers are not accept
   * `@dirLong` - directory name of file where `IFormatter::compile` is called (with parents)
   * `@line` - line number in file where `IFormatter::compile` is called (without parents)
 
-Transformers
-------------
+List of transformers
+--------------------
 
 As a return of `IFormatter::compile` we got and instance of `Transformer` class.
 There are defined some simple and useful transformers for parsed string:
@@ -192,9 +234,6 @@ There are defined some simple and useful transformers for parsed string:
   * `suffix` - append given string to the end of current value
   * `prefix` - prepend given string to the beginning of current value
   * `surround` - surround current value with given string
-   
-`Transformer` is immutable, what means after every transformation it return
-always new instance of itself. 
 
 Some examples
 -------------
@@ -270,11 +309,15 @@ ChangeLog
 
 ### (dev)
 
+* `m36\StringFormatter` is now lazy evaluated
+* added new transformer: `surround`
 * for transformers `Transformer::replace` and `Transformer::ireplace`
     second parameter (`$to`) can be a callable (like for
     `Transformer::regexpReplace`)
 * trigger E_USER_WARNING if token is unknown
 * many improvements for older PHP versions
+* added new tests
+* improved code documentation
 * internal optimizations and cleanups
 
 ### v0.6.0

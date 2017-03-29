@@ -394,7 +394,7 @@ class TransformerBuilder
             $string = $this->input->run();
             $transformer = new Transformer($string);
             foreach ($this->modifiers as $modifier) {
-                $transformer = call_user_func_array(array($transformer, $modifier['name']), $modifier['args']);
+                call_user_func_array(array($transformer, $modifier['name']), $modifier['args']);
             }
             $this->unfolded = (string) $transformer;
         }

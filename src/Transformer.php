@@ -59,7 +59,8 @@ class Transformer
         $fn = \array_shift($args);
         \array_unshift($args, $this->string);
 
-        return new static(\call_user_func_array($fn, $args));
+        $this->string = \call_user_func_array($fn, $args);
+        return $this;
     }
 
     /**
@@ -77,10 +78,11 @@ class Transformer
     public function replace($from, $to)
     {
         if (\is_callable($to)) {
-            $to = $to($from, $this);
+            $to = $to($from, $this->string);
         }
 
-        return new static(\str_replace($from, $to, $this->string));
+        $this->string = \str_replace($from, $to, $this->string);
+        return $this;
     }
 
     /**
@@ -98,10 +100,11 @@ class Transformer
     public function ireplace($from, $to)
     {
         if (\is_callable($to)) {
-            $to = $to($from, $this);
+            $to = $to($from, $this->string);
         }
 
-        return new static(\str_ireplace($from, $to, $this->string));
+        $this->string = \str_ireplace($from, $to, $this->string);
+        return $this;
     }
 
     /**
@@ -122,9 +125,9 @@ class Transformer
             $rxp_function = '\preg_replace';
         }
 
-        $result = $rxp_function($pattern, $replacement, $this->string, $limit);
+        $this->string = $rxp_function($pattern, $replacement, $this->string, $limit);
 
-        return new static($result);
+        return $this;
     }
 
     /**
@@ -216,7 +219,8 @@ class Transformer
 
         $string = \mb_strtoupper(\mb_substr($this->string, 0, 1, $encoding), $encoding);
 
-        return new static($string . \mb_substr($this->string, 1, \mb_strlen($this->string, $encoding), $encoding));
+        $this->string = $string . \mb_substr($this->string, 1, \mb_strlen($this->string, $encoding), $encoding);
+        return $this;
     }
 
     /**
@@ -236,7 +240,8 @@ class Transformer
 
         $string = \mb_strtolower(\mb_substr($this->string, 0, 1, $encoding), $encoding);
 
-        return new static($string . \mb_substr($this->string, 1, \mb_strlen($this->string, $encoding), $encoding));
+        $this->string = $string . \mb_substr($this->string, 1, \mb_strlen($this->string, $encoding), $encoding);
+        return $this;
     }
 
     /**
@@ -338,7 +343,8 @@ class Transformer
             }
         }
 
-        return new static($reversed);
+        $this->string = $reversed;
+        return $this;
     }
 
     /**
@@ -385,7 +391,8 @@ class Transformer
             $end = \mb_substr($this->string, $idx, $len, $encoding);
         }
 
-        return new static($start . $substring . $end);
+        $this->string = $start . $substring . $end;
+        return $this;
     }
 
     /**
@@ -450,7 +457,8 @@ class Transformer
      */
     public function prefix($string)
     {
-        return new static($string . $this->string);
+        $this->string = $string . $this->string;
+        return $this;
     }
 
     /**
@@ -462,7 +470,8 @@ class Transformer
      */
     public function suffix($string)
     {
-        return new static($this->string . $string);
+        $this->string = $this->string . $string;
+        return $this;
     }
 
     /**
@@ -474,7 +483,8 @@ class Transformer
      */
     public function surround($string)
     {
-        return new static($string . $this->string . $string);
+        $this->string = $string . $this->string . $string;
+        return $this;
     }
 
     /**
@@ -484,7 +494,8 @@ class Transformer
      */
     public function eol()
     {
-        return $this->suffix(PHP_EOL);
+        $this->string .= PHP_EOL;
+        return $this;
     }
 
     /**
@@ -494,7 +505,8 @@ class Transformer
      */
     public function eolrn()
     {
-        return $this->suffix("\r\n");
+        $this->string .= "\r\n";
+        return $this;
     }
 
     /**
@@ -504,7 +516,8 @@ class Transformer
      */
     public function eoln()
     {
-        return $this->suffix("\n");
+        $this->string .= "\n";
+        return $this;
     }
 
     public function __toString()

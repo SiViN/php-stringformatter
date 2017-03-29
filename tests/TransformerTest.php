@@ -284,17 +284,20 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function substrAscii()
     {
         $src = 'abcdef';
-        $tr = new Transformer($src);
 
+        $tr = new Transformer($src);
         $res = $tr->substr(0, -1);
         $this->assertEquals('abcde', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->substr(2, -1);
         $this->assertEquals('cde', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->substr(4, -4);
         $this->assertEquals('', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->substr(-3, -1);
         $this->assertEquals('de', (string) $res);
     }
@@ -306,17 +309,20 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function substrUtf8()
     {
         $src = 'ąbćdęf';
-        $tr = new Transformer($src);
 
+        $tr = new Transformer($src);
         $res = $tr->substr(0, -1, 'UTF-8');
         $this->assertEquals('ąbćdę', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->substr(2, -1, 'UTF-8');
         $this->assertEquals('ćdę', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->substr(4, -4, 'UTF-8');
         $this->assertEquals('', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->substr(-3, -1, 'UTF-8');
         $this->assertEquals('dę', (string) $res);
     }
@@ -376,14 +382,16 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function indexAscii()
     {
         $src = 'abef';
-        $tr = new Transformer($src);
 
+        $tr = new Transformer($src);
         $res = $tr->insert('cd', 2);
         $this->assertEquals('abcdef', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->insert('cd', -2);
         $this->assertEquals('cdabef', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->insert('cd', 8);
         $this->assertEquals('abefcd', (string) $res);
     }
@@ -395,14 +403,16 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function indexUtf8()
     {
         $src = 'ąbęf';
-        $tr = new Transformer($src);
 
+        $tr = new Transformer($src);
         $res = $tr->insert('ćd', 2, 'UTF-8');
         $this->assertEquals('ąbćdęf', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->insert('ćd', -2, 'UTF-8');
         $this->assertEquals('ćdąbęf', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->insert('ćd', 8, 'UTF-8');
         $this->assertEquals('ąbęfćd', (string) $res);
     }
@@ -413,11 +423,12 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function ensurePrefixAscii()
     {
         $src = 'abef';
-        $tr = new Transformer($src);
 
+        $tr = new Transformer($src);
         $res = $tr->ensurePrefix('ab', 'UTF-8');
         $this->assertEquals('abef', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->ensurePrefix('ćw', 'UTF-8');
         $this->assertEquals('ćwabef', (string) $res);
     }
@@ -429,11 +440,12 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function ensurePrefixUtf8()
     {
         $src = 'ąbęf';
-        $tr = new Transformer($src);
 
+        $tr = new Transformer($src);
         $res = $tr->ensurePrefix('ąb', 'UTF-8');
         $this->assertEquals('ąbęf', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->ensurePrefix('ćw', 'UTF-8');
         $this->assertEquals('ćwąbęf', (string) $res);
     }
@@ -444,11 +456,12 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function ensureSuffixAscii()
     {
         $src = 'abef';
-        $tr = new Transformer($src);
 
+        $tr = new Transformer($src);
         $res = $tr->ensureSuffix('ef', 'UTF-8');
         $this->assertEquals('abef', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->ensureSuffix('ćw', 'UTF-8');
         $this->assertEquals('abefćw', (string) $res);
     }
@@ -460,11 +473,12 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
     public function ensureSuffixUtf8()
     {
         $src = 'ąbęf';
-        $tr = new Transformer($src);
 
+        $tr = new Transformer($src);
         $res = $tr->ensureSuffix('ęf', 'UTF-8');
         $this->assertEquals('ąbęf', (string) $res);
 
+        $tr = new Transformer($src);
         $res = $tr->ensureSuffix('ćw', 'UTF-8');
         $this->assertEquals('ąbęfćw', (string) $res);
     }

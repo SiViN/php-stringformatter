@@ -5,7 +5,7 @@
   "homepage": "https://github.com/36monkeys/php-stringformatter",
   "version": "0.6.0",
   "type": "library",
-  "license": ["MIT"],
+  "license": "MIT",
   "authors": [
     {
       "name": "Marcin Sztolcman",

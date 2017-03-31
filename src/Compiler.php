@@ -105,6 +105,9 @@ class Compiler
      */
     protected $params;
 
+    /** @var array */
+    protected $evaluatedParams = array();
+
     /** @var string */
     protected $compiledResult;
 
@@ -112,8 +115,8 @@ class Compiler
      * Compiler constructor.
      *
      * @param string $format
-     * @param array  $params
-     * @param string $mode       Compiler::MODE_
+     * @param array $params
+     * @param string $mode Compiler::MODE_
      */
     public function __construct($format, $params, $mode)
     {
@@ -174,6 +177,18 @@ class Compiler
         return $this->params;
     }
 
+    protected function evaluateParam($param)
+    {
+        $this->evaluatedParams[] = $param;
+    }
+    /**
+     * @return array
+     */
+    public function getEvaluatedParams()
+    {
+        return $this->evaluatedParams;
+    }
+
     /**
      * Helper function - test for existence of key in given parameters.
      *
@@ -218,11 +233,13 @@ class Compiler
 
         // simple auto or explicit placeholder
         if ($this->mode == self::MODE_INDEX && $this->hasKey($data[1])) {
+            $this->evaluateParam($data[1] || $this->pointer);
             return $this->getParam($data[1]);
         }
 
         // simple named, explicit placeholder
         elseif ($this->mode == self::MODE_NAMED && \strlen($data[1]) > 0 && $this->hasKey($data[1])) {
+            $this->evaluateParam($data[1]);
             return $this->getParam($data[1]);
         }
 
@@ -317,6 +334,7 @@ class Compiler
             /x', $data[1], $match) &&
             $this->hasKey($match[1])
         ) {
+            $this->evaluateParam($match[1]);
             return \str_pad(
                 $this->getParam($match[1]),
                 $match[4],
@@ -336,6 +354,7 @@ class Compiler
             /x', $data[1], $match) &&
             $this->hasKey($match[1])
         ) {
+            $this->evaluateParam($match[1]);
             return \vsprintf($match[2], $this->getParam($match[1]));
         }
 
@@ -350,6 +369,7 @@ class Compiler
             /x', $data[1], $match) &&
             $this->hasKey($match[1])
         ) {
+            $this->evaluateParam($match[1]);
             $param = $this->getParam($match[1]);
             if (\method_exists($param, $match[2])) {
                 return \call_user_func(array($param, $match[2]));
@@ -379,13 +399,14 @@ class Compiler
             /x', $data[1], $match) &&
             $this->hasKey($match[1])
         ) {
+            $this->evaluateParam($match[1]);
             $ret = \base_convert(
-                $this->getParam($match[1]),                         // value to convert
-                ($match[2] ? $match[2] : 10),                       // source base (defaults to 10)
+                $this->getParam($match[1]),                     // value to convert
+                ($match[2] ? $match[2] : 10),                   // source base (defaults to 10)
                 (
-                    \is_numeric($match[3])                          // destination base is:
-                        ? $match[3]                                 // - numeric
-                        : self::$matrix__base_convert[$match[3]]    // - or named
+                \is_numeric($match[3])                          // destination base is:
+                    ? $match[3]                                 // - numeric
+                    : self::$matrix__base_convert[$match[3]]    // - or named
                 )
             );
             if ($match[3] == 'X') {
@@ -409,6 +430,7 @@ class Compiler
             \is_array($ret = $this->getParam($match[1])) &&
             isset($ret[$match[2]])
         ) {
+            $this->evaluateParam($match[1]);
             return $ret[$match[2]];
         }
 

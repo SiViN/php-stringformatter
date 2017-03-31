@@ -309,6 +309,7 @@ ChangeLog
 
 ### (dev)
 
+* `Compiler` can return informations about evaluated parameters
 * `m36\StringFormatter` is now lazy evaluated
 * added new transformer: `surround`
 * for transformers `Transformer::replace` and `Transformer::ireplace`

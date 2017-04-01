@@ -1,6 +1,6 @@
 {
   "name": "m36/stringformatter",
-  "description": "Simple but powerfull string formatting",
+  "description": "Simple but powerful string formatting",
   "keywords": ["string", "formatting", "format", "template", "string formatter", "string formatting", "sprintf", "vsprintf", "placeholders"],
   "homepage": "https://github.com/36monkeys/php-stringformatter",
   "version": "0.6.0",

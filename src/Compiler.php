@@ -20,7 +20,7 @@ namespace m36\StringFormatter;
  */
 class Compiler
 {
-    const MODE_INDEX = 'index';
+    const MODE_INDEXED = 'indexed';
     const MODE_NAMED = 'named';
 
     const TRACE_LEVEL_MAX = 6;
@@ -57,7 +57,7 @@ class Compiler
      * @var array
      */
     protected static $rxp_keys = array(
-        self::MODE_INDEX => '\d*',
+        self::MODE_INDEXED => '\d*',
         self::MODE_NAMED => '\w+',
     );
 
@@ -151,7 +151,7 @@ class Compiler
             }
             else if (
                 isset($traceItem['function']) && $traceItem['function'] == 'compile' &&
-                isset($traceItem['class']) && in_array($traceItem['class'], array('m36\StringFormatter\FormatterIndex', 'm36\StringFormatter\FormatterNamed'))
+                isset($traceItem['class']) && in_array($traceItem['class'], array('m36\StringFormatter\FormatterIndexed', 'm36\StringFormatter\FormatterNamed'))
             ) {
                 $this->traceFile = $traceItem;
             }
@@ -198,7 +198,7 @@ class Compiler
      */
     protected function hasKey($key)
     {
-        return ($this->mode == self::MODE_INDEX && $key == '') || \array_key_exists($key, $this->params);
+        return ($this->mode == self::MODE_INDEXED && $key == '') || \array_key_exists($key, $this->params);
     }
 
     /**
@@ -232,7 +232,7 @@ class Compiler
         }
 
         // simple auto or explicit placeholder
-        if ($this->mode == self::MODE_INDEX && $this->hasKey($data[1])) {
+        if ($this->mode == self::MODE_INDEXED && $this->hasKey($data[1])) {
             $this->evaluateParam($data[1] || $this->pointer);
             return $this->getParam($data[1]);
         }

@@ -31,7 +31,7 @@ namespace m36\StringFormatter;
  */
 function iformat($format, $params = array())
 {
-    $fmt = new FormatterIndex($format);
+    $fmt = new FormatterIndexed($format);
 
     return \call_user_func_array(array($fmt, 'compile'), $params);
 }
@@ -57,7 +57,7 @@ function iformatl($format)
     $params = \func_get_args();
     \array_shift($params);
 
-    $fmt = new FormatterIndex($format);
+    $fmt = new FormatterIndexed($format);
 
     return \call_user_func_array(array($fmt, 'compile'), $params);
 }

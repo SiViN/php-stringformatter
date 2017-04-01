@@ -13,7 +13,7 @@
 
 namespace m36\StringFormatter;
 
-class FormatterIndex implements IFormatter
+class FormatterIndexed implements IFormatter
 {
     /**
      * Store provided by user format string.
@@ -55,7 +55,7 @@ class FormatterIndex implements IFormatter
     {
         $params = (\func_num_args() > 0 ? \func_get_args() : $this->params);
 
-        $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEX);
+        $compiler = new Compiler($this->format, $params, Compiler::MODE_INDEXED);
 
         return new Transformer($compiler);
     }

@@ -14,7 +14,7 @@
 namespace m36\StringFormatter\Tests;
 
 use m36\StringFormatter;
-use m36\StringFormatter\FormatterIndex;
+use m36\StringFormatter\FormatterIndexed;
 
 class FormatterIndexTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +24,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     public function simple()
     {
         $format = '{} {}!';
-        $fmt = new FormatterIndex($format);
+        $fmt = new FormatterIndexed($format);
         $res = $fmt->compile('Hello', 'world');
         $this->assertEquals('Hello world!', (string) $res);
     }
@@ -35,7 +35,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     public function simpleWithOrder()
     {
         $format = '{1} {0}!';
-        $fmt = new FormatterIndex($format);
+        $fmt = new FormatterIndexed($format);
         $res = $fmt->compile('Hello', 'world');
         $this->assertEquals('world Hello!', (string) $res);
     }
@@ -46,7 +46,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     public function alignLeft()
     {
         $format = '{} "{1:<20}"';
-        $fmt = new FormatterIndex($format);
+        $fmt = new FormatterIndexed($format);
         $res = $fmt->compile('Hello', 'world');
         $this->assertEquals('Hello "world               "', (string) $res);
     }
@@ -57,7 +57,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     public function alignRight()
     {
         $format = '{} "{1:>20}"';
-        $fmt = new FormatterIndex($format);
+        $fmt = new FormatterIndexed($format);
         $res = $fmt->compile('Hello', 'world');
         $this->assertEquals('Hello "               world"', (string) $res);
     }
@@ -68,7 +68,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     public function alignCenter()
     {
         $format = '{} "{1:^20}"';
-        $fmt = new FormatterIndex($format);
+        $fmt = new FormatterIndexed($format);
         $res = $fmt->compile('Hello', 'world');
         $this->assertEquals('Hello "       world        "', (string) $res);
     }
@@ -79,7 +79,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     public function alignCenterWithCharacter()
     {
         $format = '{} "{1:*^20}"';
-        $fmt = new FormatterIndex($format);
+        $fmt = new FormatterIndexed($format);
         $res = $fmt->compile('Hello', 'world');
         $this->assertEquals('Hello "*******world********"', (string) $res);
     }
@@ -90,12 +90,12 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     public function sprintfLike()
     {
         $format = 'Test: {%%.3f}';
-        $fmt = new FormatterIndex($format);
+        $fmt = new FormatterIndexed($format);
         $res = $fmt->compile(2.1234567);
         $this->assertEquals('Test: 2.123', (string) $res);
 
         $format = 'Test 2: {%%c}';
-        $fmt = new FormatterIndex($format);
+        $fmt = new FormatterIndexed($format);
         $res = $fmt->compile(97);
         $this->assertEquals('Test 2: a', (string) $res);
     }
@@ -106,7 +106,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     public function objectProperty()
     {
         $format = 'Test: {->property}';
-        $fmt = new FormatterIndex($format);
+        $fmt = new FormatterIndexed($format);
         $res = $fmt->compile(new TestIndexStringFormatter());
         $this->assertEquals('Test: test property', (string) $res);
     }
@@ -117,7 +117,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     public function objectMethod()
     {
         $format = 'Test: {->method}';
-        $fmt = new FormatterIndex($format);
+        $fmt = new FormatterIndexed($format);
         $res = $fmt->compile(new TestIndexStringFormatter());
         $this->assertEquals('Test: test method', (string) $res);
     }
@@ -128,12 +128,12 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     public function convertInteger()
     {
         $format = 'Test: 10: {#d}, 16: {0#x}, 2: {0#b}';
-        $fmt = new FormatterIndex($format);
+        $fmt = new FormatterIndexed($format);
         $res = $fmt->compile(11);
         $this->assertEquals('Test: 10: 11, 16: b, 2: 1011', (string) $res);
 
         $format = 'Test: 10: {#10}, 16: {0#16}, 2: {0#2}, 7: {0#7}';
-        $fmt = new FormatterIndex($format);
+        $fmt = new FormatterIndexed($format);
         $res = $fmt->compile(11);
         $this->assertEquals('Test: 10: 11, 16: b, 2: 1011, 7: 14', (string) $res);
     }
@@ -144,7 +144,7 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     public function arrayIndex()
     {
         $format = 'Test: test1: {[test1]}, test2: {0[test2]}';
-        $fmt = new FormatterIndex($format);
+        $fmt = new FormatterIndexed($format);
         $res = $fmt->compile(array('test1' => 'Hello', 'test2' => 'world'));
         $this->assertEquals('Test: test1: Hello, test2: world', (string) $res);
     }
@@ -155,12 +155,12 @@ class FormatterIndexTest extends \PHPUnit_Framework_TestCase
     public function paramsInConstructor()
     {
         $format = '{} {}!';
-        $fmt = new FormatterIndex($format, 'Hello', 'world');
+        $fmt = new FormatterIndexed($format, 'Hello', 'world');
         $res = $fmt->compile();
         $this->assertEquals('Hello world!', (string) $res);
 
         $format = '{} {}!';
-        $fmt = new FormatterIndex($format, 'Hello', 'world');
+        $fmt = new FormatterIndexed($format, 'Hello', 'world');
         $res = $fmt->compile('Hi', 'earth');
         $this->assertEquals('Hi earth!', (string) $res);
     }

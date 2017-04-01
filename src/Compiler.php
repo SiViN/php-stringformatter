@@ -20,6 +20,8 @@ namespace m36\StringFormatter;
  */
 class Compiler
 {
+    /** @deprecated */
+    const MODE_INDEX = 'indexed';
     const MODE_INDEXED = 'indexed';
     const MODE_NAMED = 'named';
 

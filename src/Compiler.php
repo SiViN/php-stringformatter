@@ -269,7 +269,29 @@ class Compiler
                 static::$matrix__str_pad[$match[3]]
             );
         }
+        //transform
+        elseif (preg_match('
+			/
+			^
+				(' . self::$rxp_keys[$this->mode] . ')
+				:
+				(transform|replace|ireplace|regexReplace|strip|lstrip|rstrip|upper|lower|upperFirst|lowerFirst|upperWords|wordWrap|substr|repeat|reverse|squashWhitechars|insert|ensurePrefix|ensureSuffix|prefix|suffix|eol|eolrn|eoln)
+				((\([\'|"](.*)[\'|"])+,*\))?
+				$
+				/x', $data[1], $match) &&
+	        $this->has_key($match[1])
+        ) {
+	        $param = $this->get_param($match[1]);
+	        $function = $match[2];
+	        $transformer = new Transformer($param);
+	        $argStrs = array_slice($match, 5);
+	        $args = count($argStrs) == 1 ? explode(",", $argStrs[0]) : [];
+	        $args = array_map(function ($a) {
+		        return str_replace("'", "", str_replace("\"", "", $a));
+	        }, $args);
 
+	        return call_user_func_array([$transformer, $function], $args);
+        }
         // sprintf pattern
         elseif (preg_match('
             /

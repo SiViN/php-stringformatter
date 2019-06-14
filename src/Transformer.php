@@ -472,7 +472,18 @@ class Transformer
     {
         return $this->suffix("\n");
     }
-
+	
+	public function dateFormat($format)
+	{
+		if (($this->string instanceof \DateTimeInterface) === false)
+		{
+			trigger_error('Date must implement DateTimeInterface');
+		}
+		
+		return $this->string->format($format);
+			
+    }
+    
     public function __toString()
     {
         return (string) $this->string;

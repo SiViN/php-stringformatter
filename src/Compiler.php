@@ -275,7 +275,7 @@ class Compiler
 			^
 				(' . self::$rxp_keys[$this->mode] . ')
 				:
-				(transform|replace|ireplace|regexReplace|strip|lstrip|rstrip|upper|lower|upperFirst|lowerFirst|upperWords|wordWrap|substr|repeat|reverse|squashWhitechars|insert|ensurePrefix|ensureSuffix|prefix|suffix|eol|eolrn|eoln)
+				(transform|replace|ireplace|regexReplace|strip|lstrip|rstrip|upper|lower|upperFirst|lowerFirst|upperWords|wordWrap|substr|repeat|reverse|squashWhitechars|insert|ensurePrefix|ensureSuffix|prefix|suffix|eol|eolrn|eoln|dateFormat)
 				((\([\'|"](.*)[\'|"])+,*\))?
 				$
 				/x', $data[1], $match) &&
@@ -315,20 +315,38 @@ class Compiler
                 (\w+)                                   # keyword (field or method name)
             $
             /x', $data[1], $match) &&
-            $this->has_key($match[1])
+	        $this->has_key($match[1])
         ) {
-            $param = $this->get_param($match[1]);
-            if (method_exists($param, $match[2])) {
-                return call_user_func(array($param, $match[2]));
-            } elseif (property_exists($param, $match[2])) {
-                return $param->{$match[2]};
-            } elseif (in_array('__call', get_class_methods($param))) {
-                return call_user_func(array($param, $match[2]));
-            } elseif (in_array('__get', get_class_methods($param))) {
-                return $param->{$match[2]};
-            } else {
-                return $data[0];
-            }
+	        $param = $this->get_param($match[1]);
+	        if (method_exists($param, $match[2])) {
+		        return call_user_func(array($param, $match[2]));
+	        } elseif (property_exists($param, $match[2])) {
+		        return $param->{$match[2]};
+	        } elseif (in_array('__call', get_class_methods($param))) {
+		        return call_user_func(array($param, $match[2]));
+	        } elseif (in_array('__get', get_class_methods($param))) {
+		        return $param->{$match[2]};
+	        } else {
+		        return $data[0];
+	        }
+        }
+
+        // get object/s property
+        elseif (preg_match_all('
+            /
+                (' . self::$rxp_keys[$this->mode] . ')  # placeholder
+                (\.?)                                 # explicit dot
+            /x', $data[1], $match) &&
+	        $this->has_key($match[1][0])
+        ) {
+	        $param = $this->get_param($match[1][0]);
+	        array_shift($match[1]);
+	        
+	        foreach ($match[1] as $property) {
+	        	$param = $param->{$property};
+	        }
+	        
+	        return $param;
         }
 
         // converting int to other base
